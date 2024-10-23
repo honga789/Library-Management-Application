@@ -1,9 +1,10 @@
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Abstract class representing a document in the library.
  */
-public abstract class Document {
+public abstract class Document implements IManaged {
     private int documentId;               // ID of the document.
     private DocumentType documentType;    // Type of the document.
     private String title;                 // Title of the document.
@@ -255,5 +256,15 @@ public abstract class Document {
             throw new IllegalArgumentException("title, publisher, author "
                     + "cannot not be null or empty");
         }
+    }
+
+    /**
+     * get id of class type Document.
+     *
+     * @return id of type Document.
+     */
+    @Override
+    public int getId() {
+        return this.documentId;
     }
 }
