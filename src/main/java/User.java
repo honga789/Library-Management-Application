@@ -28,11 +28,28 @@ public abstract class User {
         this.password = password;
     }
 
+    /**
+     * Constructor for copy from another User.
+     *
+     * @param user another User.
+     */
+    public User(User user) {
+        this.userRole = user.getUserRole();
+        this.userId = user.getUserId();
+        this.userName = user.getUserName();
+        this.password = user.getPassword();
+        this.fullName = user.getFullName();
+        this.email = user.getEmail();
+        this.phoneNumber = user.getPhoneNumber();
+        this.birthDate = user.getBirthDate();
+        this.profileImagePath = user.getProfileImagePath();
+    }
+
     public UserRole getUserRole() {
         return userRole;
     }
 
-    protected User setUserRole() {
+    public User setUserRole() {
         if (this instanceof Member) {
             this.userRole = UserRole.MEMBER;
         } else if (this instanceof Librarian) {
@@ -45,10 +62,9 @@ public abstract class User {
         return userId;
     }
 
-    protected User setUserId() {
+    public void setUserId() {
         checkValidInit();
         this.userId = genId();
-        return this;
     }
 
     public String getUserName() {
@@ -128,15 +144,15 @@ public abstract class User {
      * @return A string representing the user details.
      */
     public String toString() {
-        return  "User Role: " + userRole
-                + "\nUser Id: " + userId
-                + "\nUser Name: " + userName
-                + "\nUser Password: " + password
-                + "\nUser FullName: " + fullName
-                + "\nUser Email: " + email
-                + "\nUser PhoneNumber: " + phoneNumber
-                + "\nUser BirthDate: " + birthDate
-                + "\nUser ProfileImagePath = " + profileImagePath;
+        return  "Role: " + this.userRole
+                + "\n\tId: " + this.userId
+                + "\n\tUsername: " + this.userName
+                + "\n\tPassword: " + this.password
+                + "\n\tFullName: " + this.fullName
+                + "\n\tEmail: " + this.email
+                + "\n\tPhoneNumber: " + this.phoneNumber
+                + "\n\tBirthDate: " + this.birthDate
+                + "\n\tProfileImagePath: " + this.profileImagePath;
     }
 
     /**
@@ -158,11 +174,6 @@ public abstract class User {
      * @return The generated user ID.
      */
     private int genId() {
-        System.out.println(this.userName);
         return Objects.hash(this.userName);
     }
-
-//    public boolean matches(Object template) {
-//
-//    }
 }

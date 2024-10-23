@@ -23,6 +23,15 @@ public class Member extends User {
     }
 
     /**
+     * Constructor for copy from another Member.
+     *
+     * @param member another Member.
+     */
+    public Member(Member member) {
+        super(member);
+    }
+
+    /**
      * Displays the member's information by printing the toString result.
      */
     @Override
