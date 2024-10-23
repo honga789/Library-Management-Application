@@ -9,25 +9,22 @@
     <version>1.0-SNAPSHOT</version>
 
     <dependencies>
-        <!-- Dependency cho MySQL JDBC driver -->
+        <!-- JUnit library dependency -->
+        <!-- To test feature -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.33</version> <!-- Cập nhật phiên bản phù hợp -->
+            <version>8.0.33</version>
         </dependency>
 
-        <!-- Các dependencies khác của project -->
-
-        <!-- Dependency cho JUnit -->
+        <!-- Java Database Connectivity Library -->
+        <!-- DatabaseUtil use this library -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
-        <!-- Các dependencies khác của project -->
-
-
 
     </dependencies>
 
@@ -50,26 +47,5 @@
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
-    <dependencies>
-
-        <!-- JUnit library dependency -->
-        <!-- To test feature -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- Java Database Connectivity Library -->
-        <!-- DatabaseUtil use this library -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.28</version>
-        </dependency>
-
-    </dependencies>
 
 </project>
