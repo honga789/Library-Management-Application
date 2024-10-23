@@ -1,5 +1,5 @@
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class LoanRecord {
@@ -8,9 +8,9 @@ public class LoanRecord {
     private int userId;
     private int documentId;
     private LocalDateTime borrowDate;
-    private Date dueDate;
+    private LocalDate dueDate;
     private LoanStatus loanStatus;
-    private Date returnDate;
+    private LocalDateTime returnDate;
 
     public int getRecordId() {
         return recordId;
@@ -43,11 +43,11 @@ public class LoanRecord {
         return this;
     }
 
-    public Date getDueDate() {
+    public LocalDate getDueDate() {
         return dueDate;
     }
 
-    public LoanRecord setDueDate(Date dueDate) {
+    public LoanRecord setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
         return this;
     }
@@ -61,42 +61,45 @@ public class LoanRecord {
         return this;
     }
 
-    public Date getReturnDate() {
+    public LocalDateTime getReturnDate() {
         return returnDate;
     }
 
-    public LoanRecord setReturnDate(Date returnDate) {
+    public LoanRecord setReturnDate(LocalDateTime returnDate) {
         this.returnDate = returnDate;
         return this;
     }
 
-    LoanRecord(int recordId,int userId, int documentId,
-               LocalDateTime borrowDate, Date dueDate,
+    LoanRecord(int userId, int documentId,
+               LocalDateTime borrowDate, LocalDate dueDate,
                LoanStatus loanStatus) {
-        setRecordId(recordId);
         setUserId(userId);
         setDocumentId(documentId);
         setBorrowDate(borrowDate);
         setDueDate(dueDate);
         setLoanStatus(loanStatus);
+        //set recordId after other
+        setRecordId();
 
     }
 
     LoanRecord(LoanRecord loanRecord) {
-        setRecordId(loanRecord.getRecordId());
         setUserId(loanRecord.getUserId());
         setDocumentId(loanRecord.getDocumentId());
         setBorrowDate(loanRecord.getBorrowDate());
         setDueDate(loanRecord.getDueDate());
         setLoanStatus(loanRecord.getLoanStatus());
+        //set recordId after other
+        setRecordId();
     }
     public int genId() {
+        //use Hash to generate recordId from userId, documentId and BorrowDate
         return Objects.hash(this.getUserId(), this.getDocumentId(), this.getBorrowDate());
     }
     /**
      auto create recordID with genId.
      * */
-    public void setRecordId(int recordId) {
+    public void setRecordId() {
         checkValidInit();
         this.recordId = this.genId();
     }
@@ -114,7 +117,7 @@ public class LoanRecord {
         return sb.toString();
     }
     public void displayInfo() {
-        System.out.println(this.toString());
+        System.out.println(this);
     }
     @Override
     public boolean equals(Object o) {
