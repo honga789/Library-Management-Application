@@ -4,6 +4,11 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Manage data with interface IManaged.
+ *
+ * @param <T> class has implemented interface IManaged.
+ */
 public class Manager<T extends IManaged> {
 
     private final DatabaseTable databaseTable;
@@ -18,6 +23,7 @@ public class Manager<T extends IManaged> {
 
     /**
      * Create method.
+     *
      * @param managed T, add this object to database.
      * @param connection Connection, use this Connection to interact with database.
      */
@@ -57,6 +63,7 @@ public class Manager<T extends IManaged> {
     /**
      * Read All method.
      * Read all record in database and return a List<T>
+     *
      * @param connection Connection.
      * @return List<T>
      */
@@ -83,6 +90,7 @@ public class Manager<T extends IManaged> {
     /**
      * Update method.
      * Update the managed has same id with the param managed Object.
+     *
      * @param managed T
      * @param connection Connection
      */
@@ -113,6 +121,7 @@ public class Manager<T extends IManaged> {
 
     /**
      * Delete method.
+     *
      * @param managed T
      * @param connection Connection
      */

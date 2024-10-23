@@ -31,6 +31,7 @@ public final class DatabaseUtil {
 
     /**
      * Connect to database.
+     *
      * @param url String, url of database. Use jdbc:mysql: to define protocol and sql language. Eg: "jdbc:mysql://localhost:3306/library_database"
      * @param userName String, username to connect to database
      * @param password String, password to connect to database
@@ -50,6 +51,7 @@ public final class DatabaseUtil {
 
     /**
      * Execute method. Query must not return data.
+     *
      * @param connection Connection, returned at connect method.
      * @param SQLQuery String, sql query must not return data.
      */
@@ -69,6 +71,7 @@ public final class DatabaseUtil {
 
     /**
      * ExecuteQuery method. Query must return data.
+     *
      * @param connection Connection, returned at connect method.
      * @param SQLQuery String, sql query must return data.
      * @return ResultSet, data returned of data.
