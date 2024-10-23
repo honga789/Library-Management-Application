@@ -18,9 +18,9 @@ public class Newspaper extends Periodical{
     /**
      * Constructor for copy from another Newspaper.
      *
-     * @param magazine another Newspaper.
+     * @param newspaper another Newspaper.
      */
-    public Newspaper(Magazine magazine) {
-        super(magazine);
+    public Newspaper(Newspaper newspaper) {
+        super(newspaper);
     }
 }
