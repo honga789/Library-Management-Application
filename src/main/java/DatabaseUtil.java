@@ -1,5 +1,9 @@
 import java.sql.*;
 
+/**
+ * DatabaseUtil Class.
+ * This class is used for connect and make data transfer with mysql database.
+ */
 public final class DatabaseUtil {
     private static boolean isSetupDriver = false;
 
@@ -76,9 +80,9 @@ public final class DatabaseUtil {
             // check sql query and break if unsafe
             return statement.executeQuery(SQLQuery);
         } catch (SQLException e) {
-            System.out.println("---------- SOME ERROR ------------");
+            System.out.println("---------- ERROR WHEN EXECUTE QUERY ------------");
             System.out.println("SQLException, e: " + e.toString());
-            System.out.println("----------------------------------");
+            System.out.println("------------------------------------------------");
             throw new RuntimeException(e);
         }
     }
