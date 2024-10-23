@@ -2,7 +2,7 @@ import java.time.LocalDateTime;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class LoanRecord {
+public class LoanRecord implements IManaged {
 
     private int recordId;
     private int userId;
@@ -127,10 +127,17 @@ public class LoanRecord {
             return false;
         }
     }
+
     public void checkValidInit() {
         if (this.borrowDate == null) {
             throw new IllegalArgumentException("BorrowDate cannot be null");
         }
     }
+
+    @Override
+    public int getId() {
+        return this.recordId;
+    }
+
 
 }
