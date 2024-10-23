@@ -6,7 +6,7 @@ import java.util.Objects;
  * and operations of a user in the system, including roles, personal information,
  * and account credentials.
  */
-public abstract class User {
+public abstract class User implements IManaged {
     private UserRole userRole;        // The role of the user (member, librarian).
     private int userId;               // Unique identifier for the user.
     private String userName;          // Username for user account.
@@ -175,5 +175,15 @@ public abstract class User {
      */
     private int genId() {
         return Objects.hash(this.userName);
+    }
+
+    /**
+     * get id of class type User.
+     *
+     * @return id of type User.
+     */
+    @Override
+    public int getId() {
+        return this.userId;
     }
 }
