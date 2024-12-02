@@ -49,9 +49,9 @@ public class UserDAO {
         }
     }
 
-    public static User getUserById(int id) {
+    public static User getUserById(int userId) {
         String sql = "SELECT * FROM User u WHERE u.user_id = ?";
-        try (PreparedStatement preStm = DBUtil.getPrepareStatement(MainApp.getDbConnection(), sql, id);
+        try (PreparedStatement preStm = DBUtil.getPrepareStatement(MainApp.getDbConnection(), sql, userId);
             ResultSet resultSet = preStm.executeQuery()) {
 
             if (!resultSet.next()) {
@@ -79,6 +79,15 @@ public class UserDAO {
 
         } catch (Exception e) {
             System.out.println("Error when getUserByUserNameAndPassword...");
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static boolean addNewUser(String userName, String password, UserRole role, String fullName, String phoneNumber, String email) {
+        String sql = "INSERT INTO User(user_name, password, role, full_name, phone_number, email) VALUES (?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement preStm = DBUtil.getPrepareStatement(MainApp.getDbConnection(), sql, userName, password, role.toString(), fullName, phoneNumber, email)) {
+            return preStm.execute();
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
