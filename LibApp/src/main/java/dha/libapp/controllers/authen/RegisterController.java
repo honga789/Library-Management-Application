@@ -4,10 +4,20 @@ import com.sun.tools.javac.Main;
 import dha.libapp.MainAppController;
 import dha.libapp.services.RegisterService;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-public class RegisterController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class RegisterController implements Initializable {
+    private static RegisterController instance;
+
+    public static RegisterController getInstance() {
+        return instance;
+    }
+
     @FXML
     private TextField usernameField;
 
@@ -29,12 +39,6 @@ public class RegisterController {
     @FXML
     private Label invalidInputLabel;
 
-    private final RegisterService registerService;
-
-    public RegisterController() {
-        registerService = new RegisterService();
-    }
-
     @FXML
     public void handleRegisterAction() {
         String username = usernameField.getText();
@@ -43,22 +47,45 @@ public class RegisterController {
         String phone = phoneField.getText();
         String email = emailField.getText();
 
-        emptyFieldsLabel.setVisible(false);
+        RegisterService.register(username, password, fullName, phone, email);
+//        emptyFieldsLabel.setVisible(false);
+//        invalidInputLabel.setVisible(false);
+//
+//        if (username.isEmpty() || password.isEmpty() ||
+//                fullName.isEmpty() || phone.isEmpty() || email.isEmpty()) {
+//
+//            invalidInputLabel.setVisible(false);
+//            emptyFieldsLabel.setVisible(true);
+//        } else if (!isValidEmail(email) || !isValidPhone(phone)) {
+//            emptyFieldsLabel.setVisible(false);
+//            invalidInputLabel.setVisible(true);
+//        } else if (registerService.registerUser(username, password, fullName, phone, email)) {
+//            MainAppController.changeScene("views/authen/Login.fxml");
+//        } else {
+//            System.out.println("Đăng kí thất bại");
+//        }
+    }
+
+    @FXML
+    public void onEmptyInput() {
         invalidInputLabel.setVisible(false);
+        emptyFieldsLabel.setVisible(true);
+    }
 
-        if (username.isEmpty() || password.isEmpty() ||
-                fullName.isEmpty() || phone.isEmpty() || email.isEmpty()) {
+    @FXML
+    public void onInvalidInput() {
+        emptyFieldsLabel.setVisible(false);
+        invalidInputLabel.setVisible(true);
+    }
 
-            invalidInputLabel.setVisible(false);
-            emptyFieldsLabel.setVisible(true);
-        } else if (!isValidEmail(email) || !isValidPhone(phone)) {
-            emptyFieldsLabel.setVisible(false);
-            invalidInputLabel.setVisible(true);
-        } else if (registerService.registerUser(username, password, fullName, phone, email)) {
-            MainAppController.changeScene("views/authen/Login.fxml");
-        } else {
-            System.out.println("Đăng kí thất bại");
-        }
+    @FXML
+    public void onRegisterSuccess() {
+        MainAppController.changeScene("views/authen/Login.fxml");
+    }
+
+    @FXML
+    public void onRegisterFailure() {
+        System.out.println("Đăng kí thất bại");
     }
 
     @FXML
@@ -66,11 +93,8 @@ public class RegisterController {
         MainAppController.changeScene("views/authen/Login.fxml");
     }
 
-    private boolean isValidEmail(String email) {
-        return email != null && email.contains("@") && email.contains(".");
-    }
-
-    private boolean isValidPhone(String phone) {
-        return phone != null && phone.matches("[0-9]+") && phone.length() == 10;
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        instance = this;
     }
 }
