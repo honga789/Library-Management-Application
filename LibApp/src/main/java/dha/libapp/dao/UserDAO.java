@@ -9,6 +9,7 @@ public class UserDAO {
 
     public static List<User> getAllUser() {
         List<User> userList = new ArrayList<>();
+        // hehe
         return userList;
     }
 
