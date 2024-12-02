@@ -1,6 +1,6 @@
 package dha.libapp.models;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class BorrowRecord {
 
@@ -77,9 +77,9 @@ public class BorrowRecord {
 
 
 
-    BorrowRecord() {}
+    public BorrowRecord() {}
 
-    BorrowRecord(int userId, int bookId, Date borrowDate, Date dueDate, BorrowStatus status, Date returnDate) {
+    public BorrowRecord(int userId, int bookId, Date borrowDate, Date dueDate, BorrowStatus status, Date returnDate) {
         this.userId = userId;
         this.bookId = bookId;
         this.borrowDate = borrowDate;
@@ -87,7 +87,7 @@ public class BorrowRecord {
         this.status = status;
         this.returnDate = returnDate;
     }
-    BorrowRecord(BorrowRecord borrowRecord) {
+    public BorrowRecord(BorrowRecord borrowRecord) {
         this.borrowId = borrowRecord.borrowId;
         this.userId = borrowRecord.userId;
         this.bookId = borrowRecord.bookId;
