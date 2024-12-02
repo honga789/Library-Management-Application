@@ -14,11 +14,8 @@ public class BorrowRecordDAO {
     public static List<BorrowRecord> getAllBorrowRecords() throws SQLException {
         List<BorrowRecord> result = new ArrayList<>();
 
-        try (
-                PreparedStatement preStm = DBUtil.getPrepareStatement(MainApp.getDbConnection(), "SELECT * FROM Borrow_record");
-                ResultSet resultSet = preStm.executeQuery()
-            ) {
-
+        try (PreparedStatement preStm = DBUtil.getPrepareStatement(MainApp.getDbConnection(), "SELECT * FROM Borrow_record");
+             ResultSet resultSet = preStm.executeQuery()) {
             while (resultSet.next()) {
                 int borrowId = resultSet.getInt("borrow_id");
                 int userId = resultSet.getInt("user_id");

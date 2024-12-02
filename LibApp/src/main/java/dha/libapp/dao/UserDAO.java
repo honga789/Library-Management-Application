@@ -11,28 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAO {
-
     public static List<User> getAllUser() {
-        List<User> userList = new ArrayList<>();
-        // hehe
-
-        ResultSet resultSet = DBUtil.executeQuery(MainApp.getDbConnection(), "SELECT * FROM User");
-
-        try {
-            while (resultSet.next()) {
-                int id = resultSet.getInt("user_id");
-                User user = new User();
-                user.setUserId(id);
-                userList.add(user);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return userList;
-    }
-
-    public static List<User> getAllUser2() {
         List<User> userList = new ArrayList<>();
 
         try (PreparedStatement preStm = DBUtil.getPrepareStatement(MainApp.getDbConnection(), "SELECT * FROM User");
@@ -60,14 +39,14 @@ public class UserDAO {
             System.out.println(user.getUserId());
         }
 
-        List<User> userList2 = getAllUser2();
+        List<User> userList2 = getAllUser();
         System.out.println(userList2.size());
         System.out.println("User:");
         for (User user : userList2) {
             System.out.println(user.getUserId());
         }
 
-        List<User> userList3 = getAllUser2();
+        List<User> userList3 = getAllUser();
         System.out.println(userList3.size());
         System.out.println("User:");
         for (User user : userList3) {
