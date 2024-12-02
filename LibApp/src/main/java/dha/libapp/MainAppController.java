@@ -11,6 +11,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MainAppController implements Initializable {
+    private static MainAppController instance;
+    public static MainAppController getInstance() { return MainAppController.instance; }
 
     @FXML
     private AnchorPane container;
@@ -35,7 +37,13 @@ public class MainAppController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        MainAppController.instance = this;
+
         HoverEffect.applyFadeEffect(closeIcon, 1, 0.7, 100);
         HoverEffect.applyFadeEffect(minimizeIcon, 1, 0.7, 100);
+    }
+
+    public static void changeScene(String fxmlFilePath) {
+
     }
 }

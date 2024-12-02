@@ -26,9 +26,10 @@ public class MainApp extends Application {
         root.setStyle(
                 "-fx-background-color: #ffffff; -fx-background-radius: 30"
         );
-        FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("views/MainAppView.fxml"));
-        Parent parent = fxmlLoader.load();
-        root.getChildren().addAll(parent);
+
+        Parent fxmlContent = MainApp.getContentFromFxml("views/MainAppView.fxml");
+
+        root.getChildren().addAll(fxmlContent);
         Scene scene = new Scene(root, 1275, 720);
         scene.setFill(Color.TRANSPARENT);
         primaryStage.initStyle(StageStyle.TRANSPARENT);
@@ -44,5 +45,15 @@ public class MainApp extends Application {
             primaryStage.setX(e.getScreenX() - offsetX);
             primaryStage.setY(e.getScreenY() - offsetY);
         });
+    }
+
+    public static Parent getContentFromFxml(String fxml) {
+        FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource(fxml));
+        try {
+            return fxmlLoader.load();
+        } catch (Exception e) {
+            System.out.println("Error when load file: " + fxml);
+            throw new RuntimeException(e);
+        }
     }
 }
