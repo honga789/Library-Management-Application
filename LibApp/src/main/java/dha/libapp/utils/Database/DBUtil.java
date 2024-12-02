@@ -25,6 +25,7 @@ public class DBUtil {
             return DriverManager.getConnection(url, username, password);
             // return DriverManager.getConnection("jdbc:mysql://localhost:3306/your_database", "username", "password");
         } catch (SQLException e) {
+            System.out.println("Database Connection Error......");
             throw new RuntimeException("Error connecting to the database", e);
         }
     }
