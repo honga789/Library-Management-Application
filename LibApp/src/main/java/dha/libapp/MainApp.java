@@ -18,6 +18,9 @@ public class MainApp extends Application {
     private double offsetX;
     private double offsetY;
 
+    private static Connection dbConnection;
+    private static Connection getDbConnection() { return dbConnection; }
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -26,6 +29,7 @@ public class MainApp extends Application {
     public void start(Stage primaryStage) throws IOException {
         Connection connection = DBUtil.connect("jdbc:mysql://b0dhldnmrpv8rotqmh6y-mysql.services.clever-cloud.com/b0dhldnmrpv8rotqmh6y", "uoxesvpdndreask6", "LTpg5gRkVYgDyuiSKjt3");
         System.out.println(connection);
+        dbConnection = connection;
 
         StackPane root = new StackPane();
         root.setStyle(
