@@ -1,5 +1,6 @@
 package dha.libapp;
 
+import dha.libapp.utils.Database.DBUtil;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,6 +11,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.sql.Connection;
 
 public class MainApp extends Application {
 
@@ -22,6 +24,9 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
+        Connection connection = DBUtil.connect("jdbc:mysql://localhost:3306/library_models", "root", "");
+        System.out.println(connection);
+
         StackPane root = new StackPane();
         root.setStyle(
                 "-fx-background-color: #ffffff; -fx-background-radius: 30"
