@@ -3,6 +3,7 @@ package dha.libapp;
 import dha.libapp.effects.HoverEffect;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -44,6 +45,8 @@ public class MainAppController implements Initializable {
     }
 
     public static void changeScene(String fxmlFilePath) {
-
+        MainAppController.instance.container.getChildren().clear();
+        Parent fxmlContent = MainApp.getContentFromFxml(fxmlFilePath);
+        MainAppController.instance.container.getChildren().addAll(fxmlContent);
     }
 }
