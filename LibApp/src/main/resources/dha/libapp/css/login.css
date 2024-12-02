@@ -42,4 +42,5 @@
 .text-warning {
     -fx-text-fill: red;
     -fx-font-size: 14;
+    -fx-font-weight: bold;
 }

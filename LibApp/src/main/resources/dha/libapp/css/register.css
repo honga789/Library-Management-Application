@@ -41,3 +41,9 @@
     -fx-text-fill: #ef5627;
     -fx-cursor: hand;
 }
+
+.text-warning {
+    -fx-text-fill: red;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
