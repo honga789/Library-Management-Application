@@ -10,47 +10,66 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BorrowRecordDAO {
+    private static BorrowRecord getBorrowRecordFromResultSet(ResultSet resultSet) {
+        try {
+            if (resultSet.wasNull()) {
+                return null;
+            }
+            int borrow_id = resultSet.getInt("borrow_id");
+            int user_id = resultSet.getInt("user_id");
+            int book_id = resultSet.getInt("book_id");
+            Date borrow_date = resultSet.getDate("borrow_date");
+            Date due_date = resultSet.getDate("due_date");
+            BorrowStatus status = BorrowStatus.valueOf(resultSet.getString("status"));
+            Date return_date = resultSet.getDate("return_date");
+
+            return new BorrowRecord(borrow_id, user_id, book_id, borrow_date, due_date,
+                    status, return_date);
+        } catch (SQLException e) {
+            System.out.println("Error when get borrowrecord from resultset");
+            throw new RuntimeException(e);
+        }
+    }
 
     public static List<BorrowRecord> getAllBorrowRecords() throws SQLException {
-        List<BorrowRecord> result = new ArrayList<>();
+        List<BorrowRecord> borrowRecordList = new ArrayList<>();
+        String sql = "SELECT * FROM Borrow_record";
 
-        try (PreparedStatement preStm = DBUtil.getPrepareStatement(MainApp.getDbConnection(), "SELECT * FROM Borrow_record");
-             ResultSet resultSet = preStm.executeQuery()) {
+        try (PreparedStatement preparedStatement = DBUtil.getPrepareStatement(MainApp.getDbConnection(), sql);
+            ResultSet resultSet = preparedStatement.executeQuery()) {
+
             while (resultSet.next()) {
-                int borrowId = resultSet.getInt("borrow_id");
-                int userId = resultSet.getInt("user_id");
-                int bookId = resultSet.getInt("book_id");
-                Date borrowDate = resultSet.getDate("borrow_date");
-                Date dueDate = resultSet.getDate("return_date");
-                BorrowStatus borrowStatus = BorrowStatus.valueOf(resultSet.getString("status"));
-                Date returnDate = resultSet.getDate("return_date");
-                BorrowRecord temp = new BorrowRecord(userId, bookId, borrowDate, dueDate, borrowStatus, returnDate);
-                temp.setBorrowId(borrowId);
-                result.add(temp);
-                if (resultSet.isClosed()) {
-                    break;
-                }
+                borrowRecordList.add(getBorrowRecordFromResultSet(resultSet));
             }
+            return borrowRecordList;
         } catch (SQLException e) {
+            System.out.println("Error when get all borrowrecord");
             throw new RuntimeException(e);
+        }
+    }
+
+    public static BorrowRecord getBorrowRecordById(int borrow_id) {
+        String sql = "SELECT * FROM Borrow_record WHERE borrow_id = ?";
+        try (PreparedStatement preparedStatement = DBUtil.getPrepareStatement(MainApp.getDbConnection(), sql, borrow_id);
+            ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            if (resultSet.next()) {
+                return getBorrowRecordFromResultSet(resultSet);
+            }
+            return null;
+        } catch (SQLException e) {
+            System.out.println("Error when get borrowrecord by id");
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void main(String[] args) throws SQLException {
+        List<BorrowRecord> borrowRecordList = getAllBorrowRecords();
+        for (BorrowRecord borrowRecord : borrowRecordList) {
+            System.out.println(borrowRecord);
         }
 
-        return result;
-    }
-    public static void main(String[] args) throws SQLException {
-        List<BorrowRecord> test = new ArrayList<>();
-        //Connection connection = DBUtil.connect("jdbc:mysql://b0dhldnmrpv8rotqmh6y-mysql.services.clever-cloud.com/b0dhldnmrpv8rotqmh6y", "uoxesvpdndreask6", "LTpg5gRkVYgDyuiSKjt3");
-        try {
-            test = getAllBorrowRecords();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        if (test.isEmpty()) {
-            return;
-        } else {
-            for (BorrowRecord br : test) {
-                br.displayInfo();
-            }
-        }
+        System.out.println();
+        System.out.println(getBorrowRecordById(1));
     }
 }

@@ -18,6 +18,7 @@ public class BookDAO {
             if (resultSet.wasNull()) {
                 return null;
             }
+
             Book book = new Book();
             int bookId = resultSet.getInt("book_id");
             String ISBN = resultSet.getString("ISBN");
@@ -40,6 +41,7 @@ public class BookDAO {
             String sql = "SELECT * FROM Book_genre_type WHERE book_id = ?";
             try(PreparedStatement preparedStatement = DBUtil.getPrepareStatement(MainApp.getDbConnection(), sql, bookId);
                 ResultSet resultSet1 = preparedStatement.executeQuery()) {
+
                 while (resultSet1.next()) {
                     int genreId = resultSet1.getInt("genre_id");
                     genreList.add(GenreTypeDAO.getGenreTypeById(genreId));
@@ -59,13 +61,28 @@ public class BookDAO {
 
         try (PreparedStatement preparedStatement = DBUtil.getPrepareStatement(MainApp.getDbConnection(), sql);
              ResultSet resultSet = preparedStatement.executeQuery()) {
+
             while (resultSet.next()) {
                 books.add(getBookFromResultSet(resultSet));
             }
-
             return books;
         } catch (Exception e) {
             System.out.println("Error when get all book");
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static Book getBookById(int bookId) {
+        String sql = "SELECT * FROM Book WHERE book_id = ?";
+        try (PreparedStatement preparedStatement = DBUtil.getPrepareStatement(MainApp.getDbConnection(), sql, bookId);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            if (resultSet.next()) {
+                return getBookFromResultSet(resultSet);
+            }
+            return null;
+        } catch (SQLException e) {
+            System.out.println("Error when get Book by id");
             throw new RuntimeException(e);
         }
     }
@@ -74,7 +91,9 @@ public class BookDAO {
         List<Book> books = getAllBook();
         for (Book book : books) {
             System.out.println(book);
-
         }
+
+        System.out.println();
+        System.out.println(getBookById(1));
     }
 }

@@ -77,9 +77,11 @@ public class BorrowRecord {
 
 
 
-    public BorrowRecord() {}
+    public BorrowRecord() {
+    }
 
-    public BorrowRecord(int userId, int bookId, Date borrowDate, Date dueDate, BorrowStatus status, Date returnDate) {
+    public BorrowRecord(int borrowId, int userId, int bookId, Date borrowDate, Date dueDate, BorrowStatus status, Date returnDate) {
+        this.borrowId = borrowId;
         this.userId = userId;
         this.bookId = bookId;
         this.borrowDate = borrowDate;
