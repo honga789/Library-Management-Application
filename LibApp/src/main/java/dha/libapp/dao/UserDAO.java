@@ -29,6 +29,7 @@ public class UserDAO {
             }
             return new User(id, user_name, password, role, fullName, phoneNumber, email);
         } catch (SQLException e) {
+            System.out.println("Error when getUserFromResultSet...");
             throw new RuntimeException(e);
         }
     }
@@ -43,6 +44,7 @@ public class UserDAO {
             }
             return userList;
         } catch (Exception e) {
+            System.out.println("Error when getAllUser...");
             throw new RuntimeException(e);
         }
     }
@@ -59,6 +61,24 @@ public class UserDAO {
             return getUserFromResultSet(resultSet);
 
         } catch (Exception e) {
+            System.out.println("Error when getUserById...");
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static User getUserByUsernameAndPassword(String username, String password) {
+        String sql = "SELECT * FROM User u WHERE u.user_name = ? AND u.password = ?";
+        try (PreparedStatement preStm = DBUtil.getPrepareStatement(MainApp.getDbConnection(), sql, username, password);
+             ResultSet resultSet = preStm.executeQuery()) {
+
+            if (!resultSet.next()) {
+                return null;
+            }
+
+            return getUserFromResultSet(resultSet);
+
+        } catch (Exception e) {
+            System.out.println("Error when getUserByUserNameAndPassword...");
             throw new RuntimeException(e);
         }
     }
