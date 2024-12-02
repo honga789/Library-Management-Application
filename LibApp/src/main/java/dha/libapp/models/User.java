@@ -2,7 +2,7 @@ package dha.libapp.models;
 
 public class User {
 
-    private int userID;
+    private int userId;
     private String userName;
     private String password;
     private UserRole role;
@@ -13,8 +13,8 @@ public class User {
     public User() {
     }
 
-    public int getUserID() {
-        return userID;
+    public int getUserId() {
+        return userId;
     }
 
     public String getUserName() {
@@ -41,8 +41,8 @@ public class User {
         return email;
     }
 
-    public User setUserID(int userID) {
-        this.userID = userID;
+    public User setUserId(int userId) {
+        this.userId = userId;
         return this;
     }
 
