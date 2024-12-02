@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            prefHeight="400.0" prefWidth="600.0" >
-
-    <Label> This is main app view </Label>
+<AnchorPane prefHeight="720.0" prefWidth="1275.0" style="-fx-background-color: #f8e6d5;" styleClass="outline" stylesheets="@../css/mainapp.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dha.libapp.MainAppController">
+   <children>
+      <AnchorPane fx:id="container" prefHeight="720.0" prefWidth="1275.0" />
+      <ImageView fx:id="closeIcon" fitHeight="23.0" fitWidth="22.0" layoutX="15.0" layoutY="15.0" onMouseClicked="#handleClose" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+         <image>
+            <Image url="@../images/close.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="minimizeIcon" fitHeight="23.0" fitWidth="22.0" layoutX="45.0" layoutY="15.0" onMouseClicked="#handleMinimize" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+         <image>
+            <Image url="@../images/minimize.png" />
+         </image>
+      </ImageView>
+   </children>
 
 </AnchorPane>
