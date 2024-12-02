@@ -32,7 +32,9 @@ public class DBUtil {
 
     // UPDATE, INSERT, DELETE
     public static int executeUpdate(Connection connection, String sql, Object... params) {
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(sql);
             setParameters(preparedStatement, params);
             return preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -42,9 +44,24 @@ public class DBUtil {
 
     // SELECT
     public static ResultSet executeQuery(Connection connection, String sql, Object... params) {
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            preparedStatement = connection.prepareStatement(sql);
             setParameters(preparedStatement, params);
-            return preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
+            return resultSet; // Trả về ResultSet để sử dụng ngoài phương thức
+        } catch (SQLException e) {
+            throw new RuntimeException("Error executing select query", e);
+        }
+    }
+
+    public static PreparedStatement getPrepareStatement(Connection connection, String sql, Object... params) {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            setParameters(preparedStatement, params);
+            return preparedStatement;
         } catch (SQLException e) {
             throw new RuntimeException("Error executing select query", e);
         }
