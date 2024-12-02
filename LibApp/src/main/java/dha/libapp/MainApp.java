@@ -19,7 +19,7 @@ public class MainApp extends Application {
     private double offsetY;
 
     private static Connection dbConnection;
-    private static Connection getDbConnection() { return dbConnection; }
+    public static Connection getDbConnection() { return dbConnection; }
 
     public static void main(String[] args) {
         launch(args);
