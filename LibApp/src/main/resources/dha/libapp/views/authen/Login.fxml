@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="718.0" prefWidth="1277.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dha.libapp.controllers.authen.LoginController">
+   <Button mnemonicParsing="false" prefHeight="718.0" prefWidth="1277.0" style="-fx-background-color: transparent;" />
+   <Pane layoutX="438.0" layoutY="112.0" prefHeight="494.0" prefWidth="420.0" styleClass="login-container" stylesheets="@../../css/login.css">
+      <children>
+         <TextField focusTraversable="false" layoutX="57.0" layoutY="207.0" prefHeight="50.0" prefWidth="300.0" promptText="Username" styleClass="text-area" stylesheets="@../../css/login.css" />
+         <Button layoutX="141.0" layoutY="372.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="138.0" styleClass="button-login" stylesheets="@../../css/login.css" text="Login" />
+         <PasswordField focusTraversable="false" layoutX="57.0" layoutY="291.0" prefHeight="50.0" prefWidth="300.0" promptText="Password" styleClass="text-area" stylesheets="@../../css/login.css" />
+         <Label alignment="CENTER" layoutX="110.0" layoutY="140.0" prefHeight="40.0" prefWidth="204.0" styleClass="text-detail" stylesheets="@../../css/login.css" text="Welcome back!">
+            <font>
+               <Font name="Arial" size="12.0" />
+            </font>
+         </Label>
+         <Label layoutX="124.0" layoutY="435.0" styleClass="text-footer" stylesheets="@../../css/login.css" text="Need an account? " />
+         <Label layoutX="239.0" layoutY="435.0" onMouseClicked="#switchToRegister" stylesheets="@../../css/login.css" text="Sign up">
+            <styleClass>
+               <String fx:value="text-link" />
+               <String fx:value="text-footer" />
+            </styleClass>
+         </Label>
+         <ImageView fitHeight="67.0" fitWidth="74.0" layoutX="174.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../../images/logo.jpg" />
+            </image>
+         </ImageView>
+      </children>
+   </Pane>
+
+</AnchorPane>

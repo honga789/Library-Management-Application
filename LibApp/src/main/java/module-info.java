@@ -5,8 +5,10 @@ module dha.libapp {
 
     exports dha.libapp.controllers;
     opens dha.libapp.controllers to javafx.fxml;
+    opens dha.libapp.controllers.authen to javafx.fxml;
 
     opens dha.libapp.views to javafx.fxml;
+    opens dha.libapp.views.authen to javafx.fxml;
 
     opens dha.libapp to javafx.fxml;
     exports dha.libapp;

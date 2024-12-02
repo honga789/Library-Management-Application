@@ -39,7 +39,7 @@ public class MainAppController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         MainAppController.instance = this;
-
+        MainAppController.changeScene("views/authen/Login.fxml");
         HoverEffect.applyFadeEffect(closeIcon, 1, 0.7, 100);
         HoverEffect.applyFadeEffect(minimizeIcon, 1, 0.7, 100);
     }

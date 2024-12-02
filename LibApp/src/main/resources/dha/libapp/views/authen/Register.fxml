@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="720.0" prefWidth="1275.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dha.libapp.controllers.authen.RegisterController">
+   <children>
+      <Button mnemonicParsing="false" prefHeight="720.0" prefWidth="1275.0" style="-fx-background-color: transparent;" text="Button" />
+      <ScrollPane layoutX="438.0" layoutY="112.0" prefHeight="494.0" prefWidth="420.0" styleClass="register-container" stylesheets="@../../css/register.css">
+         <content>
+            <VBox alignment="TOP_CENTER" focusTraversable="true" prefHeight="788.0" prefWidth="420.0" styleClass="v-box-container" stylesheets="@../../css/register.css">
+               <children>
+                  <ImageView fitHeight="67.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/logo.jpg" />
+                     </image>
+                     <VBox.margin>
+                        <Insets top="44.0" />
+                     </VBox.margin>
+                  </ImageView>
+                  <Label styleClass="text-detail" stylesheets="@../../css/register.css" text="Create an account">
+                     <VBox.margin>
+                        <Insets bottom="27.0" top="29.0" />
+                     </VBox.margin>
+                  </Label>
+                  <TextField focusTraversable="false" maxWidth="300.0" prefHeight="50.0" prefWidth="300.0" promptText="Your username" styleClass="text-field-tag" stylesheets="@../../css/register.css">
+                     <VBox.margin>
+                        <Insets bottom="34.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <TextField focusTraversable="false" maxWidth="300.0" prefHeight="50.0" prefWidth="300.0" promptText="Your password" styleClass="text-field-tag" stylesheets="@../../css/register.css">
+                     <VBox.margin>
+                        <Insets bottom="34.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <TextField focusTraversable="false" maxWidth="300.0" prefHeight="50.0" prefWidth="300.0" promptText="Your full name" styleClass="text-field-tag" stylesheets="@../../css/register.css">
+                     <VBox.margin>
+                        <Insets bottom="34.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <TextField focusTraversable="false" maxWidth="300.0" prefHeight="50.0" prefWidth="300.0" promptText="Your phone number" styleClass="text-field-tag" stylesheets="@../../css/register.css">
+                     <VBox.margin>
+                        <Insets bottom="34.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <TextField focusTraversable="false" maxWidth="300.0" prefHeight="50.0" prefWidth="300.0" promptText="Your email" styleClass="text-field-tag" stylesheets="@../../css/register.css">
+                     <VBox.margin>
+                        <Insets bottom="34.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Button focusTraversable="false" maxHeight="44.0" maxWidth="138.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="138.0" styleClass="button-register" stylesheets="@../../css/register.css" text="Register">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Button>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label styleClass="text-footer" stylesheets="@../../css/register.css" text="Already have an account? " />
+                        <Label onMouseClicked="#switchToLogin" stylesheets="@../../css/register.css" text="Sign in">
+                           <styleClass>
+                              <String fx:value="text-link" />
+                              <String fx:value="text-footer" />
+                           </styleClass>
+                        </Label>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>
