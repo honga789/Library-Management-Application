@@ -21,11 +21,12 @@ public class RegisterService {
         }
 
         if (userExists(username)) {
-            RegisterController.getInstance().onRegisterFailure();
+            RegisterController.getInstance().onDuplicateUsername();
             return;
         }
 
         UserDAO.addNewUser(username, password, UserRole.MEMBER, fullName, phone, email);
+        RegisterController.getInstance().onRegisterSuccess();
     }
 
     private static boolean userExists(String username) {

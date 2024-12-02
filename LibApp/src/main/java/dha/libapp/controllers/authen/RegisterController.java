@@ -89,6 +89,11 @@ public class RegisterController implements Initializable {
     }
 
     @FXML
+    public void onDuplicateUsername() {
+        System.out.println("Trùng tên đăng kí");
+    }
+
+    @FXML
     public void switchToLogin() {
         MainAppController.changeScene("views/authen/Login.fxml");
     }
