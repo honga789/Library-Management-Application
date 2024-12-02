@@ -66,6 +66,23 @@ public class UserDAO {
         }
     }
 
+    public static User getUserByUsername(String userName) {
+        String sql = "SELECT * FROM User u WHERE u.user_name = ?";
+        try (PreparedStatement preStm = DBUtil.getPrepareStatement(MainApp.getDbConnection(), sql, userName);
+             ResultSet resultSet = preStm.executeQuery()) {
+
+            if (!resultSet.next()) {
+                return null;
+            }
+
+            return getUserFromResultSet(resultSet);
+
+        } catch (Exception e) {
+            System.out.println("Error when getUserById...");
+            throw new RuntimeException(e);
+        }
+    }
+
     public static User getUserByUsernameAndPassword(String username, String password) {
         String sql = "SELECT * FROM User u WHERE u.user_name = ? AND u.password = ?";
         try (PreparedStatement preStm = DBUtil.getPrepareStatement(MainApp.getDbConnection(), sql, username, password);

@@ -29,8 +29,7 @@ public class RegisterService {
     }
 
     private static boolean userExists(String username) {
-        //User user = UserDAO.getUserById()
-        return false;
+        return UserDAO.getUserByUsername(username) != null;
     }
 
     private static boolean isValidEmail(String email) {
