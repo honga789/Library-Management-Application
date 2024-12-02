@@ -5,16 +5,16 @@ public class GenreType {
     private String genreName;
     private float weight;
 
-    GenreType() {
+    public GenreType() {
     }
 
-    GenreType(int genreId, String genreName, float weight) {
+    public GenreType(int genreId, String genreName, float weight) {
         this.genreId = genreId;
         this.genreName = genreName;
         this.weight = weight;
     }
 
-    GenreType(GenreType genreType) {
+    public GenreType(GenreType genreType) {
         this.genreId = genreType.getGenreId();
         this.genreName = genreType.getGenreName();
         this.weight = genreType.getWeight();

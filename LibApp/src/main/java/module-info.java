@@ -2,6 +2,7 @@ module dha.libapp {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
+    requires jdk.compiler;
 
     exports dha.libapp.controllers;
     opens dha.libapp.controllers to javafx.fxml;
