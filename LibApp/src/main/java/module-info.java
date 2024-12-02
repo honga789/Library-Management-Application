@@ -9,6 +9,7 @@ module dha.libapp {
 
     opens dha.libapp.views to javafx.fxml;
     opens dha.libapp.views.authen to javafx.fxml;
+    opens dha.libapp.views.mainPage to javafx.fxml;
 
     opens dha.libapp to javafx.fxml;
     exports dha.libapp;
