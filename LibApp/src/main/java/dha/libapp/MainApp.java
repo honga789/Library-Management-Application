@@ -24,7 +24,7 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Connection connection = DBUtil.connect("jdbc:mysql://localhost:3306/library_models", "root", "");
+        Connection connection = DBUtil.connect("jdbc:mysql://b0dhldnmrpv8rotqmh6y-mysql.services.clever-cloud.com/b0dhldnmrpv8rotqmh6y", "uoxesvpdndreask6", "LTpg5gRkVYgDyuiSKjt3");
         System.out.println(connection);
 
         StackPane root = new StackPane();
