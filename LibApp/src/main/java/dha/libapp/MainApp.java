@@ -19,7 +19,12 @@ public class MainApp extends Application {
     private double offsetY;
 
     private static Connection dbConnection;
-    public static Connection getDbConnection() { return dbConnection; }
+    public static Connection getDbConnection() {
+        if (dbConnection == null) {
+            dbConnection = DBUtil.connect("jdbc:mysql://b0dhldnmrpv8rotqmh6y-mysql.services.clever-cloud.com/b0dhldnmrpv8rotqmh6y", "uoxesvpdndreask6", "LTpg5gRkVYgDyuiSKjt3");
+        }
+        return dbConnection;
+    }
 
     public static void main(String[] args) {
         launch(args);
