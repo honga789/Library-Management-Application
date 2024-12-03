@@ -28,6 +28,7 @@ public class BookDAO {
             Date publicationDate = resultSet.getDate("publication_date");
             int quantity = resultSet.getInt("quantity");
             String description = resultSet.getString("description");
+            String coverImagePath = resultSet.getString("cover_image_path");
             book.setBookId(bookId)
                 .setISBN(ISBN)
                 .setTitle(title)
@@ -35,7 +36,8 @@ public class BookDAO {
                 .setPublisher(publisher)
                 .setPublicationDate(publicationDate)
                 .setQuantity(quantity)
-                .setDescription(description);
+                .setDescription(description)
+                .setCoverImagePath(coverImagePath);
 
             ArrayList<GenreType> genreList = new ArrayList<>();
             String sql = "SELECT * FROM Book_genre_type WHERE book_id = ?";
@@ -54,6 +56,8 @@ public class BookDAO {
             throw new RuntimeException(e);
         }
     }
+
+
 
     public static List<Book> getAllBook() {
         List<Book> books = new ArrayList<Book>();
