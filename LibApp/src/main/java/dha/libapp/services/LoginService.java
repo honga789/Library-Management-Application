@@ -5,6 +5,8 @@ import dha.libapp.dao.UserDAO;
 import dha.libapp.models.User;
 import dha.libapp.models.UserRole;
 
+import java.security.NoSuchAlgorithmException;
+
 public class LoginService {
     public static void login(String username, String password) {
         if (username.isEmpty() || password.isEmpty()) {
@@ -12,18 +14,22 @@ public class LoginService {
             return;
         }
 
-        User user = UserDAO.getUserByUsernameAndPassword(username, password);
+        try {
+            String hashedPassword = PasswordService.hashPassword(password);
 
-        if (user != null) {
+            User user = UserDAO.getUserByUsernameAndPassword(username, hashedPassword);
 
-            SessionService.getInstance().setUser(user);
-
-            if (user.getRole().equals(UserRole.MEMBER)) {
-                LoginController.getInstance().onLoginToMemberScene();
-            } else if (user.getRole().equals(UserRole.ADMIN)) {
-                LoginController.getInstance().onLoginToAdminScene();
+            if (user != null) {
+                if (user.getRole().equals(UserRole.MEMBER)) {
+                    LoginController.getInstance().onLoginToMemberScene(user);
+                } else if (user.getRole().equals(UserRole.ADMIN)) {
+                    LoginController.getInstance().onLoginToAdminScene(user);
+                }
+            } else {
+                LoginController.getInstance().onIncorrectInput();
             }
-        } else {
+
+        } catch (Exception e) {
             LoginController.getInstance().onLoginFailure();
         }
     }

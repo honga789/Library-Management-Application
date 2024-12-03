@@ -25,7 +25,7 @@
 }
 
 .button-login:hover {
-    -fx-background-color: linear-gradient(from 100% 0% to 0% 100%, #22dfbf, #2cccff);
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #4fd1e6, #3de0b8);
 }
 
 .text-footer {
@@ -37,6 +37,10 @@
     -fx-font-weight: bold;
     -fx-text-fill: #ef5627;
     -fx-cursor: hand;
+}
+
+.text-link:hover {
+    -fx-text-fill: #d84b1f;
 }
 
 .text-warning {

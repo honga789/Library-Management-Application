@@ -36,7 +36,8 @@
             </styleClass>
          </Label>
          <Label fx:id="emptyFieldsLabel" alignment="CENTER" layoutX="37.0" layoutY="353.0" prefHeight="20.0" prefWidth="341.0" styleClass="text-warning" stylesheets="@../../css/login.css" text="Please fill in all fields!" visible="false" />
-         <Label fx:id="invalidCredentialsLabel" alignment="CENTER" layoutX="37.0" layoutY="353.0" prefHeight="20.0" prefWidth="341.0" styleClass="text-warning" stylesheets="@../../css/login.css" text="Invalid username or password" visible="false" />
+         <Label fx:id="incorrectLabel" alignment="CENTER" layoutX="37.0" layoutY="353.0" prefHeight="20.0" prefWidth="341.0" styleClass="text-warning" stylesheets="@../../css/login.css" text="Incorrect username or password!" visible="false" />
+         <Label fx:id="failedLoginLabel" alignment="CENTER" layoutX="37.0" layoutY="353.0" prefHeight="20.0" prefWidth="341.0" styleClass="text-warning" stylesheets="@../../css/login.css" text="Login failed! Please check and try again." visible="false" />
       </children>
    </Pane>
 

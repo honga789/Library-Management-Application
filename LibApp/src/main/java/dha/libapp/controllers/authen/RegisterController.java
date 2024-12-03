@@ -6,6 +6,7 @@ import dha.libapp.services.RegisterService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
@@ -22,7 +23,7 @@ public class RegisterController implements Initializable {
     private TextField usernameField;
 
     @FXML
-    private TextField passwordField;
+    private PasswordField passwordField;
 
     @FXML
     private TextField fullNameField;
@@ -40,6 +41,15 @@ public class RegisterController implements Initializable {
     private Label invalidInputLabel;
 
     @FXML
+    private Label duplicateUsernameLabel;
+
+    @FXML
+    private Label passwordTooShortLabel;
+
+    @FXML
+    private Label failedRegisterLabel;
+
+    @FXML
     public void handleRegisterAction() {
         String username = usernameField.getText();
         String password = passwordField.getText();
@@ -52,11 +62,17 @@ public class RegisterController implements Initializable {
 
     public void onEmptyInput() {
         invalidInputLabel.setVisible(false);
+        duplicateUsernameLabel.setVisible(false);
+        passwordTooShortLabel.setVisible(false);
+        failedRegisterLabel.setVisible(false);
         emptyFieldsLabel.setVisible(true);
     }
 
     public void onInvalidInput() {
         emptyFieldsLabel.setVisible(false);
+        duplicateUsernameLabel.setVisible(false);
+        passwordTooShortLabel.setVisible(false);
+        failedRegisterLabel.setVisible(false);
         invalidInputLabel.setVisible(true);
     }
 
@@ -64,12 +80,28 @@ public class RegisterController implements Initializable {
         MainAppController.changeScene("views/authen/Login.fxml");
     }
 
-    public void onRegisterFailure() {
-        System.out.println("Đăng kí thất bại");
+    public void onDuplicateUsername() {
+        emptyFieldsLabel.setVisible(false);
+        passwordTooShortLabel.setVisible(false);
+        failedRegisterLabel.setVisible(false);
+        invalidInputLabel.setVisible(false);
+        duplicateUsernameLabel.setVisible(true);
     }
 
-    public void onDuplicateUsername() {
-        System.out.println("Trùng tên đăng kí");
+    public void onPasswordTooShort() {
+        emptyFieldsLabel.setVisible(false);
+        failedRegisterLabel.setVisible(false);
+        invalidInputLabel.setVisible(false);
+        duplicateUsernameLabel.setVisible(false);
+        passwordTooShortLabel.setVisible(true);
+    }
+
+    public void onRegisterFailure() {
+        emptyFieldsLabel.setVisible(false);
+        invalidInputLabel.setVisible(false);
+        duplicateUsernameLabel.setVisible(false);
+        passwordTooShortLabel.setVisible(false);
+        failedRegisterLabel.setVisible(true);
     }
 
     @FXML

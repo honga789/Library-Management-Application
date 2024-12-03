@@ -30,7 +30,10 @@ public class LoginController implements Initializable {
     private Label emptyFieldsLabel;
 
     @FXML
-    private Label invalidCredentialsLabel;
+    private Label failedLoginLabel;
+
+    @FXML
+    private Label incorrectLabel;
 
     @FXML
     public void handleLoginAction() {
@@ -40,22 +43,30 @@ public class LoginController implements Initializable {
         LoginService.login(username, password);
     }
 
-    public void onInvalidInput() {
-        invalidCredentialsLabel.setVisible(false);
-        emptyFieldsLabel.setVisible(true);
-    }
-
-    public void onLoginToMemberScene() {
+    public void onLoginToMemberScene(User user) {
         MainAppController.changeScene("views/members/MemberView.fxml");
     }
 
-    public void onLoginToAdminScene() {
+    public void onLoginToAdminScene(User user) {
         MainAppController.changeScene("views/admin/MemberView.fxml");
     }
 
-    public void onLoginFailure() {
+    public void onInvalidInput() {
+        incorrectLabel.setVisible(false);
+        failedLoginLabel.setVisible(false);
+        emptyFieldsLabel.setVisible(true);
+    }
+
+    public void onIncorrectInput() {
         emptyFieldsLabel.setVisible(false);
-        invalidCredentialsLabel.setVisible(true);
+        failedLoginLabel.setVisible(false);
+        incorrectLabel.setVisible(true);
+    }
+
+    public void onLoginFailure() {
+        incorrectLabel.setVisible(false);
+        emptyFieldsLabel.setVisible(false);
+        failedLoginLabel.setVisible(true);
     }
 
     @FXML
