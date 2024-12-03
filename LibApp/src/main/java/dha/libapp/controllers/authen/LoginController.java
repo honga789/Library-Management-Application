@@ -45,12 +45,11 @@ public class LoginController implements Initializable {
         emptyFieldsLabel.setVisible(true);
     }
 
-    public void onLoginToMemberScene(User user) {
+    public void onLoginToMemberScene() {
         MainAppController.changeScene("views/members/MemberView.fxml");
-        MemberHomeTabController.getInstance().onLoad(user);
     }
 
-    public void onLoginToAdminScene(User user) {
+    public void onLoginToAdminScene() {
         MainAppController.changeScene("views/admin/MemberView.fxml");
     }
 
