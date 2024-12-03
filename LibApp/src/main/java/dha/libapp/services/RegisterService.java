@@ -25,8 +25,12 @@ public class RegisterService {
             return;
         }
 
-        UserDAO.addNewUser(username, password, UserRole.MEMBER, fullName, phone, email);
-        RegisterController.getInstance().onRegisterSuccess();
+        try {
+            UserDAO.addNewUser(username, password, UserRole.MEMBER, fullName, phone, email);
+            RegisterController.getInstance().onRegisterSuccess();
+        } catch (Exception e) {
+            RegisterController.getInstance().onRegisterFailure();
+        }
     }
 
     private static boolean userExists(String username) {
