@@ -49,6 +49,7 @@ public class BookDAO {
                     genreList.add(GenreTypeDAO.getGenreTypeById(genreId));
                 }
             }
+
             book.setGenreList(genreList);
             return book;
         } catch (SQLException e) {
