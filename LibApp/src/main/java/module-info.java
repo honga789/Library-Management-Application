@@ -3,6 +3,9 @@ module dha.libapp {
     requires javafx.fxml;
     requires java.sql;
     requires jdk.compiler;
+    requires com.google.gson;
+    requires org.apache.httpcomponents.httpcore;
+    requires org.apache.httpcomponents.httpclient;
 
     opens dha.libapp.controllers.authen to javafx.fxml;
     opens dha.libapp.controllers.members to javafx.fxml;
