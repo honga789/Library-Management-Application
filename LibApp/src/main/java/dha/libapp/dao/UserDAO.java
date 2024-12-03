@@ -100,12 +100,10 @@ public class UserDAO {
         }
     }
 
-    public static boolean addNewUser(String userName, String password, UserRole role, String fullName, String phoneNumber, String email) {
+    public static void addNewUser(String userName, String password, UserRole role, String fullName, String phoneNumber, String email) throws Exception {
         String sql = "INSERT INTO User(user_name, password, role, full_name, phone_number, email) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement preStm = DBUtil.getPrepareStatement(MainApp.getDbConnection(), sql, userName, password, role.toString(), fullName, phoneNumber, email)) {
-            return preStm.execute();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            preStm.execute();
         }
     }
 
