@@ -88,12 +88,15 @@ public class BookDAO {
     }
 
     public static void main(String[] args) {
+        System.out.println("get all book");
         List<Book> books = getAllBook();
         for (Book book : books) {
             System.out.println(book);
         }
-
         System.out.println();
+
+        System.out.println("get book by id");
         System.out.println(getBookById(1));
+        System.out.println();
     }
 }

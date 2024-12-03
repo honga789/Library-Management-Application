@@ -60,12 +60,15 @@ public class GenreTypeDAO {
     }
 
     public static void main(String[] args) {
+        System.out.println("get all genretype");
         List<GenreType> genreTypeList = getAllGenreType();
         for (GenreType genreType : genreTypeList) {
             System.out.println(genreType);
         }
-
         System.out.println();
+
+        System.out.println("get genretype by id");
         System.out.println(getGenreTypeById(1));
+        System.out.println();
     }
 }

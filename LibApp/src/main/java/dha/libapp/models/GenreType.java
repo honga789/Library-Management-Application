@@ -48,9 +48,11 @@ public class GenreType {
     }
 
     public String toString() {
-        return "genreId: " + genreId + "\n"
-                + "genreName: " + genreName + "\n"
-                + "weight: " + weight;
+        return  "["
+                + "genreId: " + genreId + ", "
+                + "genreName: " + genreName + ", "
+                + "weight: " + weight
+                + "]";
     }
 
     public void displayInfo() {

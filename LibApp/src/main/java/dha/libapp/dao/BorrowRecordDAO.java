@@ -50,7 +50,8 @@ public class BorrowRecordDAO {
 
     public static BorrowRecord getBorrowRecordById(int borrow_id) {
         String sql = "SELECT * FROM Borrow_record WHERE borrow_id = ?";
-        try (PreparedStatement preparedStatement = DBUtil.getPrepareStatement(MainApp.getDbConnection(), sql, borrow_id);
+        try (PreparedStatement preparedStatement = DBUtil.getPrepareStatement(MainApp.getDbConnection(),
+                sql, borrow_id);
             ResultSet resultSet = preparedStatement.executeQuery()) {
 
             if (resultSet.next()) {
@@ -63,13 +64,91 @@ public class BorrowRecordDAO {
         }
     }
 
+    public static List<BorrowRecord> getAllBorrowRecordsByUserId(int user_id) {
+        List<BorrowRecord> borrowRecordList = new ArrayList<>();
+        String sql = "SELECT * FROM Borrow_record WHERE user_id = ?";
+
+        try (PreparedStatement preparedStatement = DBUtil.getPrepareStatement(MainApp.getDbConnection(),
+                sql, user_id);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            while (resultSet.next()) {
+                borrowRecordList.add(getBorrowRecordFromResultSet(resultSet));
+            }
+            return borrowRecordList;
+        } catch (SQLException e) {
+            System.out.println("Error when get borrowrecord by user_id");
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static List<BorrowRecord> getAllBorrowRecordsByStatus(BorrowStatus status) {
+        List<BorrowRecord> borrowRecordList = new ArrayList<>();
+        String sql = "SELECT * FROM Borrow_record WHERE status = ?";
+
+        try (PreparedStatement preparedStatement = DBUtil.getPrepareStatement(MainApp.getDbConnection(),
+                sql, status.toString());
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            while (resultSet.next()) {
+                borrowRecordList.add(getBorrowRecordFromResultSet(resultSet));
+            }
+            return borrowRecordList;
+        } catch (SQLException e) {
+            System.out.println("Error when get borrowrecord by status");
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static List<BorrowRecord> getAllBorrowRecordsByUserIdAndStatus(int user_id, BorrowStatus status) {
+        List<BorrowRecord> borrowRecordList = new ArrayList<>();
+        String sql = "SELECT * FROM Borrow_record WHERE user_id = ? AND status = ?";
+
+        try (PreparedStatement preparedStatement = DBUtil.getPrepareStatement(MainApp.getDbConnection(),
+                sql, user_id, status.toString());
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            while (resultSet.next()) {
+                borrowRecordList.add(getBorrowRecordFromResultSet(resultSet));
+            }
+            return borrowRecordList;
+        } catch (SQLException e) {
+            System.out.println("Error when get borrowrecord by user_id and status");
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void main(String[] args) throws SQLException {
+        System.out.println("get all borrow records");
         List<BorrowRecord> borrowRecordList = getAllBorrowRecords();
         for (BorrowRecord borrowRecord : borrowRecordList) {
             System.out.println(borrowRecord);
         }
-
         System.out.println();
+
+        System.out.println("get all borrow records by id");
         System.out.println(getBorrowRecordById(1));
+        System.out.println();
+
+        System.out.println("get all borrow records by user_id");
+        borrowRecordList = getAllBorrowRecordsByUserId(1);
+        for (BorrowRecord borrowRecord : borrowRecordList) {
+            System.out.println(borrowRecord);
+        }
+        System.out.println();
+
+        System.out.println("get all borrow records by status");
+        borrowRecordList = getAllBorrowRecordsByStatus(BorrowStatus.BORROWED);
+        for (BorrowRecord borrowRecord : borrowRecordList) {
+            System.out.println(borrowRecord);
+        }
+        System.out.println();
+
+        System.out.println("get all borrow records by user_id and status");
+        borrowRecordList = getAllBorrowRecordsByUserIdAndStatus(1, BorrowStatus.BORROWED);
+        for (BorrowRecord borrowRecord : borrowRecordList) {
+            System.out.println(borrowRecord);
+        }
+        System.out.println();
     }
 }
