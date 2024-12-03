@@ -11,22 +11,22 @@
         <AnchorPane fx:id="tabContent" layoutX="215.0" layoutY="10.0" prefHeight="700.0" prefWidth="1050.0" style="-fx-background-color: #faf9fd; -fx-background-radius: 30;" />
         <VBox layoutY="125.0" prefHeight="366.0" prefWidth="214.0">
             <children>
-                <Button fx:id="btnHomeTab" mnemonicParsing="false" onMouseClicked="#switchToHomeTab" prefHeight="44.0" prefWidth="214.0" style="-fx-background-color: #00000000;" text="Home">
+                <Button mnemonicParsing="false" onMouseClicked="#switchToHomeTab" prefHeight="44.0" prefWidth="214.0" styleClass="navi-tab" stylesheets="@../../css/mainapp.css" text="Home">
                     <font>
                         <Font name="Monospaced Regular" size="19.0" />
                     </font>
                 </Button>
-                <Button fx:id="btnPendingTab" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#switchToBorrowPendingTab" prefHeight="44.0" prefWidth="214.0" style="-fx-background-color: #00000000;" text="Borrow Pending">
+                <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#switchToBorrowPendingTab" prefHeight="44.0" prefWidth="214.0" styleClass="navi-tab" stylesheets="@../../css/mainapp.css" text="Borrow Pending">
                     <font>
                         <Font name="Monospaced Regular" size="19.0" />
                     </font>
                 </Button>
-            <Button fx:id="btnBorrowedTab" layoutX="10.0" layoutY="54.0" mnemonicParsing="false" onMouseClicked="#switchToBorrowedTab" prefHeight="44.0" prefWidth="214.0" style="-fx-background-color: #00000000;" text="Borrowed">
+            <Button layoutX="10.0" layoutY="54.0" mnemonicParsing="false" onMouseClicked="#switchToBorrowedTab" prefHeight="44.0" prefWidth="214.0" styleClass="navi-tab" stylesheets="@../../css/mainapp.css" text="Borrowed">
                <font>
                   <Font name="Monospaced Regular" size="19.0" />
                </font>
             </Button>
-            <Button fx:id="btnReturnTab" layoutX="10.0" layoutY="98.0" mnemonicParsing="false" onMouseClicked="#switchToReturnedTab" prefHeight="44.0" prefWidth="214.0" style="-fx-background-color: #00000000;" text="Returned">
+            <Button layoutX="10.0" layoutY="98.0" mnemonicParsing="false" onMouseClicked="#switchToReturnedTab" prefHeight="44.0" prefWidth="214.0" styleClass="navi-tab" stylesheets="@../../css/mainapp.css" text="Returned">
                <font>
                   <Font name="Monospaced Regular" size="19.0" />
                </font>

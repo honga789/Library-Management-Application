@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<AnchorPane prefHeight="720.0" prefWidth="1275.0" style="-fx-background-radius: 30;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dha.libapp.controllers.admin.AdminViewController">
+    <children>
+        <AnchorPane fx:id="tabContent" layoutX="215.0" layoutY="10.0" prefHeight="700.0" prefWidth="1050.0" style="-fx-background-color: #faf9fd; -fx-background-radius: 30;" />
+        <VBox layoutY="125.0" prefHeight="366.0" prefWidth="214.0">
+            <children>
+                <Button fx:id="btnHomeTab" mnemonicParsing="false" onMouseClicked="#switchToHomeTab" prefHeight="44.0" prefWidth="214.0" style="-fx-background-color: #00000000;" text="Home">
+                    <font>
+                        <Font name="Monospaced Regular" size="19.0" />
+                    </font>
+                </Button>
+                <Button fx:id="btnManageUserTab" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#switchToManageUserTab" prefHeight="44.0" prefWidth="214.0" style="-fx-background-color: #00000000;" text="User Manager">
+                    <font>
+                        <Font name="Monospaced Regular" size="19.0" />
+                    </font>
+                </Button>
+                <Button fx:id="btnManageDocumentTab" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#switchToManageDocumentTab" prefHeight="44.0" prefWidth="214.0" style="-fx-background-color: #00000000;" text="Document Manager">
+                    <font>
+                        <Font name="Monospaced Regular" size="19.0" />
+                    </font>
+                </Button>
+                <Button fx:id="btnReturnRequestTab" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#switchToReturnRequestTab" prefHeight="44.0" prefWidth="214.0" style="-fx-background-color: #00000000;" text="Return Request">
+                    <font>
+                        <Font name="Monospaced Regular" size="19.0" />
+                    </font>
+                </Button>
+                <Button fx:id="btnBorrowRequestTab" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#switchToBorrowRequestTab" prefHeight="44.0" prefWidth="214.0" style="-fx-background-color: #00000000;" text="Borrow Request">
+                    <font>
+                        <Font name="Monospaced Regular" size="19.0" />
+                    </font>
+                </Button>
+                <Button fx:id="btnApproveRequestTab" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#switchToApproveRequestTab" prefHeight="44.0" prefWidth="214.0" style="-fx-background-color: #00000000;" text="Approve Request">
+                    <font>
+                        <Font name="Monospaced Regular" size="19.0" />
+                    </font>
+                </Button>
+
+            </children>
+        </VBox>
+        <Label layoutX="19.0" layoutY="65.0" prefHeight="32.0" prefWidth="175.0" text="DHA Library" textFill="WHITE">
+            <font>
+                <Font name="Arial Bold" size="26.0" />
+            </font>
+        </Label>
+    </children>
+</AnchorPane>
