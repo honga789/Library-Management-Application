@@ -107,5 +107,7 @@ public class GoogleBooksAPI {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        // Shut down the ExecutorService after the task is done
+        executorService.shutdown();
     }
 }
