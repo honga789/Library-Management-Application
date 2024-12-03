@@ -138,16 +138,18 @@ public class Book {
     }
 
     public String toString() {
-        return "bookId: " + bookId + "\n"
-                + "ISBN: " + ISBN + "\n"
-                + "Title: " + title + "\n"
-                + "Author: " + author + "\n"
-                + "Publisher: " + publisher + "\n"
-                + "Publication Date: " + publicationDate + "\n"
-                + "Quantity: " + quantity + "\n"
-                + "Description: " + description + "\n"
-                + "Cover Image: " + coverImagePath + "\n"
-                + "GenreList: " + genreList;
+        return  "Book: [\n"
+                + "bookId: " + bookId + ",\n"
+                + "ISBN: " + ISBN + ",\n"
+                + "Title: " + title + ",\n"
+                + "Author: " + author + ",\n"
+                + "Publisher: " + publisher + ",\n"
+                + "Publication Date: " + publicationDate + ",\n"
+                + "Quantity: " + quantity + ",\n"
+                + "Description: " + description + ",\n"
+                + "Cover Image: " + coverImagePath + ",\n"
+                + "GenreList: " + genreList
+                + "\n]";
     }
 
     public void displayInfo() {
