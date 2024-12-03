@@ -16,9 +16,9 @@ public class LoginService {
 
         if (user != null) {
             if (user.getRole().equals(UserRole.MEMBER)) {
-                LoginController.getInstance().onLoginSuccess();
+                LoginController.getInstance().onLoginToMemberScene(user);
             } else if (user.getRole().equals(UserRole.ADMIN)) {
-                LoginController.getInstance().onLoginSuccess();
+                LoginController.getInstance().onLoginToAdminScene(user);
             }
         } else {
             LoginController.getInstance().onLoginFailure();
