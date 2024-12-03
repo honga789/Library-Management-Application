@@ -1,5 +1,6 @@
 package dha.libapp.controllers.authen;
 
+import dha.libapp.MainApp;
 import dha.libapp.MainAppController;
 import dha.libapp.services.LoginService;
 import javafx.fxml.FXML;
@@ -44,7 +45,7 @@ public class LoginController implements Initializable {
     }
 
     public void onLoginSuccess() {
-        MainAppController.changeScene("views/mainPage/Home.fxml");
+        MainAppController.changeScene("views/members/View.fxml");
     }
 
     public void onLoginFailure() {
