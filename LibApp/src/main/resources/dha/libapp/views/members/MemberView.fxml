@@ -6,41 +6,36 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane
-        prefHeight="720.0"
-        prefWidth="1275.0"
-        style="-fx-background-radius: 30;"
-        xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-        fx:controller="dha.libapp.controllers.members.MemberViewController"
->
+<AnchorPane prefHeight="720.0" prefWidth="1275.0" style="-fx-background-radius: 30;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dha.libapp.controllers.members.MemberViewController">
     <children>
         <AnchorPane fx:id="tabContent" layoutX="215.0" layoutY="10.0" prefHeight="700.0" prefWidth="1050.0" style="-fx-background-color: #faf9fd; -fx-background-radius: 30;" />
-        <VBox layoutY="125.0" prefHeight="216.0" prefWidth="214.0">
+        <VBox layoutY="125.0" prefHeight="366.0" prefWidth="214.0">
             <children>
-                <Button
-                        onMouseClicked="#switchToHomeTab"
-                        mnemonicParsing="false" prefHeight="44.0" prefWidth="214.0"
-                        style="-fx-background-color: #00000000;" text="Home" textFill="WHITE"
-                >
+                <Button fx:id="btnHomeTab" mnemonicParsing="false" onMouseClicked="#switchToHomeTab" prefHeight="44.0" prefWidth="214.0" style="-fx-background-color: #00000000;" text="Home">
                     <font>
                         <Font name="Monospaced Regular" size="19.0" />
                     </font>
                 </Button>
-                <Button
-                        onMouseClicked="#switchToBorrowTab"
-                        layoutX="10.0" layoutY="10.0" mnemonicParsing="false"
-                        prefHeight="44.0" prefWidth="214.0"
-                        style="-fx-background-color: #00000000;" text="Borrowing"
-                >
+                <Button fx:id="btnPendingTab" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#switchToBorrowPendingTab" prefHeight="44.0" prefWidth="214.0" style="-fx-background-color: #00000000;" text="Borrow Pending">
                     <font>
                         <Font name="Monospaced Regular" size="19.0" />
                     </font>
                 </Button>
+            <Button fx:id="btnBorrowedTab" layoutX="10.0" layoutY="54.0" mnemonicParsing="false" onMouseClicked="#switchToBorrowedTab" prefHeight="44.0" prefWidth="214.0" style="-fx-background-color: #00000000;" text="Borrowed">
+               <font>
+                  <Font name="Monospaced Regular" size="19.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnReturnTab" layoutX="10.0" layoutY="98.0" mnemonicParsing="false" onMouseClicked="#switchToReturnedTab" prefHeight="44.0" prefWidth="214.0" style="-fx-background-color: #00000000;" text="Returned">
+               <font>
+                  <Font name="Monospaced Regular" size="19.0" />
+               </font>
+            </Button>
             </children>
         </VBox>
         <Label layoutX="19.0" layoutY="65.0" prefHeight="32.0" prefWidth="175.0" text="DHA Library" textFill="WHITE">
             <font>
-                <Font name="Monospaced Bold" size="26.0" />
+                <Font name="Arial Bold" size="26.0" />
             </font>
         </Label>
     </children>

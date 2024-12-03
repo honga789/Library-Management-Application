@@ -22,5 +22,6 @@ public class SessionService {
 
     public void setUser(User user) {
         this.user = user;
+        System.out.println("Login OK");
     }
 }

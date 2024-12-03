@@ -7,8 +7,9 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane xmlns="http://javafx.com/javafx"
-            prefHeight="400.0" prefWidth="600.0">
+            xmlns:fx="http://javafx.com/fxml"
+            layoutX="0" layoutY="0" prefHeight="700.0" prefWidth="1050.0">
 
-    <Label> This is borrowing tab </Label>
+        <Label> Returned </Label>
 
 </AnchorPane>

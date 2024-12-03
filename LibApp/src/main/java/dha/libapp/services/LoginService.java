@@ -20,6 +20,9 @@ public class LoginService {
             User user = UserDAO.getUserByUsernameAndPassword(username, hashedPassword);
 
             if (user != null) {
+
+                SessionService.getInstance().setUser(user);
+
                 if (user.getRole().equals(UserRole.MEMBER)) {
                     LoginController.getInstance().onLoginToMemberScene(user);
                 } else if (user.getRole().equals(UserRole.ADMIN)) {
