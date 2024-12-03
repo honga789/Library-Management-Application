@@ -12,7 +12,6 @@ module dha.libapp {
 
     opens dha.libapp.views to javafx.fxml;
     opens dha.libapp.views.authen to javafx.fxml;
-    opens dha.libapp.views.mainPage to javafx.fxml;
     opens dha.libapp.views.members to javafx.fxml;
     opens dha.libapp.views.members.tabs to javafx.fxml;
 

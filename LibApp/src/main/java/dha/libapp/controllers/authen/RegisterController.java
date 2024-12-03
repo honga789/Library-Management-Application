@@ -66,29 +66,24 @@ public class RegisterController implements Initializable {
 //        }
     }
 
-    @FXML
     public void onEmptyInput() {
         invalidInputLabel.setVisible(false);
         emptyFieldsLabel.setVisible(true);
     }
 
-    @FXML
     public void onInvalidInput() {
         emptyFieldsLabel.setVisible(false);
         invalidInputLabel.setVisible(true);
     }
 
-    @FXML
     public void onRegisterSuccess() {
         MainAppController.changeScene("views/authen/Login.fxml");
     }
 
-    @FXML
     public void onRegisterFailure() {
         System.out.println("Đăng kí thất bại");
     }
 
-    @FXML
     public void onDuplicateUsername() {
         System.out.println("Trùng tên đăng kí");
     }
