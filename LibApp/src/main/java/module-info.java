@@ -4,7 +4,6 @@ module dha.libapp {
     requires java.sql;
     requires jdk.compiler;
 
-    opens dha.libapp.controllers to javafx.fxml;
     opens dha.libapp.controllers.authen to javafx.fxml;
     opens dha.libapp.controllers.members to javafx.fxml;
     opens dha.libapp.controllers.members.tabs to javafx.fxml;
