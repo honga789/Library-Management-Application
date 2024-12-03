@@ -48,22 +48,6 @@ public class RegisterController implements Initializable {
         String email = emailField.getText();
 
         RegisterService.register(username, password, fullName, phone, email);
-//        emptyFieldsLabel.setVisible(false);
-//        invalidInputLabel.setVisible(false);
-//
-//        if (username.isEmpty() || password.isEmpty() ||
-//                fullName.isEmpty() || phone.isEmpty() || email.isEmpty()) {
-//
-//            invalidInputLabel.setVisible(false);
-//            emptyFieldsLabel.setVisible(true);
-//        } else if (!isValidEmail(email) || !isValidPhone(phone)) {
-//            emptyFieldsLabel.setVisible(false);
-//            invalidInputLabel.setVisible(true);
-//        } else if (registerService.registerUser(username, password, fullName, phone, email)) {
-//            MainAppController.changeScene("views/authen/Login.fxml");
-//        } else {
-//            System.out.println("Đăng kí thất bại");
-//        }
     }
 
     public void onEmptyInput() {
