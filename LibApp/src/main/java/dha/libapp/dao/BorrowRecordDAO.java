@@ -31,7 +31,7 @@ public class BorrowRecordDAO {
         }
     }
 
-    public static List<BorrowRecord> getAllBorrowRecords() throws SQLException {
+    public static List<BorrowRecord> getAllBorrowRecords()  {
         List<BorrowRecord> borrowRecordList = new ArrayList<>();
         String sql = "SELECT * FROM Borrow_record";
 
@@ -118,7 +118,7 @@ public class BorrowRecordDAO {
         }
     }
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
         System.out.println("get all borrow records");
         List<BorrowRecord> borrowRecordList = getAllBorrowRecords();
         for (BorrowRecord borrowRecord : borrowRecordList) {
