@@ -5,21 +5,21 @@ public class User {
     private int userId;
     private String userName;
     private String password;
-    private UserRole role;
     private String fullName;
     private String phoneNumber;
+    private UserRole role;
     private String email;
 
     public User() {
     }
 
-    public User(int userId, String userName, String password, UserRole role, String fullName, String phoneNumber, String email) {
+    public User(int userId, String userName, String password, String fullName, String phoneNumber, UserRole role, String email) {
         this.userId = userId;
         this.userName = userName;
         this.password = password;
-        this.role = role;
         this.fullName = fullName;
         this.phoneNumber = phoneNumber;
+        this.role = role;
         this.email = email;
     }
 
@@ -84,5 +84,20 @@ public class User {
     public User setEmail(String email) {
         this.email = email;
         return this;
+    }
+
+    public String toString() {
+        return "User: [\n"
+                + "userId = " + userId + ",\n"
+                + "userName = " + userName + ",\n"
+                + "password = " + password + ",\n"
+                + "fullName = " + fullName + ",\n"
+                + "phoneNumber = " + phoneNumber + ",\n"
+                + "role = " + role + ",\n"
+                + "email = " + email + "\n]";
+    }
+
+    public void displayInfo() {
+        System.out.println(this.toString());
     }
 }

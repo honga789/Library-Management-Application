@@ -216,4 +216,8 @@ public class UserDAO {
             throw new RuntimeException(e);
         }
     }
+
+    public static void main(String[] args) {
+
+    }
 }
