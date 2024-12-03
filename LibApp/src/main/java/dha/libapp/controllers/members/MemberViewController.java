@@ -2,7 +2,6 @@ package dha.libapp.controllers.members;
 
 import dha.libapp.MainApp;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
@@ -10,7 +9,7 @@ import javafx.scene.layout.AnchorPane;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ViewController implements Initializable {
+public class MemberViewController implements Initializable {
 
     @FXML
     private AnchorPane tabContent;
@@ -23,16 +22,16 @@ public class ViewController implements Initializable {
 
     @FXML
     public void switchToHomeTab() {
-        switchTab("views/members/tabs/Home.fxml");
+        switchTab("views/members/tabs/MemberHomeTab.fxml");
     }
 
     @FXML
     public void switchToBorrowTab() {
-        switchTab("views/members/tabs/Borrowing.fxml");
+        switchTab("views/members/tabs/MemberBorrowingTab.fxml");
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        switchTab("views/members/tabs/Home.fxml");
+        switchTab("views/members/tabs/MemberHomeTab.fxml");
     }
 }

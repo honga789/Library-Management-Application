@@ -1,7 +1,7 @@
 package dha.libapp.controllers.authen;
 
 import dha.libapp.MainAppController;
-import dha.libapp.controllers.members.tabs.HomeController;
+import dha.libapp.controllers.members.tabs.MemberHomeTabController;
 import dha.libapp.models.User;
 import dha.libapp.services.LoginService;
 import javafx.fxml.FXML;
@@ -46,12 +46,12 @@ public class LoginController implements Initializable {
     }
 
     public void onLoginToMemberScene(User user) {
-        MainAppController.changeScene("views/members/View.fxml");
-        HomeController.getInstance().onLoad(user);
+        MainAppController.changeScene("views/members/MemberView.fxml");
+        MemberHomeTabController.getInstance().onLoad(user);
     }
 
     public void onLoginToAdminScene(User user) {
-        MainAppController.changeScene("views/admin/View.fxml");
+        MainAppController.changeScene("views/admin/MemberView.fxml");
     }
 
     public void onLoginFailure() {
