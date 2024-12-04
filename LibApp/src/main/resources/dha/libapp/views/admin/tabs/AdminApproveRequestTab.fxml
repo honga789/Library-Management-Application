@@ -30,22 +30,22 @@
                                             <Cursor fx:constant="HAND" />
                                         </cursor>
                                     </Button>
-                                    <Label fx:id="bookDetailDescription" layoutX="24.0" layoutY="378.0" prefWidth="240.0" text="Book Title: The title of book" wrapText="true">
+                                    <Label fx:id="bookDetailDescription" layoutX="24.0" layoutY="378.0" prefHeight="27.0" prefWidth="335.0" text="Book Title: The title of book" wrapText="true">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                                    <Label fx:id="bookDetailAuthor" alignment="CENTER" contentDisplay="CENTER" layoutX="25.0" layoutY="336.0" prefHeight="27.0" prefWidth="221.0" text="User Full Name: Full name" textAlignment="CENTER">
+                                    <Label fx:id="bookDetailAuthor" contentDisplay="CENTER" layoutX="25.0" layoutY="336.0" prefHeight="27.0" prefWidth="334.0" text="User Full Name: Full name" textAlignment="CENTER">
                                         <font>
                                             <Font name="System Bold" size="18.0" />
                                         </font>
                                     </Label>
-                                    <Label fx:id="bookDetailName" alignment="CENTER" contentDisplay="CENTER" layoutX="24.0" layoutY="290.0" prefHeight="27.0" prefWidth="135.0" text="User ID: User ID" textAlignment="CENTER" wrapText="true">
+                                    <Label fx:id="bookDetailName" contentDisplay="CENTER" layoutX="24.0" layoutY="290.0" prefHeight="27.0" prefWidth="334.0" text="User ID: User ID" textAlignment="CENTER" wrapText="true">
                                         <font>
                                             <Font name="System Bold" size="18.0" />
                                         </font>
                                     </Label>
-                        <Label layoutX="24.0" layoutY="424.0" text="Book Author: Author of the book">
+                        <Label layoutX="24.0" layoutY="424.0" prefHeight="27.0" prefWidth="335.0" text="Book Author: Author of the book">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>

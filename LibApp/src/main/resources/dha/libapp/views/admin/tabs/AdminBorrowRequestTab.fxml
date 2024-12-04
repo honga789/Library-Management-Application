@@ -1,16 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="dha.libapp.controllers.admin.tabs.AdminBorrowRequestController"
-            prefHeight="400.0" prefWidth="600.0">
-    <Label alignment="CENTER" contentDisplay="CENTER" prefWidth="260.0" text="Cam nang pho chong dich 2023 - 2024 Cam nang pho chong dich 2023 - 2024" textAlignment="CENTER" wrapText="true">
+<AnchorPane layoutX="0" layoutY="0" prefHeight="700.0" prefWidth="1050.0" style="-fx-padding: 0;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dha.libapp.controllers.admin.tabs.AdminBorrowRequestController">
+    <children>
+        <Button mnemonicParsing="false" prefHeight="700.0" prefWidth="1050.0" style="-fx-background-color: red; -fx-background-radius: 30; -fx-padding: 0;">
+            <graphic>
+                <AnchorPane prefHeight="700.0" prefWidth="1050.0" style="-fx-background-color: green; -fx-background-radius: 30;">
+                    <children>
+                        <AnchorPane layoutX="690.0" prefHeight="700.0" prefWidth="360.0" style="-fx-background-color: pink; -fx-background-radius: 0 25 25 0;">
+                            <children>
+                                <Label fx:id="userFullName" alignment="CENTER" contentDisplay="CENTER" layoutX="104.0" layoutY="43.0" prefHeight="20.0" prefWidth="152.0" text="Trinh Tran Anh Duy" textAlignment="RIGHT" wrapText="true">
+                                    <font>
+                                        <Font name="System Bold" size="14.0" />
+                                    </font></Label>
+                                <Pane prefHeight="200.0" prefWidth="200.0" />
+                                <Button layoutX="117.0" layoutY="499.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="110.0" style="-fx-background-color: #7AE582; -fx-background-radius: 15; -fx-cursor: hand;" styleClass="button-borrow" stylesheets="@../../../css/hometab.css" text="Accept">
+                                    <cursor>
+                                        <Cursor fx:constant="HAND" />
+                                    </cursor>
+                                </Button>
+                                <Label fx:id="bookDetailDescription" layoutX="24.0" layoutY="378.0" prefHeight="27.0" prefWidth="337.0" text="Book Title: The title of book" wrapText="true">
+                                    <font>
+                                        <Font name="System Bold" size="18.0" />
+                                    </font>
+                                </Label>
+                                <Label fx:id="bookDetailAuthor" alignment="TOP_LEFT" contentDisplay="CENTER" layoutX="22.0" layoutY="336.0" prefHeight="27.0" prefWidth="337.0" text="User Full Name: Full name" textAlignment="CENTER">
+                                    <font>
+                                        <Font name="System Bold" size="18.0" />
+                                    </font>
+                                </Label>
+                                <Label fx:id="bookDetailName" contentDisplay="CENTER" layoutX="24.0" layoutY="290.0" prefHeight="27.0" prefWidth="337.0" text="User ID: User ID" textAlignment="CENTER" wrapText="true">
+                                    <font>
+                                        <Font name="System Bold" size="18.0" />
+                                    </font>
+                                </Label>
+                                <Label layoutX="24.0" layoutY="424.0" prefHeight="27.0" prefWidth="338.0" text="Book Author: Author of the book">
+                                    <font>
+                                        <Font name="System Bold" size="18.0" />
+                                    </font>
+                                </Label>
+                                <Label layoutX="104.0" layoutY="213.0" text="Information">
+                                    <font>
+                                        <Font name="System Bold" size="24.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="700.0" prefWidth="690.0" style="-fx-background-radius: 30 0 0 30; -fx-background-color: lightblue;">
+                            <children>
+                                <ListView fx:id="pendingListView" layoutX="31.0" layoutY="131.0" prefHeight="478.0" prefWidth="628.0" />
+                                <Label layoutX="237.0" layoutY="71.0" text="Borrow Request">
+                                    <font>
+                                        <Font name="System Bold" size="24.0" />
+                                    </font>
+                                </Label>
+                            </children></AnchorPane>
+                        <Button layoutX="957.0" layoutY="20.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: #fff; -fx-background-radius: 20;">
+                            <effect>
+                                <DropShadow height="15.0" offsetX="5.0" offsetY="5.0" radius="7.0" width="15.0">
+                                    <color>
+                                        <Color red="0.5899999737739563" green="0.5899999737739563" blue="0.5899999737739563" opacity="0.6118546724319458" />
+                                    </color>
+                                </DropShadow>
+                            </effect>
+                            <graphic>
+                                <ImageView fitHeight="37.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../../images/test_avt.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                    </children>
+                </AnchorPane>
+            </graphic>
+        </Button>
+    </children>
 
-    </Label>
 </AnchorPane>
