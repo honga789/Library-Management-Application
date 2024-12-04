@@ -141,4 +141,15 @@ public class BookSyncDAO {
         };
         DAOTaskRunner.executeTask(task, callback);
     }
+
+    public static void getTrendingBooksSync(int quantityToGet, DAOExecuteCallback<List<Book>> callback) {
+        Task<List<Book>> task = new Task<List<Book>>() {
+
+            @Override
+            protected List<Book> call() throws Exception {
+                return BookDAO.getTrendingBooks(quantityToGet);
+            }
+        };
+        DAOTaskRunner.executeTask(task, callback);
+    }
 }

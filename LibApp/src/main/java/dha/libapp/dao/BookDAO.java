@@ -43,7 +43,7 @@ public class BookDAO {
 
             ArrayList<GenreType> genreList = new ArrayList<>();
             String sql = "SELECT * FROM Book_genre_type WHERE book_id = ?";
-            try(PreparedStatement preparedStatement = DBUtil.getPrepareStatement(MainApp.getDbConnection(), sql, bookId);
+            try (PreparedStatement preparedStatement = DBUtil.getPrepareStatement(MainApp.getDbConnection(), sql, bookId);
                 ResultSet resultSet1 = preparedStatement.executeQuery()) {
 
                 while (resultSet1.next()) {
@@ -267,6 +267,28 @@ public class BookDAO {
             return books;
         } catch (Exception e) {
             System.out.println("Error when search book by title");
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static List<Book> getTrendingBooks(int quantityToGet) {
+        List<Book> books = new ArrayList<>();
+        String sql = "SELECT b.*, COUNT(br.book_id) AS num "
+                    + "FROM Borrow_record br JOIN Book b ON br.book_id = b.book_id "
+                    + "WHERE b.quantity > 0 GROUP BY br.book_id ORDER BY num DESC LIMIT ?";
+
+        try (PreparedStatement preparedStatement = DBUtil.getPrepareStatement(MainApp.getDbConnection(), sql, quantityToGet);
+            ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            while (resultSet.next()) {
+                Book book = getBookFromResultSet(resultSet, false);
+                if (book != null) {
+                    books.add(book);
+                }
+            }
+            return books;
+        } catch (SQLException e) {
+            System.out.println("Error when get trending books");
             throw new RuntimeException(e);
         }
     }
