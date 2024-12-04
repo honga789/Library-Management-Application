@@ -4,19 +4,13 @@ import dha.libapp.MainApp;
 import dha.libapp.models.Book;
 import dha.libapp.models.GenreType;
 import dha.libapp.utils.Database.DBUtil;
-import dha.libapp.utils.DateTime.FormatDateToMySQL;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import static org.apache.http.client.utils.DateUtils.parseDate;
 
 public class BookDAO {
     public final static int INVALID_QUANTITY = -1;
@@ -77,7 +71,10 @@ public class BookDAO {
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
             while (resultSet.next()) {
-                books.add(getBookFromResultSet(resultSet, false));
+                Book book = getBookFromResultSet(resultSet, false);
+                if (book != null) {
+                    books.add(book);
+                }
             }
             return books;
         } catch (Exception e) {
@@ -158,8 +155,7 @@ public class BookDAO {
                 + "quantity, description, cover_image_path) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement prepareStatement = DBUtil.getPrepareStatement(MainApp.getDbConnection(),
-                sql, ISBN, title, author, publisher, FormatDateToMySQL.formatDateToMySQL(publicationDate),
-                quantity, description, coverImagePath);) {
+                sql, ISBN, title, author, publisher, publicationDate, quantity, description, coverImagePath)) {
 
             prepareStatement.executeUpdate();
             Book book = getBookByISBN(ISBN);
@@ -182,8 +178,7 @@ public class BookDAO {
                     + "WHERE book_id = ?";
 
         try (PreparedStatement preparedStatement = DBUtil.getPrepareStatement(MainApp.getDbConnection(),
-                sql, ISBN, title, author, publisher, FormatDateToMySQL.formatDateToMySQL(publicationDate),
-                quantity, description, coverImagePath, book_id);) {
+                sql, ISBN, title, author, publisher, publicationDate, quantity, description, coverImagePath, book_id)) {
 
             preparedStatement.executeUpdate();
             GenreTypeDAO.deleteGenreTypeFromBook(book_id);
@@ -203,8 +198,8 @@ public class BookDAO {
 
         try (PreparedStatement preparedStatement = DBUtil.getPrepareStatement(MainApp.getDbConnection(),
                 sql, book.getISBN(), book.getTitle(), book.getAuthor(), book.getPublisher(),
-                FormatDateToMySQL.formatDateToMySQL(book.getPublicationDate()), book.getQuantity(),
-                book.getDescription(), book.getCoverImagePath(), book.getBookId())) {
+                book.getPublicationDate(), book.getQuantity(), book.getDescription(),
+                book.getCoverImagePath(), book.getBookId())) {
 
             preparedStatement.executeUpdate();
             GenreTypeDAO.deleteGenreTypeFromBook(book.getBookId());
@@ -248,7 +243,10 @@ public class BookDAO {
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
             while (resultSet.next()) {
-                books.add(getBookFromResultSet(resultSet, false));
+                Book book = getBookFromResultSet(resultSet, false);
+                if (book != null) {
+                    books.add(book);
+                }
             }
 
             if (books.isEmpty()) {
@@ -259,7 +257,10 @@ public class BookDAO {
                     ResultSet resultSet1 = preparedStatement1.executeQuery()) {
 
                     while (resultSet1.next()) {
-                        books.add(getBookFromResultSet(resultSet1, false));
+                        Book book = getBookFromResultSet(resultSet1, false);
+                        if (book != null) {
+                            books.add(book);
+                        }
                     }
                 }
             }
