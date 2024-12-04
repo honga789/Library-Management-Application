@@ -31,6 +31,7 @@ public class GenreTypeDAO {
     public static List<GenreType> getAllGenreType() {
         List<GenreType> genreTypeList = new ArrayList<>();
         String sql = "SELECT * FROM Genre_type";
+
         try (PreparedStatement preparedStatement = DBUtil.getPrepareStatement(MainApp.getDbConnection(), sql);
             ResultSet resultSet = preparedStatement.executeQuery()) {
 
@@ -46,6 +47,7 @@ public class GenreTypeDAO {
 
     public static GenreType getGenreTypeById(int genre_id) {
         String sql = "SELECT * FROM Genre_type WHERE genre_id = ?";
+
         try (PreparedStatement preparedStatement = DBUtil.getPrepareStatement(MainApp.getDbConnection(), sql, genre_id);
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
@@ -59,16 +61,29 @@ public class GenreTypeDAO {
         }
     }
 
-    public static void main(String[] args) {
-        System.out.println("get all genretype");
-        List<GenreType> genreTypeList = getAllGenreType();
-        for (GenreType genreType : genreTypeList) {
-            System.out.println(genreType);
-        }
-        System.out.println();
+    public static void addGenreTypeToBook(int book_id, int genre_id) {
+        String sql = "INSERT INTO Book_genre_type(book_id, genre_id) VALUES(?,?)";
 
-        System.out.println("get genretype by id");
-        System.out.println(getGenreTypeById(1));
-        System.out.println();
+        try (PreparedStatement preparedStatement = DBUtil.getPrepareStatement(MainApp.getDbConnection(),
+                sql, book_id, genre_id);) {
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error when add genre type to Book");
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void deleteGenreTypeFromBook(int book_id) {
+        String sql = "DELETE FROM Book_genre_type WHERE book_id = ?";
+
+        try (PreparedStatement preparedStatement = DBUtil.getPrepareStatement(MainApp.getDbConnection(),
+                sql, book_id)) {
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error when delete genre type from Book");
+            throw new RuntimeException(e);
+        }
     }
 }
