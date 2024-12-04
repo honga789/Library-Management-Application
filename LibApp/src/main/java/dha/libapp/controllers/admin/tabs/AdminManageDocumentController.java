@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import dha.libapp.models.Book;
 import dha.libapp.models.GenreType;
+import dha.libapp.services.BookService;
 import javafx.fxml.FXML;
 import dha.libapp.dao.GenreTypeDAO;
 import dha.libapp.syncdao.BookSyncDAO;
@@ -136,7 +137,12 @@ public class AdminManageDocumentController {
             String isbn = isbnField.getText();
             String title = titleField.getText();
             String description = descriptionField.getText();
-            int quantity = Integer.parseInt(stockField.getText());
+            int quantity = 1;
+            try {
+                quantity = Integer.parseInt(stockField.getText());
+            } catch (NumberFormatException e) {
+
+            }
             String author = authorField.getText();
             String publisher = publisherField.getText();
             String publishDateString = publishedDateField.getText();
@@ -150,7 +156,7 @@ public class AdminManageDocumentController {
                 System.out.println("Invalid date format!");
                 e.printStackTrace();
             }
-            BookDAO.addNewBook(isbn,title,author,publisher, publishDate,quantity,description,imgUrl,selectedGenreTypeList);
+            //BookService.addBook();
         });
 
         //call api autofill

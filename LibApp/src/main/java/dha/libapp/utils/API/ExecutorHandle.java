@@ -23,6 +23,10 @@ public class ExecutorHandle {
     public void addTask(Runnable task) {
         executorService.submit(task);
     }
+    public void shutdownExecutorService() {
+        executorService.shutdown();
+    }
+
 
 //    public static Image getImage(String imageUrl) {
 //        List<Image> container = new ArrayList<>();
