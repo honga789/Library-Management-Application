@@ -4,18 +4,23 @@ import dha.libapp.models.Book;
 import dha.libapp.models.GenreType;
 import dha.libapp.services.admin.BookService;
 import dha.libapp.services.admin.UserService;
+import dha.libapp.syncdao.UserSyncDAO;
+import dha.libapp.syncdao.utils.DAOExecuteCallback;
 import dha.libapp.utils.API.ExecutorHandle;
 import dha.libapp.utils.API.GoogleBooks.BookFetchCallback;
 import dha.libapp.utils.API.GoogleBooks.GoogleBooksAPI;
 import dha.libapp.utils.API.GoogleBooks.GoogleBooksTask;
 import dha.libapp.models.User;
+import dha.libapp.utils.ListView.UserListView;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -23,15 +28,14 @@ import javafx.scene.text.Text;
 import javafx.stage.Popup;
 
 import java.awt.*;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-public class AdminManageUserController {
+public class AdminManageUserController implements Initializable {
 
     @FXML
     private javafx.scene.control.Button addUserButton;
@@ -40,9 +44,48 @@ public class AdminManageUserController {
     @FXML
     private Button editUserButton;
     private javafx.scene.control.Label editStatus = new javafx.scene.control.Label();
+
     @FXML
-    public void initialize() {
+    private Pane loadingPane;
+
+    @FXML
+    private ListView<User> manageUserListView;
+
+    private User selectedUser;
+
+    @FXML
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        System.out.println("user");
+
         initializeButton();
+
+        manageUserListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                User selected = (User) newValue;
+                System.out.println("Selected Book: " + selected.getClass().toString() + ": " + selected);
+                this.setBookDetailView(selected);
+                this.selectedUser = selected;
+            }
+        });
+
+        loadingPane.setVisible(true);
+        UserSyncDAO.getAllUserSync(new DAOExecuteCallback<List<User>>() {
+            @Override
+            public void onSuccess(List<User> result) {
+                loadingPane.setVisible(false);
+                UserListView.renderToListView(manageUserListView, result);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+    }
+
+    public void setBookDetailView(User user) {
+
     }
 
     private void initializeButton() {
@@ -215,7 +258,6 @@ public class AdminManageUserController {
 
         alert.showAndWait();
     }
-
     //text field
 
 }

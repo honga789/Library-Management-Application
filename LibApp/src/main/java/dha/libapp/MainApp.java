@@ -54,6 +54,7 @@ public class MainApp extends Application {
                         "jdbc:mysql://b0dhldnmrpv8rotqmh6y-mysql.services.clever-cloud.com/b0dhldnmrpv8rotqmh6y",
                         "uoxesvpdndreask6",
                         "LTpg5gRkVYgDyuiSKjt3");
+                
                 System.out.println(connection);
                 dbConnection = connection;
                 return null;
