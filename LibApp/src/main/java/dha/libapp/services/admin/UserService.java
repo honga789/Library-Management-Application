@@ -24,7 +24,6 @@ public class UserService {
 
     public interface UserCallback {
         void onSuccess(List<User> userList);
-
         void onFailure();
     }
 
@@ -137,7 +136,27 @@ public class UserService {
     }
 
     public void deleteUser(int userId) throws Exception {
-        
+        try {
+            UserSyncDAO.deleteUserByIdSync(userId, new DAOUpdateCallback() {
+
+                @Override
+                public void onSuccess() {
+                    System.out.println("User deleted successfully");
+                    //controller;
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    System.out.println("User deleted failed");
+                    throw new RuntimeException(e);
+                    //controller;
+                }
+            });
+        } catch (Exception e) {
+            System.out.println("User deleted failed");
+            throw new Exception(e);
+            //controller for error;
+        }
     }
 
     private static boolean userExists(String username) {
