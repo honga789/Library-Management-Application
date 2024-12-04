@@ -3,6 +3,8 @@ package dha.libapp.services.admin;
 import dha.libapp.dao.BorrowRecordDAO;
 import dha.libapp.models.BorrowRecord;
 import dha.libapp.models.BorrowStatus;
+import dha.libapp.syncdao.BorrowRecordSyncDAO;
+import dha.libapp.syncdao.utils.DAOUpdateCallback;
 import javafx.concurrent.Task;
 
 import java.sql.SQLException;
@@ -39,25 +41,19 @@ public class BorrowService {
         new Thread(task).start();
     }
     public void updateBorrowRecord(BorrowRecord borrowRecord) throws Exception {
-        Task<Void> task = new Task<>() {
+        DAOUpdateCallback callback = new DAOUpdateCallback() {
 
             @Override
-            protected Void call() throws Exception {
-                BorrowRecordDAO.updateBorrowRecord(borrowRecord);
-                return null;
+            public void onSuccess() {
+                System.out.println("update record success");
             }
 
             @Override
-            protected void succeeded() {
-                super.succeeded();
-            }
-
-            @Override
-            protected void failed() {
-                super.failed();
+            public void onError(Throwable e) {
+                throw new RuntimeException("error on update record",e);
             }
         };
-        new Thread(task).start();
+        BorrowRecordSyncDAO.updateBorrowRecordSync(borrowRecord, callback);
     }
 
 }
