@@ -22,11 +22,6 @@ public class UserService {
         return instance;
     }
 
-    public interface UserCallback {
-        void onSuccess(List<User> userList);
-        void onFailure();
-    }
-
     public void addUser(String userName, String password, String fullName,
                         String phoneNumber, String email) throws Exception {
         if (userName.isEmpty() || password.isEmpty() || fullName.isEmpty()
@@ -35,7 +30,7 @@ public class UserService {
                 || userName.length() > 50 || password.length() > 100 || fullName.length() > 100) {
 
             // controller for invalid
-            throw new RuntimeException("Invalid values");
+            throw new Exception("Invalid input");
         }
 
         try {
@@ -58,7 +53,7 @@ public class UserService {
                     });
         } catch (Exception e) {
             System.out.println("User added failed");
-            throw new Exception(e);
+            throw new Exception("User added failed");
             // controller for error.
         }
     }
@@ -70,7 +65,7 @@ public class UserService {
                 || !isValidPhone(phoneNumber) || password.length() > 50 || fullName.length() > 100) {
 
             // controller for invalid
-            throw new RuntimeException("Invalid values");
+            throw new RuntimeException("Invalid input");
         }
 
         try {
@@ -94,7 +89,7 @@ public class UserService {
                     });
         } catch (Exception e) {
             System.out.println("User update failed");
-            throw new Exception(e);
+            throw new Exception("User update failed");
             // controller for error
         }
     }
@@ -106,7 +101,7 @@ public class UserService {
                 || user.getFullName().length() > 100) {
 
             // controller for invalid
-            throw new RuntimeException("Invalid values");
+            throw new RuntimeException("Invalid input");
         }
 
         try {
@@ -130,7 +125,7 @@ public class UserService {
                     });
         } catch (Exception e) {
             System.out.println("User update failed");
-            throw new Exception(e);
+            throw new Exception("User update failed");
             // controller for error
         }
     }
@@ -154,7 +149,7 @@ public class UserService {
             });
         } catch (Exception e) {
             System.out.println("User deleted failed");
-            throw new Exception(e);
+            throw new Exception("User deleted failed");
             //controller for error;
         }
     }
