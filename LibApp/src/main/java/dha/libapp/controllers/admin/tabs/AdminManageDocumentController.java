@@ -7,10 +7,12 @@ import dha.libapp.models.Book;
 import dha.libapp.models.GenreType;
 import dha.libapp.models.User;
 import dha.libapp.services.admin.BookService;
+import dha.libapp.syncdao.utils.DAOUpdateCallback;
 import dha.libapp.utils.API.ExecutorHandle;
 import dha.libapp.utils.API.GoogleBooks.BookFetchCallback;
 import dha.libapp.utils.API.GoogleBooks.GoogleBooksAPI;
 import dha.libapp.utils.API.GoogleBooks.GoogleBooksTask;
+import dha.libapp.utils.ListView.BookListView;
 import javafx.fxml.FXML;
 import dha.libapp.dao.GenreTypeDAO;
 
@@ -29,6 +31,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
@@ -51,6 +54,9 @@ public class AdminManageDocumentController {
     @FXML
     private ListView<Book> bookListView;
 
+    @FXML
+    private Pane loadingPane;
+
     private Book selectedBook = null;
 
     @FXML
@@ -71,6 +77,20 @@ public class AdminManageDocumentController {
                 System.out.println("Selected Book: " + selected.getClass().toString() + ": " + selected);
                 this.setBookDetailView(selected);
                 this.selectedBook = selected;
+            }
+        });
+
+        loadingPane.setVisible(true);
+        BookSyncDAO.getAllBookSync(new DAOExecuteCallback<List<Book>>() {
+            @Override
+            public void onSuccess(List<Book> result) {
+                loadingPane.setVisible(false);
+                BookListView.renderToListView(bookListView, result);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
             }
         });
     }

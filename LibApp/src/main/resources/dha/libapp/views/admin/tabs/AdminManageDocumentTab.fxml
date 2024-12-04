@@ -74,6 +74,15 @@
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font></Button>
+                        <Pane fx:id="loadingPane" layoutX="31.0" layoutY="131.0" prefHeight="477.0" prefWidth="629.0" style="-fx-background-color: #fff;">
+                           <children>
+                              <Label alignment="CENTER" layoutX="261.0" layoutY="210.0" prefHeight="58.0" prefWidth="111.0" text="Loading">
+                                 <font>
+                                    <Font size="27.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
                   </children>
                </AnchorPane>
                <Button layoutX="957.0" layoutY="20.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: #fff; -fx-background-radius: 20;">
