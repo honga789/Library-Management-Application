@@ -4,6 +4,7 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
@@ -16,9 +17,9 @@
 
 <AnchorPane layoutX="0" layoutY="0" prefHeight="700.0" prefWidth="1050.0" style="-fx-padding: 0;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dha.libapp.controllers.members.tabs.MemberHomeTabController">
    <children>
-      <Button mnemonicParsing="false" prefHeight="700.0" prefWidth="1050.0" style="-fx-background-color: red; -fx-background-radius: 30; -fx-padding: 0;">
+      <Button mnemonicParsing="false" prefHeight="700.0" prefWidth="1050.0" style="-fx-background-color: #fff; -fx-background-radius: 30; -fx-padding: 0;">
          <graphic>
-            <AnchorPane prefHeight="700.0" prefWidth="1050.0" style="-fx-background-color: green; -fx-background-radius: 30;">
+            <AnchorPane prefHeight="700.0" prefWidth="1050.0" style="-fx-background-radius: 30;">
                <children>
                   <AnchorPane layoutX="690.0" prefHeight="700.0" prefWidth="360.0" style="-fx-background-color: pink; -fx-background-radius: 0 25 25 0;">
                      <children>
@@ -57,7 +58,17 @@
                         </ScrollPane>
                      </children>
                   </AnchorPane>
-                  <AnchorPane prefHeight="700.0" prefWidth="690.0" style="-fx-background-radius: 30 0 0 30; -fx-background-color: lightblue;" />
+                  <AnchorPane prefHeight="700.0" prefWidth="690.0" style="-fx-background-radius: 30 0 0 30;">
+                     <children>
+                        <AnchorPane layoutX="12.0" layoutY="104.0" prefHeight="587.0" prefWidth="667.0">
+                           <children>
+                              <Label layoutX="25.0" layoutY="3.0" prefHeight="17.0" prefWidth="120.0" text="Top Trending" />
+                              <ListView fx:id="topTrendingListView" layoutX="20.0" layoutY="22.0" prefHeight="254.0" prefWidth="631.0" style="-fx-background-color: #eee;" />
+                              <Label layoutX="17.0" layoutY="300.0" prefHeight="25.0" prefWidth="200.0" text="Recommendational Book for you" />
+                              <ListView fx:id="topTrendingListView1" layoutX="22.0" layoutY="325.0" prefHeight="253.0" prefWidth="628.0" style="-fx-background-color: #eee;" />
+                           </children>
+                        </AnchorPane>
+                     </children></AnchorPane>
                   <TextField layoutX="45.0" layoutY="20.0" prefHeight="60.0" prefWidth="570.0" promptText="Search book..." style="-fx-background-color: #fff; -fx-background-radius: 30; -fx-padding: 0 25;">
                      <effect>
                         <DropShadow height="15.0" offsetX="5.0" offsetY="5.0" radius="7.0" width="15.0">
