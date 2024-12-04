@@ -63,8 +63,7 @@ public class UserService {
             // controller for error.
         }
     }
-
-    public void UpdateUser(int userId, String password, String fullName, String phoneNumber,
+    public void updateUser(int userId, String password, String fullName, String phoneNumber,
                            String email) throws Exception {
         if (password.isEmpty() || fullName.isEmpty() || phoneNumber.isEmpty()
                 || email.isEmpty() || password.length() < 8 || !isValidEmail(email)
@@ -100,7 +99,7 @@ public class UserService {
         }
     }
 
-    
+    public
 
     private static boolean userExists(String username) {
         return UserDAO.getUserByUsername(username) != null;
