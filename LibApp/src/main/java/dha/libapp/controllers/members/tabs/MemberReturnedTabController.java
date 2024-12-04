@@ -2,7 +2,7 @@ package dha.libapp.controllers.members.tabs;
 
 import dha.libapp.models.Book;
 import dha.libapp.services.SessionService;
-import dha.libapp.services.members.tabs.MemberBorrowedTabService;
+import dha.libapp.services.members.tabs.MemberReturnedTabService;
 import dha.libapp.utils.ListView.BookListView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,10 +14,10 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class MemberBorrowedTabController implements Initializable {
-    private static MemberBorrowedTabController instance;
+public class MemberReturnedTabController implements Initializable {
+    private static MemberReturnedTabController instance;
 
-    public static MemberBorrowedTabController getInstance() {
+    public static MemberReturnedTabController getInstance() {
         return instance;
     }
 
@@ -25,7 +25,7 @@ public class MemberBorrowedTabController implements Initializable {
     private Label userFullName;
 
     @FXML
-    private ListView<Book> borrowedListView;
+    private ListView<Book> returnedListView;
 
     @FXML
     private Pane loadingPane;
@@ -47,9 +47,9 @@ public class MemberBorrowedTabController implements Initializable {
 
         userFullName.setText(SessionService.getInstance().getUser().getFullName());
 
-        MemberBorrowedTabService.renderBorrowedBooks();
+        MemberReturnedTabService.renderReturnedBooks();
 
-        borrowedListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        returnedListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 Book selected = (Book) newValue;
                 System.out.println("Selected Book: " + selected.getClass().toString() + ": " + selected);
@@ -58,8 +58,8 @@ public class MemberBorrowedTabController implements Initializable {
         });
     }
 
-    public void renderBorrowedBooks(List<Book> borrowedBooks) {
-        BookListView.renderToListView(borrowedListView, borrowedBooks);
+    public void renderReturnedBooks(List<Book> returnedBooks) {
+        BookListView.renderToListView(returnedListView, returnedBooks);
     }
 
     public void setBookDetailView(Book book) {
@@ -72,7 +72,7 @@ public class MemberBorrowedTabController implements Initializable {
         loadingPane.setVisible(visible);
     }
 
-    public void setBorrowedListViewVisible(boolean visible) {
-        borrowedListView.setVisible(visible);
+    public void setReturnedListViewVisible(boolean visible) {
+        returnedListView.setVisible(visible);
     }
 }
