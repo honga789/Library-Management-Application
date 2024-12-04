@@ -33,7 +33,7 @@
             </Button>
             </children>
         </VBox>
-        <Label layoutX="19.0" layoutY="65.0" prefHeight="32.0" prefWidth="175.0" text="DHA Library" textFill="WHITE">
+        <Label alignment="CENTER" layoutX="19.0" layoutY="65.0" prefHeight="32.0" prefWidth="175.0" text="DHA Library" textFill="#00a1ff">
             <font>
                 <Font name="Arial Bold" size="26.0" />
             </font>

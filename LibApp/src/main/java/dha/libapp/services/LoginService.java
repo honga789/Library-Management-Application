@@ -4,6 +4,8 @@ import dha.libapp.controllers.authen.LoginController;
 import dha.libapp.dao.UserDAO;
 import dha.libapp.models.User;
 import dha.libapp.models.UserRole;
+import dha.libapp.syncdao.UserSyncDAO;
+import dha.libapp.syncdao.utils.DAOExecuteCallback;
 
 import java.security.NoSuchAlgorithmException;
 
@@ -17,21 +19,30 @@ public class LoginService {
         try {
             String hashedPassword = PasswordService.hashPassword(password);
 
-            User user = UserDAO.getUserByUsernameAndPassword(username, hashedPassword);
+            LoginController.getInstance().setloginLoadingPaneVisible(true);
 
-            if (user != null) {
+            UserSyncDAO.getUserByUsernameAndPasswordSync(username, hashedPassword, new DAOExecuteCallback<User>() {
+                @Override
+                public void onSuccess(User user) {
+                    if (user != null) {
 
-                SessionService.getInstance().setUser(user);
+                        SessionService.getInstance().setUser(user);
 
-                if (user.getRole().equals(UserRole.MEMBER)) {
-                    LoginController.getInstance().onLoginToMemberScene(user);
-                } else if (user.getRole().equals(UserRole.ADMIN)) {
-                    LoginController.getInstance().onLoginToAdminScene(user);
+                        if (user.getRole().equals(UserRole.MEMBER)) {
+                            LoginController.getInstance().onLoginToMemberScene(user);
+                        } else if (user.getRole().equals(UserRole.ADMIN)) {
+                            LoginController.getInstance().onLoginToAdminScene(user);
+                        }
+                    } else {
+                        LoginController.getInstance().onIncorrectInput();
+                    }
                 }
-            } else {
-                LoginController.getInstance().onIncorrectInput();
-            }
 
+                @Override
+                public void onError(Throwable e) {
+                    LoginController.getInstance().onLoginFailure();
+                }
+            });
         } catch (Exception e) {
             LoginController.getInstance().onLoginFailure();
         }

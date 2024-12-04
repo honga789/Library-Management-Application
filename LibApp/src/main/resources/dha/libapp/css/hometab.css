@@ -1,0 +1,12 @@
+.loading-text {
+    -fx-font-size: 36px;
+    -fx-font-family: "Poppins", sans-serif;
+    -fx-font-weight: bold;
+    -fx-opacity: 0.8;
+}
+
+.loading-pane {
+    -fx-background-color: rgba(0, 0, 0, 0.1);
+}
+
+

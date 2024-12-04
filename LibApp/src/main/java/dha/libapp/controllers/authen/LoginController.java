@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
+import javafx.scene.layout.Pane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -34,6 +35,9 @@ public class LoginController implements Initializable {
 
     @FXML
     private Label incorrectLabel;
+
+    @FXML
+    private Pane loginLoadingPane;
 
     @FXML
     public void handleLoginAction() {
@@ -74,8 +78,13 @@ public class LoginController implements Initializable {
         MainAppController.changeScene("views/authen/Register.fxml");
     }
 
+    public void setloginLoadingPaneVisible(boolean visible) {
+        loginLoadingPane.setVisible(visible);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         instance = this;
+        setloginLoadingPaneVisible(false);
     }
 }

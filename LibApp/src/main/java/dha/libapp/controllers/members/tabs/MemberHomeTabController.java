@@ -6,6 +6,7 @@ import dha.libapp.services.SessionService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 
 import java.net.URL;
@@ -21,6 +22,18 @@ public class MemberHomeTabController implements Initializable {
     @FXML
     private Label userFullName;
 
+    @FXML
+    private ListView<String> trendingListView;
+
+    @FXML
+    private ListView<String> recommendationListView;
+
+    @FXML
+    private Label loadingTrendingListView;
+
+    @FXML
+    private Label loadingRecommendationListView;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         userFullName.setText(SessionService.getInstance().getUser().getFullName());
@@ -31,7 +44,7 @@ public class MemberHomeTabController implements Initializable {
 
         topTrendingListView.getItems().addAll(allStringBook);
 
-        topTrendingListView.setCellFactory(param -> new javafx.scene.control.ListCell<String>() {
+        topTrendingListView.setCellFactory(param -> new ListCell<String>() {
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
@@ -42,5 +55,17 @@ public class MemberHomeTabController implements Initializable {
                 }
             }
         });
+    }
+
+    public void setLoadingTrendingListViewVisible(boolean visible) {
+        if (!visible) {
+            loadingTrendingListView.setVisible(false);
+        }
+    }
+
+    public void setLoadingRecommendationListViewVisible(boolean visible) {
+        if (!visible) {
+            loadingRecommendationListView.setVisible(false);
+        }
     }
 }

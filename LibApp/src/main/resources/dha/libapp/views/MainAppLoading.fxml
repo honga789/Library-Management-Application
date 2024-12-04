@@ -4,10 +4,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="720.0" prefWidth="1275.0" style="-fx-background-radius: 30;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="498.0" layoutY="281.0" text="Loading">
+      <Label layoutX="436.0" layoutY="289.0" style="-fx-font-weight: bold; -fx-opacity: 0.8;" text="Loading...">
          <font>
             <Font size="96.0" />
          </font>

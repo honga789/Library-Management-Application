@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="dha.libapp.controllers.admin.tabs.AdminManageUserController"
-            prefHeight="400.0" prefWidth="600.0">
 
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dha.libapp.controllers.admin.tabs.AdminManageUserController">
+   <children>
+      <TableView layoutX="42.0" layoutY="56.0" prefHeight="287.0" prefWidth="516.0">
+        <columns>
+          <TableColumn maxWidth="50.0" prefWidth="40.0" text="ID" />
+            <TableColumn maxWidth="100.0" prefWidth="100.0" text="Full name" />
+            <TableColumn maxWidth="150.0" prefWidth="150.0" text="Phone number" />
+            <TableColumn maxWidth="150.0" prefWidth="150.0" text="Email" />
+            <TableColumn prefWidth="75.0" />
+        </columns>
+      </TableView>
+   </children>
 </AnchorPane>
