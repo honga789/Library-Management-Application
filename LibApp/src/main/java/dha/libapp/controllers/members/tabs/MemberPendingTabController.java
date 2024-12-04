@@ -2,7 +2,7 @@ package dha.libapp.controllers.members.tabs;
 
 import dha.libapp.models.Book;
 import dha.libapp.services.SessionService;
-import dha.libapp.services.members.tabs.MemberReturnedTabService;
+import dha.libapp.services.members.tabs.MemberPendingTabService;
 import dha.libapp.utils.API.ExecutorHandle;
 import dha.libapp.utils.API.Image.ImageAPI;
 import dha.libapp.utils.API.Image.ImageFetchCallback;
@@ -20,10 +20,10 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class MemberReturnedTabController implements Initializable {
-    private static MemberReturnedTabController instance;
+public class MemberPendingTabController implements Initializable {
+    private static MemberPendingTabController instance;
 
-    public static MemberReturnedTabController getInstance() {
+    public static MemberPendingTabController getInstance() {
         return instance;
     }
 
@@ -31,7 +31,7 @@ public class MemberReturnedTabController implements Initializable {
     private Label userFullName;
 
     @FXML
-    private ListView<Book> returnedListView;
+    private ListView<Book> pendingListView;
 
     @FXML
     private Pane loadingPane;
@@ -56,9 +56,9 @@ public class MemberReturnedTabController implements Initializable {
 
         userFullName.setText(SessionService.getInstance().getUser().getFullName());
 
-        MemberReturnedTabService.renderReturnedBooks();
+        MemberPendingTabService.renderPendingBooks();
 
-        returnedListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        pendingListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 Book selected = (Book) newValue;
                 System.out.println("Selected Book: " + selected.getClass().toString() + ": " + selected);
@@ -67,8 +67,8 @@ public class MemberReturnedTabController implements Initializable {
         });
     }
 
-    public void renderReturnedBooks(List<Book> returnedBooks) {
-        BookListView.renderToListView(returnedListView, returnedBooks);
+    public void renderPendingBooks(List<Book> pendingBooks) {
+        BookListView.renderToListView(pendingListView, pendingBooks);
     }
 
     public void setBookDetailView(Book book) {
@@ -95,7 +95,7 @@ public class MemberReturnedTabController implements Initializable {
         loadingPane.setVisible(visible);
     }
 
-    public void setReturnedListViewVisible(boolean visible) {
-        returnedListView.setVisible(visible);
+    public void setPendingListViewVisible(boolean visible) {
+        pendingListView.setVisible(visible);
     }
 }

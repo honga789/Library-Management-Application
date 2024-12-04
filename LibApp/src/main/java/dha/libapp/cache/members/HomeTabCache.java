@@ -17,8 +17,13 @@ public class HomeTabCache {
     }
 
     private final Cache<List<Book>> recommendationBookList = new Cache<>();
+    private final Cache<List<Book>> topTrendingBookList = new Cache<>();
 
     public Cache<List<Book>> getRecommendationBookList() {
         return recommendationBookList;
+    }
+
+    public Cache<List<Book>> getTopTrendingBookList() {
+        return topTrendingBookList;
     }
 }

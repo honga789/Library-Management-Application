@@ -1,8 +1,8 @@
 package dha.libapp.services.members.tabs;
 
 import dha.libapp.cache.Cache;
-import dha.libapp.cache.members.ReturnedTabCache;
-import dha.libapp.controllers.members.tabs.MemberReturnedTabController;
+import dha.libapp.cache.members.PendingTabCache;
+import dha.libapp.controllers.members.tabs.MemberPendingTabController;
 import dha.libapp.models.Book;
 import dha.libapp.models.BorrowRecord;
 import dha.libapp.services.SessionService;
@@ -14,26 +14,26 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
-public class MemberReturnedTabService {
-    public static void renderReturnedBooks() {
-        MemberReturnedTabController.getInstance().setReturnedListViewVisible(true);
+public class MemberPendingTabService {
+    public static void renderPendingBooks() {
+        MemberPendingTabController.getInstance().setPendingListViewVisible(true);
 
-        Cache<List<Book>> returnedCache = ReturnedTabCache.getInstance().getReturnedBookList();
+        Cache<List<Book>> pendingCache = PendingTabCache.getInstance().getPendingBookList();
 
-        if (returnedCache.isSaved()) {
-            MemberReturnedTabController.getInstance().setLoadingPaneVisible(false);
-            MemberReturnedTabController.getInstance().renderReturnedBooks(returnedCache.getData());
+        if (pendingCache.isSaved()) {
+            MemberPendingTabController.getInstance().setLoadingPaneVisible(false);
+            MemberPendingTabController.getInstance().renderPendingBooks(pendingCache.getData());
         } else {
             BorrowRecordSyncDAO.getAllBorrowRecordsByUserIdSync(SessionService.getInstance().getUser().getUserId(),
                     new DAOExecuteCallback<List<BorrowRecord>>() {
 
                         @Override
                         public void onSuccess(List<BorrowRecord> result) {
-                            List<BorrowRecord> returnedRecords = result.stream()
-                                    .filter(record -> record.getStatus().toString().equals("RETURNED"))
+                            List<BorrowRecord> borrowedRecords = result.stream()
+                                    .filter(record -> record.getStatus().toString().equals("PENDING"))
                                     .toList();
 
-                            List<CompletableFuture<Book>> bookFutures = returnedRecords.stream()
+                            List<CompletableFuture<Book>> bookFutures = borrowedRecords.stream()
                                     .map(record -> {
                                         CompletableFuture<Book> future = new CompletableFuture<>();
                                         BookSyncDAO.getBookByIdSync(record.getBookId(), new DAOExecuteCallback<Book>() {
@@ -57,11 +57,11 @@ public class MemberReturnedTabService {
                                                 .map(CompletableFuture::join)
                                                 .collect(Collectors.toList());
 
-                                        MemberReturnedTabController.getInstance().renderReturnedBooks(books);
-                                        returnedCache.setData(books);
+                                        MemberPendingTabController.getInstance().renderPendingBooks(books);
+                                        pendingCache.setData(books);
 
-                                        MemberReturnedTabController.getInstance().setLoadingPaneVisible(false);
-                                        MemberReturnedTabController.getInstance().setReturnedListViewVisible(true);
+                                        MemberPendingTabController.getInstance().setLoadingPaneVisible(false);
+                                        MemberPendingTabController.getInstance().setPendingListViewVisible(true);
                                     })
                                     .exceptionally(ex -> {
                                         ex.printStackTrace();
