@@ -113,7 +113,7 @@ public class UserDAO {
         try (PreparedStatement prepareStatement = DBUtil.getPrepareStatement(MainApp.getDbConnection(),
                 sql, userName, password, role.toString(), fullName, phoneNumber, email)) {
 
-            prepareStatement.execute();
+            prepareStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error when addNewUser...");
             throw new RuntimeException(e);
@@ -174,7 +174,7 @@ public class UserDAO {
         if (user == null) {
             return;
         }
-        
+
         deleteUserById(user.getUserId());
     }
 }

@@ -55,7 +55,7 @@ public class DeletedUserDAO {
         try (PreparedStatement preparedStatement = DBUtil.getPrepareStatement(MainApp.getDbConnection(),
                 sql, deleted_user_id, deleted_user_name)) {
 
-            preparedStatement.execute();
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error when addNewDeletedUser...");
             throw new RuntimeException(e);
