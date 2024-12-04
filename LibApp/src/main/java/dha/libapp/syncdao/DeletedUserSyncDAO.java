@@ -17,16 +17,4 @@ public class DeletedUserSyncDAO {
         };
         DAOTaskRunner.executeTask(task, callback);
     }
-
-    public static void addNewDeletedUserSync(int deleted_user_id, String deleted_user_name,
-                                             DAOUpdateCallback callback) {
-        Task<Void> task = new Task<>() {
-            @Override
-            protected Void call() throws Exception {
-                DeletedUserDAO.addNewDeletedUser(deleted_user_id, deleted_user_name);
-                return null;
-            }
-        };
-        DAOTaskRunner.updateTask(task, callback);
-    }
 }
