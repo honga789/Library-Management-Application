@@ -2,6 +2,7 @@ package dha.libapp.controllers.members;
 
 import dha.libapp.MainApp;
 import dha.libapp.MainAppController;
+import dha.libapp.cache.members.BorrowedTabCache;
 import dha.libapp.cache.members.HomeTabCache;
 import dha.libapp.cache.members.PendingTabCache;
 import dha.libapp.cache.members.ReturnedTabCache;
@@ -59,6 +60,7 @@ public class MemberViewController implements Initializable {
         HomeTabCache.getInstance().getRecommendationBookList().clear();
         HomeTabCache.getInstance().getTopTrendingBookList().clear();
         PendingTabCache.getInstance().getPendingBookList().clear();
+        BorrowedTabCache.getInstance().getBorrowedBookList().clear();
         ReturnedTabCache.getInstance().getReturnedBookList().clear();
         MemberViewController.getInstance().switchToHomeTab();
     }
