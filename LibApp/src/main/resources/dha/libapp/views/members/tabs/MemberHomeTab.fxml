@@ -102,6 +102,20 @@
                         </DropShadow>
                      </effect>
                   </TextField>
+                  <AnchorPane layoutX="16.0" layoutY="96.0" prefHeight="606.0" prefWidth="651.0">
+                     <children>
+                        <ListView prefHeight="606.0" prefWidth="652.0" />
+                        <Pane prefHeight="603.0" prefWidth="651.0" style="-fx-background-color: white;">
+                           <children>
+                              <Label alignment="CENTER" layoutX="258.0" layoutY="151.0" prefHeight="27.0" prefWidth="135.0" text="Please wait...">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                     </children>
+                  </AnchorPane>
                   <Button layoutX="660.0" layoutY="20.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: #fff; -fx-background-radius: 20;">
                      <effect>
                         <DropShadow height="15.0" offsetX="5.0" offsetY="5.0" radius="7.0" width="15.0">
