@@ -30,22 +30,22 @@
                                             <Cursor fx:constant="HAND" />
                                         </cursor>
                                     </Button>
-                                    <Label fx:id="bookDetailDescription" layoutX="24.0" layoutY="378.0" prefHeight="27.0" prefWidth="335.0" text="Book Title: The title of book" wrapText="true">
+                                    <Label fx:id="titleBook" layoutX="24.0" layoutY="378.0" prefHeight="27.0" prefWidth="335.0" text="Book Title: The title of book" wrapText="true">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                                    <Label fx:id="bookDetailAuthor" contentDisplay="CENTER" layoutX="25.0" layoutY="336.0" prefHeight="27.0" prefWidth="334.0" text="User Full Name: Full name" textAlignment="CENTER">
+                                    <Label fx:id="fullname" contentDisplay="CENTER" layoutX="25.0" layoutY="336.0" prefHeight="27.0" prefWidth="334.0" text="User Full Name: Full name" textAlignment="CENTER">
                                         <font>
                                             <Font name="System Bold" size="18.0" />
                                         </font>
                                     </Label>
-                                    <Label fx:id="bookDetailName" contentDisplay="CENTER" layoutX="24.0" layoutY="290.0" prefHeight="27.0" prefWidth="334.0" text="User ID: User ID" textAlignment="CENTER" wrapText="true">
+                                    <Label fx:id="userId" contentDisplay="CENTER" layoutX="24.0" layoutY="290.0" prefHeight="27.0" prefWidth="334.0" text="User ID: User ID" textAlignment="CENTER" wrapText="true">
                                         <font>
                                             <Font name="System Bold" size="18.0" />
                                         </font>
                                     </Label>
-                        <Label layoutX="24.0" layoutY="424.0" prefHeight="27.0" prefWidth="335.0" text="Book Author: Author of the book">
+                        <Label fx:id="authorBook" layoutX="24.0" layoutY="424.0" prefHeight="27.0" prefWidth="335.0" text="Book Author: Author of the book">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
@@ -59,7 +59,7 @@
                         </AnchorPane>
                         <AnchorPane prefHeight="700.0" prefWidth="690.0" style="-fx-background-radius: 30 0 0 30; -fx-background-color: lightblue;">
                             <children>
-                                <ListView fx:id="pendingListView" layoutX="31.0" layoutY="131.0" prefHeight="478.0" prefWidth="628.0" />
+                                <ListView fx:id="approveRequestListView" layoutX="31.0" layoutY="131.0" prefHeight="478.0" prefWidth="628.0" />
                                 <Label layoutX="237.0" layoutY="71.0" text="Approve Request">
                                     <font>
                                         <Font name="System Bold" size="24.0" />
