@@ -8,4 +8,9 @@
     -fx-background-color: #ccccccaa;
 }
 
+.button-borrow {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
 
