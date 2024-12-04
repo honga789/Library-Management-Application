@@ -120,13 +120,13 @@ public class UserDAO {
         }
     }
 
-    public static void updateUser(int userId, String password, UserRole role,
-                                  String fullName, String phoneNumber, String email) {
-        String sql = "UPDATE User SET password = ?, role = ?, "
+    public static void updateUser(int userId, String password, String fullName,
+                                  String phoneNumber, String email) {
+        String sql = "UPDATE User SET password = ?, "
                     + "full_name = ?, phone_number = ?, email = ? WHERE user_id = ?";
 
         try (PreparedStatement preparedStatement = DBUtil.getPrepareStatement(MainApp.getDbConnection(),
-                sql, password, role.toString(), fullName, phoneNumber, email, userId)) {
+                sql, password, fullName, phoneNumber, email, userId)) {
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

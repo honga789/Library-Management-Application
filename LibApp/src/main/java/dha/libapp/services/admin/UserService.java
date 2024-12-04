@@ -63,6 +63,7 @@ public class UserService {
             // controller for error.
         }
     }
+
     public void updateUser(int userId, String password, String fullName, String phoneNumber,
                            String email) throws Exception {
         if (password.isEmpty() || fullName.isEmpty() || phoneNumber.isEmpty()
@@ -76,7 +77,7 @@ public class UserService {
         try {
             String hashedPassword = PasswordService.hashPassword(password);
 
-            UserSyncDAO.updateUserSync(userId, password, UserRole.MEMBER, fullName, phoneNumber,
+            UserSyncDAO.updateUserSync(userId, password, fullName, phoneNumber,
                     email, new DAOUpdateCallback() {
 
                         @Override
@@ -98,8 +99,6 @@ public class UserService {
             // controller for error
         }
     }
-
-    public
 
     private static boolean userExists(String username) {
         return UserDAO.getUserByUsername(username) != null;
