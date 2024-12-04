@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.Pane;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -15,27 +16,26 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class MemberHomeTabController implements Initializable {
+    @FXML
+    private Label userFullName;
 
     @FXML
     private ListView<String> topTrendingListView;
 
     @FXML
-    private Label userFullName;
-
-    @FXML
-    private ListView<String> trendingListView;
-
-    @FXML
     private ListView<String> recommendationListView;
 
     @FXML
-    private Label loadingTrendingListView;
+    private Pane loadingTrendingPane;
 
     @FXML
-    private Label loadingRecommendationListView;
+    private Pane loadingRecommendationPane;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        setLoadingTrendingPaneVisible(true);
+        setLoadingRecommendationPaneVisible(true);
+
         userFullName.setText(SessionService.getInstance().getUser().getFullName());
 
         List<Book> allBook = BookDAO.getAllBook();
@@ -57,15 +57,11 @@ public class MemberHomeTabController implements Initializable {
         });
     }
 
-    public void setLoadingTrendingListViewVisible(boolean visible) {
-        if (!visible) {
-            loadingTrendingListView.setVisible(false);
-        }
+    public void setLoadingTrendingPaneVisible(boolean visible) {
+        loadingTrendingPane.setVisible(visible);
     }
 
-    public void setLoadingRecommendationListViewVisible(boolean visible) {
-        if (!visible) {
-            loadingRecommendationListView.setVisible(false);
-        }
+    public void setLoadingRecommendationPaneVisible(boolean visible) {
+        loadingRecommendationPane.setVisible(visible);
     }
 }

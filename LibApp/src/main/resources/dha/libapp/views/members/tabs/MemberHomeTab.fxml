@@ -67,24 +67,24 @@
                                  <font>
                                     <Font name="System Bold" size="18.0" />
                                  </font></Label>
-                              <ListView fx:id="topTrendingListView" layoutX="20.0" layoutY="28.0" prefHeight="254.0" prefWidth="631.0" style="-fx-background-color: #eee;" visible="false" />
+                              <ListView fx:id="topTrendingListView" layoutX="20.0" layoutY="28.0" prefHeight="254.0" prefWidth="631.0" style="-fx-background-color: #eee;" />
                               <Label layoutX="20.0" layoutY="294.0" prefHeight="27.0" prefWidth="346.0" text="Recommendational book for you">
                                  <font>
                                     <Font name="System Bold" size="18.0" />
                                  </font></Label>
-                              <ListView fx:id="recommendationListView" layoutX="22.0" layoutY="325.0" prefHeight="253.0" prefWidth="628.0" style="-fx-background-color: #eee;" visible="false" />
-                              <Pane layoutX="22.0" layoutY="28.0" prefHeight="253.0" prefWidth="628.0" styleClass="loading-pane" stylesheets="@../../../css/hometab.css">
+                              <ListView fx:id="recommendationListView" layoutX="22.0" layoutY="325.0" prefHeight="253.0" prefWidth="628.0" style="-fx-background-color: #eee;" />
+                              <Pane fx:id="loadingTrendingPane" layoutX="22.0" layoutY="28.0" prefHeight="253.0" prefWidth="628.0" styleClass="loading-pane" stylesheets="@../../../css/hometab.css">
                                  <children>
-                                    <Label fx:id="loadingTrendingListView" layoutX="229.0" layoutY="106.0" styleClass="loading-text" stylesheets="@../../../css/hometab.css" text="Loading...">
+                                    <Label layoutX="229.0" layoutY="106.0" styleClass="loading-text" stylesheets="@../../../css/hometab.css" text="Loading...">
                                        <font>
                                           <Font size="36.0" />
                                        </font>
                                     </Label>
                                  </children>
                               </Pane>
-                              <Pane layoutX="22.0" layoutY="326.0" prefHeight="252.0" prefWidth="626.0" styleClass="loading-pane" stylesheets="@../../../css/hometab.css">
+                              <Pane fx:id="loadingRecommendationPane" layoutX="22.0" layoutY="326.0" prefHeight="252.0" prefWidth="626.0" styleClass="loading-pane" stylesheets="@../../../css/hometab.css">
                                  <children>
-                                    <Label fx:id="loadingRecommendationListView" layoutX="228.0" layoutY="105.0" styleClass="loading-text" stylesheets="@../../../css/hometab.css" text="Loading..." />
+                                    <Label layoutX="228.0" layoutY="105.0" styleClass="loading-text" stylesheets="@../../../css/hometab.css" text="Loading..." />
                                  </children>
                               </Pane>
                            </children>
