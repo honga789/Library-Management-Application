@@ -4,6 +4,7 @@ import dha.libapp.dao.BookDAO;
 import dha.libapp.models.Book;
 import dha.libapp.syncdao.utils.DAOExecuteCallback;
 import dha.libapp.syncdao.utils.DAOTaskRunner;
+import dha.libapp.syncdao.utils.DAOUpdateCallback;
 import javafx.concurrent.Task;
 
 import java.util.List;
@@ -58,6 +59,10 @@ public class BookSyncDAO {
             }
         };
         DAOTaskRunner.executeTask(task, callback);
+    }
+
+    public static void updateBookSync(Book book, DAOUpdateCallback callback) {
+
     }
 
 }
