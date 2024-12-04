@@ -43,7 +43,16 @@ public class AdminManageDocumentController {
     @FXML
     public void initialize() {
         initializeButton();
-        genreTypeList = GenreTypeDAO.getAllGenreType();
+        BookService.GenreCallback callback = new BookService.GenreCallback() {
+
+            @Override
+            public void onSuccess(List<GenreType> genreTypesCallback) {
+                genreTypeList.addAll(genreTypesCallback);
+            }
+        };
+        BookService.getInstance().getGenres(callback);
+
+
     }
 
     private void initializeButton() {

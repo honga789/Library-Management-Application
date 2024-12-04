@@ -99,15 +99,15 @@ public class GoogleBooksTask extends Thread {
                         String imgUrl = imgLinks.get("thumbnail").getAsString();
                         System.out.println("imgUrl: " + imgUrl);
                         JsonArray identifiersArray = volumeInfo.getAsJsonArray("industryIdentifiers");
-                        String ISBN_10 = "0000000000";
+                        String ISBN_13 = "0000000000";
                         for (int j = 0; j < identifiersArray.size(); j++) {
                             JsonObject identifierObj = identifiersArray.get(j).getAsJsonObject();
-                            if ("ISBN_10".equals(identifierObj.get("type").getAsString())) {
-                                ISBN_10 = identifierObj.get("identifier").getAsString();
+                            if ("ISBN_13".equals(identifierObj.get("type").getAsString())) {
+                                ISBN_13 = identifierObj.get("identifier").getAsString();
                             }
                         }
-                        System.out.println("ISBN_10: " + ISBN_10);
-                        Book book = new Book(-1, ISBN_10, title,author, publisher, publishedDate, quantity, description, imgUrl, null);
+                        System.out.println("ISBN_13: " + ISBN_13);
+                        Book book = new Book(-1, ISBN_13, title,author, publisher, publishedDate, quantity, description, imgUrl, null);
                         bookTitles.add(title);
                         booksData.add(book);
                     }
