@@ -1,9 +1,15 @@
 package dha.libapp.controllers.members;
 
 import dha.libapp.MainApp;
+import dha.libapp.MainAppController;
+import dha.libapp.cache.members.HomeTabCache;
+import dha.libapp.cache.members.PendingTabCache;
+import dha.libapp.cache.members.ReturnedTabCache;
+import dha.libapp.services.SessionService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
@@ -46,5 +52,20 @@ public class MemberViewController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         instance = this;
         switchTab("views/members/tabs/MemberHomeTab.fxml");
+    }
+
+    @FXML
+    public void handleRefresh() {
+        HomeTabCache.getInstance().getRecommendationBookList().clear();
+        HomeTabCache.getInstance().getTopTrendingBookList().clear();
+        PendingTabCache.getInstance().getPendingBookList().clear();
+        ReturnedTabCache.getInstance().getReturnedBookList().clear();
+        MemberViewController.getInstance().switchToHomeTab();
+    }
+
+    @FXML
+    public void handleLogout() {
+        SessionService.getInstance().setUser(null);
+        MainAppController.changeScene("views/authen/Login.fxml");
     }
 }

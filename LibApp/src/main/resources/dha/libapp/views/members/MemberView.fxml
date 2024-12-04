@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -38,6 +39,22 @@
                 <Font name="Arial Bold" size="26.0" />
             </font>
         </Label>
+      <Button onMouseClicked="#handleLogout" layoutX="46.0" layoutY="649.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="124.0" style="-fx-background-color: red; -fx-text-fill: #fff; -fx-background-radius: 15;" text="Logout" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Button onMouseClicked="#handleRefresh" layoutX="46.0" layoutY="587.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="124.0" style="-fx-background-color: lightblue; -fx-background-radius: 15;" text="Refresh" textFill="#282828">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
     </children>
 
 </AnchorPane>

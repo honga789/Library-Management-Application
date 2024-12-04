@@ -76,7 +76,7 @@ public class AdminManageDocumentController {
     }
 
     public void setBookDetailView(Book book) {
-        
+
     }
 
     private void initializeButton() {
