@@ -10,11 +10,6 @@ import java.util.List;
 
 public class BookListView {
     public static void renderToListView(ListView<Book> listView, List<Book> bookList) {
-        System.out.println("Books:");
-        for (Book book : bookList) {
-            System.out.println(book);
-        }
-
         listView.getItems().clear();
         listView.getItems().addAll(bookList);
     }
