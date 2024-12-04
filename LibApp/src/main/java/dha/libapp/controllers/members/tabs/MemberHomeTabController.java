@@ -3,6 +3,8 @@ package dha.libapp.controllers.members.tabs;
 import dha.libapp.dao.BookDAO;
 import dha.libapp.models.Book;
 import dha.libapp.services.SessionService;
+import dha.libapp.services.members.tabs.MemberHomeTabService;
+import dha.libapp.utils.ListView.BookListView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -16,6 +18,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class MemberHomeTabController implements Initializable {
+    private static MemberHomeTabController instance;
+    public static MemberHomeTabController getInstance() { return instance; }
+
     @FXML
     private Label userFullName;
 
@@ -33,28 +38,19 @@ public class MemberHomeTabController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        instance = this;
+
         setLoadingTrendingPaneVisible(true);
         setLoadingRecommendationPaneVisible(true);
 
         userFullName.setText(SessionService.getInstance().getUser().getFullName());
 
-        List<Book> allBook = BookDAO.getAllBook();
-        List<String> allStringBook = new ArrayList<>();
-        for (Book b : allBook) { allStringBook.add(b.toString()); }
+        MemberHomeTabService.renderRecommendationBooks();
 
-        topTrendingListView.getItems().addAll(allStringBook);
+    }
 
-        topTrendingListView.setCellFactory(param -> new ListCell<String>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                } else {
-                    setText(item);
-                }
-            }
-        });
+    public void renderRecommendationBooks(List<Book> bookList) {
+        BookListView.renderToListView(recommendationListView, bookList);
     }
 
     public void setLoadingTrendingPaneVisible(boolean visible) {
