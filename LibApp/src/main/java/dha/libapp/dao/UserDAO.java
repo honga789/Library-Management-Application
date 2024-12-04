@@ -26,7 +26,7 @@ public class UserDAO {
             UserRole role = UserRole.valueOf(resultSet.getString("role"));
             String email = resultSet.getString("email");
 
-            if (user_name == null) {
+            if (user_name == null || role == UserRole.ADMIN) {
                 return null;
             }
             return new User(user_id, user_name, password, fullName, phoneNumber, role, email);

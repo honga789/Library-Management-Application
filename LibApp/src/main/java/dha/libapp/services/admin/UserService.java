@@ -1,13 +1,11 @@
 package dha.libapp.services.admin;
 
-import dha.libapp.controllers.authen.RegisterController;
 import dha.libapp.dao.UserDAO;
 import dha.libapp.models.User;
 import dha.libapp.models.UserRole;
 import dha.libapp.services.authen.PasswordService;
 import dha.libapp.syncdao.UserSyncDAO;
 import dha.libapp.syncdao.utils.DAOUpdateCallback;
-import javafx.concurrent.Task;
 
 import java.util.List;
 
@@ -31,14 +29,14 @@ public class UserService {
     }
 
     public void addUser(String userName, String password, String fullName,
-                        String phoneNumber, String email) {
+                        String phoneNumber, String email) throws Exception {
         if (userName.isEmpty() || password.isEmpty() || fullName.isEmpty()
                 || phoneNumber.isEmpty() || email.isEmpty() || userExists(userName)
                 || password.length() < 8 || !isValidEmail(email) || !isValidPhone(phoneNumber)
                 || userName.length() > 50 || password.length() > 100 || fullName.length() > 100) {
 
             // controller for invalid
-            return;
+            throw new RuntimeException("Invalid username or password");
         }
 
         try {
@@ -46,25 +44,59 @@ public class UserService {
 
             UserSyncDAO.addNewUserSync(userName, hashedPassword, UserRole.MEMBER,
                     fullName, phoneNumber, email, new DAOUpdateCallback() {
-                @Override
-                public void onSuccess() {
-                    System.out.println("User added successfully");
-                    // controller;
-                }
+                        @Override
+                        public void onSuccess() {
+                            System.out.println("User added successfully");
+                            // controller;
+                        }
 
-                @Override
-                public void onError(Throwable e) {
-                    System.out.println("User added failed");
-                    // controller;
-                }
-            });
+                        @Override
+                        public void onError(Throwable e) {
+                            System.out.println("User added failed");
+                            // controller;
+                        }
+                    });
         } catch (Exception e) {
             System.out.println("User added failed");
+            throw new Exception(e);
             // controller for error.
         }
     }
 
-    
+    public void UpdateUser(int userId, String password, String fullName, String phoneNumber,
+                           String email) throws Exception {
+        if (password.isEmpty() || fullName.isEmpty() || phoneNumber.isEmpty()
+                || email.isEmpty() || password.length() < 8 || !isValidEmail(email)
+                || !isValidPhone(phoneNumber) || password.length() > 50 || fullName.length() > 100) {
+
+            // controller for invalid
+            throw new RuntimeException("Invalid username or password");
+        }
+
+        try {
+            String hashedPassword = PasswordService.hashPassword(password);
+
+            UserSyncDAO.updateUserSync(userId, password, UserRole.MEMBER, fullName, phoneNumber,
+                    email, new DAOUpdateCallback() {
+
+                        @Override
+                        public void onSuccess() {
+                            System.out.println("User updated successfully");
+                            // controller;
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            System.out.println("User updated failed");
+                            // controller;
+                        }
+                    });
+        } catch (Exception e) {
+            System.out.println("User update failed");
+            throw new Exception(e);
+            // controller for error
+        }
+    }
 
     private static boolean userExists(String username) {
         return UserDAO.getUserByUsername(username) != null;
