@@ -1,8 +1,7 @@
 package dha.libapp.controllers.authen;
 
-import com.sun.tools.javac.Main;
 import dha.libapp.MainAppController;
-import dha.libapp.services.RegisterService;
+import dha.libapp.services.authen.RegisterService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;

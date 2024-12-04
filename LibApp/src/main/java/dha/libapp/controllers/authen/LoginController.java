@@ -1,9 +1,8 @@
 package dha.libapp.controllers.authen;
 
 import dha.libapp.MainAppController;
-import dha.libapp.controllers.members.tabs.MemberHomeTabController;
 import dha.libapp.models.User;
-import dha.libapp.services.LoginService;
+import dha.libapp.services.authen.LoginService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;

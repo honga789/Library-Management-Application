@@ -1,11 +1,8 @@
-package dha.libapp.services;
+package dha.libapp.services.authen;
 
 import dha.libapp.controllers.authen.RegisterController;
 import dha.libapp.dao.UserDAO;
-import dha.libapp.models.User;
 import dha.libapp.models.UserRole;
-
-import java.security.NoSuchAlgorithmException;
 
 public class RegisterService {
     public static void register(String username, String password, String fullName, String phone, String email) {

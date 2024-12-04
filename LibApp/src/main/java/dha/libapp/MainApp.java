@@ -1,11 +1,8 @@
 package dha.libapp;
 
 import dha.libapp.models.User;
-import dha.libapp.models.UserRole;
-import dha.libapp.services.PasswordService;
 import dha.libapp.syncdao.UserSyncDAO;
 import dha.libapp.syncdao.utils.DAOExecuteCallback;
-import dha.libapp.syncdao.utils.DAOUpdateCallback;
 import dha.libapp.utils.Database.DBUtil;
 import javafx.application.Application;
 import javafx.concurrent.Task;
@@ -18,7 +15,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.util.List;
 

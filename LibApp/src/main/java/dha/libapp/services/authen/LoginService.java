@@ -1,13 +1,11 @@
-package dha.libapp.services;
+package dha.libapp.services.authen;
 
 import dha.libapp.controllers.authen.LoginController;
-import dha.libapp.dao.UserDAO;
 import dha.libapp.models.User;
 import dha.libapp.models.UserRole;
+import dha.libapp.services.SessionService;
 import dha.libapp.syncdao.UserSyncDAO;
 import dha.libapp.syncdao.utils.DAOExecuteCallback;
-
-import java.security.NoSuchAlgorithmException;
 
 public class LoginService {
     public static void login(String username, String password) {
