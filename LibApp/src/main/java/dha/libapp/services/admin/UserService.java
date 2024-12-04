@@ -53,6 +53,7 @@ public class UserService {
                         @Override
                         public void onError(Throwable e) {
                             System.out.println("User added failed");
+                            throw new RuntimeException(e);
                             // controller;
                         }
                     });
@@ -88,6 +89,7 @@ public class UserService {
                         @Override
                         public void onError(Throwable e) {
                             System.out.println("User updated failed");
+                            throw new RuntimeException(e);
                             // controller;
                         }
                     });
@@ -97,6 +99,8 @@ public class UserService {
             // controller for error
         }
     }
+
+    
 
     private static boolean userExists(String username) {
         return UserDAO.getUserByUsername(username) != null;
