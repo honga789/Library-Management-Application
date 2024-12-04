@@ -13,7 +13,6 @@ import java.util.Date;
 import java.util.List;
 
 public class BookSyncDAO {
-
     public static void getAllBookSync(DAOExecuteCallback<List<Book>> callback) {
         Task<List<Book>> task = new Task<List<Book>>() {
             @Override
@@ -80,8 +79,66 @@ public class BookSyncDAO {
         DAOTaskRunner.updateTask(task, callback);
     }
 
-    public static void updateBookSync(Book book, DAOUpdateCallback callback) {
+    public static void updateBookSync(int book_id, String ISBN, String title, String author, String publisher,
+                                      Date publicationDate, int quantity, String description,
+                                      String coverImagePath, ArrayList<GenreType> genreList,
+                                      DAOUpdateCallback callback) {
+        Task<Void> task = new Task<Void>() {
 
+            @Override
+            protected Void call() throws Exception {
+                BookDAO.updateBook(book_id, ISBN, title, author, publisher, publicationDate, quantity,
+                        description, coverImagePath, genreList);
+                return null;
+            }
+        };
+        DAOTaskRunner.updateTask(task, callback);
     }
 
+    public static void updateBookSync(Book book, DAOUpdateCallback callback) {
+        Task<Void> task = new Task<Void>() {
+
+            @Override
+            protected Void call() throws Exception {
+                BookDAO.updateBook(book);
+                return null;
+            }
+        };
+        DAOTaskRunner.updateTask(task, callback);
+    }
+
+    public static void deleteBookByIdSync(int book_id, DAOUpdateCallback callback) {
+        Task<Void> task = new Task<Void>() {
+
+            @Override
+            protected Void call() throws Exception {
+                BookDAO.deleteBookById(book_id);
+                return null;
+            }
+        };
+        DAOTaskRunner.updateTask(task, callback);
+    }
+
+    public static void deleteBookByISBNSync(String ISBN, DAOUpdateCallback callback) {
+        Task<Void> task = new Task<Void>() {
+
+            @Override
+            protected Void call() throws Exception {
+                BookDAO.deleteBookByISBN(ISBN);
+                return null;
+            }
+        };
+        DAOTaskRunner.updateTask(task, callback);
+    }
+
+    public static void searchBookByTitleSync(String title, DAOExecuteCallback<List<Book>> callback) {
+        Task<List<Book>> task = new Task<List<Book>>() {
+
+            @Override
+            protected List<Book> call() throws Exception {
+                return BookDAO.searchBookByTitle(title);
+            }
+        };
+        DAOTaskRunner.executeTask(task, callback);
+    }
 }
