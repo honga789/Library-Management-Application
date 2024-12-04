@@ -120,8 +120,8 @@ public class UserDAO {
         }
     }
 
-    public static void updateUser(int userId, String password, String fullName,
-                                  String phoneNumber, String email) {
+    public static void updateUser(int userId, String password, String fullName, String phoneNumber,
+                                  String email) {
         String sql = "UPDATE User SET password = ?, "
                     + "full_name = ?, phone_number = ?, email = ? WHERE user_id = ?";
 
