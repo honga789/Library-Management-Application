@@ -64,8 +64,17 @@ public class MemberHomeTabController implements Initializable {
         userFullName.setText(SessionService.getInstance().getUser().getFullName());
 
         MemberHomeTabService.renderRecommendationBooks();
+        MemberHomeTabService.renderTopTrendingBooks();
 
         recommendationListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                Book selected = (Book) newValue;
+                System.out.println("Selected Book: " + selected.getClass().toString() + ": " + selected);
+                this.setBookDetailView(selected);
+            }
+        });
+
+        topTrendingListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 Book selected = (Book) newValue;
                 System.out.println("Selected Book: " + selected.getClass().toString() + ": " + selected);
@@ -97,6 +106,10 @@ public class MemberHomeTabController implements Initializable {
 
     public void renderRecommendationBooks(List<Book> bookList) {
         BookListView.renderToListView(recommendationListView, bookList);
+    }
+
+    public void renderTrendingBooks(List<Book> bookList) {
+        BookListView.renderToListView(topTrendingListView, bookList);
     }
 
     public void setLoadingTrendingPaneVisible(boolean visible) {
