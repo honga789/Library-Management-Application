@@ -1,11 +1,105 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
 
+<AnchorPane layoutX="0" layoutY="0" prefHeight="700.0" prefWidth="1050.0" style="-fx-padding: 0;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dha.libapp.controllers.admin.tabs.AdminManageDocumentController">
+<children>
+   <Button mnemonicParsing="false" prefHeight="700.0" prefWidth="1050.0" style="-fx-background-color: red; -fx-background-radius: 30; -fx-padding: 0;">
+      <graphic>
+         <AnchorPane prefHeight="700.0" prefWidth="1050.0" style="-fx-background-color: green; -fx-background-radius: 30;">
+            <children>
+               <AnchorPane layoutX="690.0" prefHeight="700.0" prefWidth="360.0" style="-fx-background-color: pink; -fx-background-radius: 0 25 25 0;">
+                  <children>
+                     <Label fx:id="userFullName" alignment="CENTER" contentDisplay="CENTER" layoutX="104.0" layoutY="43.0" prefHeight="20.0" prefWidth="152.0" text="Trinh Tran Anh Duy" textAlignment="RIGHT" wrapText="true">
+                        <font>
+                           <Font name="System Bold" size="14.0" />
+                        </font></Label>
+                     <ScrollPane layoutX="14.0" layoutY="103.0" prefHeight="580.0" prefWidth="335.0" style="-fx-hbar-policy: never; -fx-vbar-policy: never; -fx-border-width: 0; -fx-background-color: transparent;">
+                        <content>
+                           <VBox alignment="TOP_CENTER" minHeight="580.0" prefWidth="334.0" spacing="10.0" style="-fx-background-color: pink; -fx-padding: 0;">
+                              <children>
+                                 <ImageView fx:id="bookDetailImage" fitHeight="294.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                       <Image url="@../../../images/book_loader.jpg" />
+                                    </image>
+                                 </ImageView>
+                                 <Label fx:id="bookDetailName" alignment="CENTER" contentDisplay="CENTER" prefWidth="260.0" text="The title of the book" textAlignment="CENTER" wrapText="true">
+                                    <font>
+                                       <Font name="System Bold" size="18.0" />
+                                    </font>
+                                 </Label>
+                                 <Label fx:id="bookDetailAuthor" alignment="CENTER" contentDisplay="CENTER" prefWidth="233.0" text="The author of the book" textAlignment="CENTER">
+                                    <font>
+                                       <Font name="System Bold Italic" size="15.0" />
+                                    </font>
+                                 </Label>
+                                 <Label fx:id="bookDetailDescription" prefWidth="240.0" text="This is the prescription of the book. This gripping novel delves into themes of love, loss, and self-discovery. Set in [location], it follows [main character] as they navigate personal challenges and face tough choices that will change their life forever. A compelling tale of resilience, this book will resonate with readers on an emotional level." wrapText="true" />
+                                 <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="94.0" style="-fx-background-color: red; -fx-background-radius: 15; -fx-fill-text: white;" styleClass="button-borrow" stylesheets="@../../../css/hometab.css" text="Delete" textFill="WHITE">
+                                    <VBox.margin>
+                                       <Insets bottom="10.0" top="15.0" />
+                                    </VBox.margin>
+                                    <cursor>
+                                       <Cursor fx:constant="HAND" />
+                                    </cursor>
+                                 </Button>
+                              </children>
+                           </VBox>
+                        </content>
+                     </ScrollPane>
+                  </children>
+               </AnchorPane>
+               <AnchorPane prefHeight="700.0" prefWidth="690.0" style="-fx-background-radius: 30 0 0 30; -fx-background-color: lightblue;">
+                  <children>
+                     <ListView fx:id="pendingListView" layoutX="31.0" layoutY="106.0" prefHeight="504.0" prefWidth="628.0" />
+                     <Label layoutX="237.0" layoutY="40.0" text="Manage Document">
+                        <font>
+                           <Font name="System Bold" size="24.0" />
+                        </font>
+                     </Label>
+                     <Pane fx:id="loadingPane" layoutX="31.0" layoutY="107.0" prefHeight="503.0" prefWidth="627.0" styleClass="loading-pane" stylesheets="@../../../css/hometab.css" visible="false">
+                        <children>
+                           <Label layoutX="231.0" layoutY="225.0" styleClass="loading-text" stylesheets="@../../../css/hometab.css" text="Loading..." />
+                        </children>
+                     </Pane>
+                     <Button fx:id="newBook" layoutX="287.0" layoutY="636.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="116.0" style="-fx-background-color: #50e2fa; -fx-background-radius: 15; -fx-padding: 10;" text="Add Book">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font></Button>
+                  </children>
+               </AnchorPane>
+               <Button layoutX="957.0" layoutY="20.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: #fff; -fx-background-radius: 20;">
+                  <effect>
+                     <DropShadow height="15.0" offsetX="5.0" offsetY="5.0" radius="7.0" width="15.0">
+                        <color>
+                           <Color red="0.5899999737739563" green="0.5899999737739563" blue="0.5899999737739563" opacity="0.6118546724319458" />
+                        </color>
+                     </DropShadow>
+                  </effect>
+                  <graphic>
+                     <ImageView fitHeight="37.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                           <Image url="@../../../images/test_avt.png" />
+                        </image>
+                     </ImageView>
+                  </graphic>
+               </Button>
+            </children>
+         </AnchorPane>
+      </graphic>
+   </Button>
+</children>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dha.libapp.controllers.admin.tabs.AdminManageDocumentController">
-   <children>
-      <Button layoutX="502.0" layoutY="23.0" mnemonicParsing="false" text="Add Book" fx:id="newBook"/>
-   </children>
 </AnchorPane>
