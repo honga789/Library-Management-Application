@@ -75,8 +75,8 @@ public class AdminManageDocumentController {
 
     private void openFieldBox() {
         Alert alert = new Alert(Alert.AlertType.NONE);
-        alert.setTitle("Nhập thông tin");
-        alert.setHeaderText("Vui lòng nhập thông tin sách:");
+        alert.setTitle("Add new book");
+        alert.setHeaderText("Enter new book information:");
         alert.setContentText(null);
 
         GridPane gridPane = new GridPane();
@@ -87,19 +87,19 @@ public class AdminManageDocumentController {
 
         TextField isbnField = createStyledTextField("ISBN");
 
-        TextField titleField = createStyledTextField("Tiêu đề");
+        TextField titleField = createStyledTextField("Title");
 
-        TextField descriptionField = createStyledTextField("Mô tả");
+        TextField descriptionField = createStyledTextField("Description");
 
-        TextField stockField = createStyledTextField("Số lượng");
+        TextField stockField = createStyledTextField("Quantity");
 
-        TextField coverField = createStyledTextField("Đường dẫn ảnh bìa");
+        TextField coverField = createStyledTextField("Cover");
 
-        TextField authorField = createStyledTextField("Tác giả");
+        TextField authorField = createStyledTextField("Author");
 
-        TextField publishedDateField = createStyledTextField("Năm xuất bản");
+        TextField publishedDateField = createStyledTextField("Published Date");
 
-        TextField publisherField = createStyledTextField("Nhà xuất bản");
+        TextField publisherField = createStyledTextField("Publisher");
 
 
         //genre checkbox
@@ -152,7 +152,7 @@ public class AdminManageDocumentController {
         genreBox.getChildren().add(confirmButton);
 
         //choose genre
-        Button genreCheckButton = new Button("Chọn thể loại");
+        Button genreCheckButton = new Button("Choose genres");
         genreCheckButton.setStyle("-fx-font-size: 12px; -fx-background-color: #d46dd2; -fx-text-fill: white; -fx-font-weight: bold; -fx-border-radius: 5; -fx-background-radius: 5;");
         genreCheckButton.setOnMouseClicked(event -> {
             if (!genrePopup.isShowing()) {
@@ -205,7 +205,7 @@ public class AdminManageDocumentController {
         });
 
         //call api autofill
-        Button autofillButton = new Button("Tự động điền");
+        Button autofillButton = new Button("Auto fill");
         autofillButton.setStyle("-fx-background-color: #d46dd2; -fx-text-fill: white; -fx-font-weight: bold; -fx-border-radius: 5; -fx-background-radius: 5;");
         autofillButton.setOnMouseClicked(event -> {
             List<Book> dataHolder = new ArrayList<>();
@@ -247,28 +247,28 @@ public class AdminManageDocumentController {
         gridPane.add(isbnField, 1, 0);
         gridPane.add(autofillButton, 2, 0);
 
-        gridPane.add(createStyledLabel("Tiêu đề:"), 0, 1);
+        gridPane.add(createStyledLabel("Title:"), 0, 1);
         gridPane.add(titleField, 1, 1);
 
-        gridPane.add(createStyledLabel("Mô tả:"), 0, 2);
+        gridPane.add(createStyledLabel("Description:"), 0, 2);
         gridPane.add(descriptionField, 1, 2);
 
-        gridPane.add(createStyledLabel("Số lượng:"), 0, 3);
+        gridPane.add(createStyledLabel("Quantity:"), 0, 3);
         gridPane.add(stockField, 1, 3);
 
-        gridPane.add(createStyledLabel("Ảnh bìa:"), 0, 4);
+        gridPane.add(createStyledLabel("Cover:"), 0, 4);
         gridPane.add(coverField, 1, 4);
 
-        gridPane.add(createStyledLabel("Tác giả:"), 0, 5);
+        gridPane.add(createStyledLabel("Author:"), 0, 5);
         gridPane.add(authorField, 1, 5);
 
-        gridPane.add(createStyledLabel("Thể loại:"), 0, 6);
+        gridPane.add(createStyledLabel("Genres:"), 0, 6);
         gridPane.add(genreCheckButton, 1, 6);
 
-        gridPane.add(createStyledLabel("Ngày xuất bản:"), 0, 7);
+        gridPane.add(createStyledLabel("Published Date:"), 0, 7);
         gridPane.add(publishedDateField, 1, 7);
 
-        gridPane.add(createStyledLabel("Nhà xuất bản:"), 0, 8);
+        gridPane.add(createStyledLabel("Publisher:"), 0, 8);
         gridPane.add(publisherField, 1, 8);
 
         gridPane.add(addButton, 0, 10);

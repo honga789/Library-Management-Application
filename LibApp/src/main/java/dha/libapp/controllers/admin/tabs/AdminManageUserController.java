@@ -33,23 +33,11 @@ public class AdminManageUserController {
 
     @FXML
     private javafx.scene.control.Button addUserButton;
-    private java.util.List<GenreType> genreTypeList = new ArrayList<GenreType>();
-    private ArrayList<GenreType> selectedGenreTypeList = new ArrayList<GenreType>();
     private javafx.scene.control.Label editStatus = new javafx.scene.control.Label();
 
     @FXML
     public void initialize() {
         initializeButton();
-        BookService.GenreCallback callback = new BookService.GenreCallback() {
-
-            @Override
-            public void onSuccess(java.util.List<GenreType> genreTypesCallback) {
-                genreTypeList.addAll(genreTypesCallback);
-            }
-        };
-        BookService.getInstance().getGenres(callback);
-
-
     }
 
     private void initializeButton() {
@@ -60,8 +48,8 @@ public class AdminManageUserController {
 
     private void openFieldBox() {
         Alert alert = new Alert(Alert.AlertType.NONE);
-        alert.setTitle("Nhập thông tin");
-        alert.setHeaderText("Vui lòng nhập thông tin sách:");
+        alert.setTitle("Add new user");
+        alert.setHeaderText("Enter new user name:");
         alert.setContentText(null);
 
         GridPane gridPane = new GridPane();
@@ -70,128 +58,37 @@ public class AdminManageUserController {
         gridPane.setPadding(new Insets(20, 20, 20, 20));
         gridPane.setStyle("-fx-background-color: #f9f9f9; -fx-border-radius: 10; -fx-background-radius: 10;");
 
-        TextField isbnField = createStyledTextField("ISBN");
+        TextField username = createStyledTextField("Username");
 
-        TextField titleField = createStyledTextField("Tiêu đề");
+        TextField password = createStyledTextField("Password");
 
-        TextField descriptionField = createStyledTextField("Mô tả");
+        TextField fullName = createStyledTextField("Full Name");
 
-        TextField stockField = createStyledTextField("Số lượng");
+        TextField phoneNumber = createStyledTextField("Phone Number");
 
-        TextField coverField = createStyledTextField("Đường dẫn ảnh bìa");
+        TextField email = createStyledTextField("Email");
 
-        TextField authorField = createStyledTextField("Tác giả");
-
-        TextField publishedDateField = createStyledTextField("Năm xuất bản");
-
-        TextField publisherField = createStyledTextField("Nhà xuất bản");
-
-
-        //genre checkbox
-
-        // Create a Popup for the dropdown
-        Popup genrePopup = new Popup();
-
-        // VBox to hold checkboxes
-        VBox genreBox = new VBox(10);
-        genreBox.setStyle("-fx-background-color: #ffffff; -fx-padding: 10; -fx-border-color: #cccccc; -fx-border-radius: 5; -fx-background-radius: 5;");
-
-        genrePopup.getContent().add(genreBox);
-        // List of genres
-        if (!genreTypeList.isEmpty()) {
-            for (GenreType genre : genreTypeList) {
-                CheckBox genreCheckBox = new CheckBox(genre.getGenreName());
-                genreBox.getChildren().add(genreCheckBox);
-            }
-        } else {
-            CheckBox nullGenreCheckBox = new CheckBox("Null genre");
-            genreBox.getChildren().add(nullGenreCheckBox);
-        }
-
-        // Add the Confirm button inside the popup
-        javafx.scene.control.Button confirmButton = new javafx.scene.control.Button("Confirm");
-        confirmButton.setStyle("-fx-background-color: #d46dd2; -fx-text-fill: white; -fx-font-weight: bold; -fx-border-radius: 5; -fx-background-radius: 5;");
-        confirmButton.setOnAction(event -> {
-            StringBuilder selectedGenres = new StringBuilder("Selected Genres: ");
-            BookService.GenreCallback callback = new BookService.GenreCallback() {
-
-                @Override
-                public void onSuccess(java.util.List<GenreType> genreTypesCallback) {
-                    selectedGenreTypeList.addAll(genreTypesCallback);
-                }
-            };
-            for (Node node : genreBox.getChildren()) {
-                if (node instanceof CheckBox checkBox && checkBox.isSelected()) {
-                    selectedGenres.append(checkBox.getText()).append(", ");
-                    BookService.getInstance().getGenreByName(checkBox.getText(), callback);
-                }
-            }
-            if (selectedGenres.length() > 17) {
-                selectedGenres.setLength(selectedGenres.length() - 2); // Trim trailing ", "
-            } else {
-                selectedGenres.append("None");
-            }
-            System.out.println(selectedGenres);
-            genrePopup.hide();
-        });
-        genreBox.getChildren().add(confirmButton);
-
-        //choose genre
-        javafx.scene.control.Button genreCheckButton = new javafx.scene.control.Button("Chọn thể loại");
-        genreCheckButton.setStyle("-fx-font-size: 12px; -fx-background-color: #d46dd2; -fx-text-fill: white; -fx-font-weight: bold; -fx-border-radius: 5; -fx-background-radius: 5;");
-        genreCheckButton.setOnMouseClicked(event -> {
-            if (!genrePopup.isShowing()) {
-                // Position the popup near the genreCheckButton
-                genrePopup.show(
-                        genreCheckButton,
-                        genreCheckButton.localToScene(0, 0).getX() + genreCheckButton.getScene().getWindow().getX(),
-                        genreCheckButton.localToScene(0, 0).getY() + genreCheckButton.getScene().getWindow().getY() + genreCheckButton.getHeight()
-                );
-            } else {
-                genrePopup.hide();
-            }
-        });
-        //add book
+        //add user
         javafx.scene.control.Button addButton = new javafx.scene.control.Button("Add");
         addButton.setStyle("-fx-font-size: 15px; -fx-background-color: #d46dd2; -fx-text-fill: white; -fx-font-weight: bold; -fx-border-radius: 5; -fx-background-radius: 5;");
         addButton.setOnMouseClicked(event -> {
 
         });
 
-        //call api autofill
-        javafx.scene.control.Button autofillButton = new Button("Tự động điền");
-        autofillButton.setStyle("-fx-background-color: #d46dd2; -fx-text-fill: white; -fx-font-weight: bold; -fx-border-radius: 5; -fx-background-radius: 5;");
-        autofillButton.setOnMouseClicked(event -> {
+        gridPane.add(createStyledLabel("Username:"), 0, 0);
+        gridPane.add(username, 1, 0);
 
-        });
+        gridPane.add(createStyledLabel("Password:"), 0, 1);
+        gridPane.add(password, 1, 1);
 
-        gridPane.add(createStyledLabel("ISBN:"), 0, 0);
-        gridPane.add(isbnField, 1, 0);
-        gridPane.add(autofillButton, 2, 0);
+        gridPane.add(createStyledLabel("Full Name:"), 0, 2);
+        gridPane.add(fullName, 1, 2);
 
-        gridPane.add(createStyledLabel("Tiêu đề:"), 0, 1);
-        gridPane.add(titleField, 1, 1);
+        gridPane.add(createStyledLabel("Phone Number:"), 0, 3);
+        gridPane.add(phoneNumber, 1, 3);
 
-        gridPane.add(createStyledLabel("Mô tả:"), 0, 2);
-        gridPane.add(descriptionField, 1, 2);
-
-        gridPane.add(createStyledLabel("Số lượng:"), 0, 3);
-        gridPane.add(stockField, 1, 3);
-
-        gridPane.add(createStyledLabel("Ảnh bìa:"), 0, 4);
-        gridPane.add(coverField, 1, 4);
-
-        gridPane.add(createStyledLabel("Tác giả:"), 0, 5);
-        gridPane.add(authorField, 1, 5);
-
-        gridPane.add(createStyledLabel("Thể loại:"), 0, 6);
-        gridPane.add(genreCheckButton, 1, 6);
-
-        gridPane.add(createStyledLabel("Ngày xuất bản:"), 0, 7);
-        gridPane.add(publishedDateField, 1, 7);
-
-        gridPane.add(createStyledLabel("Nhà xuất bản:"), 0, 8);
-        gridPane.add(publisherField, 1, 8);
+        gridPane.add(createStyledLabel("Email:"), 0, 4);
+        gridPane.add(email, 1, 4);
 
         gridPane.add(addButton, 0, 10);
 
