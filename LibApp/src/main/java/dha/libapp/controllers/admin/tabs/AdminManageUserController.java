@@ -8,6 +8,7 @@ import dha.libapp.utils.API.ExecutorHandle;
 import dha.libapp.utils.API.GoogleBooks.BookFetchCallback;
 import dha.libapp.utils.API.GoogleBooks.GoogleBooksAPI;
 import dha.libapp.utils.API.GoogleBooks.GoogleBooksTask;
+import dha.libapp.models.User;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -39,7 +40,6 @@ public class AdminManageUserController {
     @FXML
     private Button editUserButton;
     private javafx.scene.control.Label editStatus = new javafx.scene.control.Label();
-
     @FXML
     public void initialize() {
         initializeButton();
@@ -49,6 +49,78 @@ public class AdminManageUserController {
         addUserButton.setOnAction(event -> {
             openFieldBox();
         });
+        editUserButton.setOnAction(event -> {
+            //openFieldBoxForEdit();
+        });
+    }
+
+    private void openFieldBoxForEdit(User user) {
+        Alert alert = new Alert(Alert.AlertType.NONE);
+        alert.setTitle("Edit user");
+        alert.setHeaderText("Enter new user data:");
+        alert.setContentText(null);
+
+        GridPane gridPane = new GridPane();
+        gridPane.setHgap(60);
+        gridPane.setVgap(10);
+        gridPane.setPadding(new Insets(20, 20, 20, 20));
+        gridPane.setStyle("-fx-background-color: #f9f9f9; -fx-border-radius: 10; -fx-background-radius: 10;");
+
+        TextField username = createStyledTextField("Username");
+        username.setPromptText(user.getUserName());
+        TextField password = createStyledTextField("Password");
+        password.setPromptText(user.getPassword());
+        TextField fullName = createStyledTextField("Full Name");
+        fullName.setPromptText(user.getFullName());
+        TextField phoneNumber = createStyledTextField("Phone Number");
+        phoneNumber.setPromptText(user.getPhoneNumber());
+        TextField email = createStyledTextField("Email");
+        email.setPromptText(user.getEmail());
+        //add user
+        javafx.scene.control.Button addButton = new javafx.scene.control.Button("Confirm Edit");
+        addButton.setStyle("-fx-font-size: 15px; -fx-background-color: #d46dd2; -fx-text-fill: white; -fx-font-weight: bold; -fx-border-radius: 5; -fx-background-radius: 5;");
+        addButton.setOnMouseClicked(event -> {
+            String usernameText = username.getText();
+            String passwordText = password.getText();
+            String fullNameText = fullName.getText();
+            String phoneNumberText = phoneNumber.getText();
+            String emailText = email.getText();
+            try {
+                UserService.getInstance().updateUser(user.getUserId(), passwordText, fullNameText, phoneNumberText, emailText);
+            } catch (Exception e) {
+                showErrorPopup("Error Editing User","Please enter valid user data");
+            }
+        });
+
+        gridPane.add(createStyledLabel("Username:"), 0, 0);
+        gridPane.add(username, 1, 0);
+
+        gridPane.add(createStyledLabel("Password:"), 0, 1);
+        gridPane.add(password, 1, 1);
+
+        gridPane.add(createStyledLabel("Full Name:"), 0, 2);
+        gridPane.add(fullName, 1, 2);
+
+        gridPane.add(createStyledLabel("Phone Number:"), 0, 3);
+        gridPane.add(phoneNumber, 1, 3);
+
+        gridPane.add(createStyledLabel("Email:"), 0, 4);
+        gridPane.add(email, 1, 4);
+
+        gridPane.add(addButton, 0, 10);
+
+        gridPane.add(editStatus, 0, 11);
+
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.setContent(gridPane);
+
+        dialogPane.setStyle("-fx-border-color: #d6d6d6; -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 20;");
+
+        alert.getButtonTypes().addAll(ButtonType.CANCEL);
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+
     }
 
     private void openFieldBox() {
@@ -116,7 +188,6 @@ public class AdminManageUserController {
         alert.getButtonTypes().addAll(ButtonType.CANCEL);
 
         Optional<ButtonType> result = alert.showAndWait();
-
 
     }
     private TextField createStyledTextField(String promptText) {
