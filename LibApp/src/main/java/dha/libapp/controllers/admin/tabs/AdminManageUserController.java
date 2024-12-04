@@ -34,6 +34,10 @@ public class AdminManageUserController {
 
     @FXML
     private javafx.scene.control.Button addUserButton;
+    @FXML
+    private Button deleteUserButton;
+    @FXML
+    private Button editUserButton;
     private javafx.scene.control.Label editStatus = new javafx.scene.control.Label();
 
     @FXML

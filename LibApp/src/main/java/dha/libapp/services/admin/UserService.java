@@ -99,7 +99,7 @@ public class UserService {
         }
     }
 
-    public
+    //public
 
     private static boolean userExists(String username) {
         return UserDAO.getUserByUsername(username) != null;
