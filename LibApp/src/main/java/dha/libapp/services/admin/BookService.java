@@ -2,6 +2,7 @@ package dha.libapp.services.admin;
 
 import dha.libapp.dao.BookDAO;
 import dha.libapp.dao.GenreTypeDAO;
+import dha.libapp.dao.UserDAO;
 import dha.libapp.models.GenreType;
 import dha.libapp.syncdao.BookSyncDAO;
 import dha.libapp.syncdao.utils.DAOUpdateCallback;
@@ -106,18 +107,32 @@ public class BookService {
         new Thread(task).start();
     }
     public void updateBook(Book book) throws Exception {
-        DAOUpdateCallback callback = new DAOUpdateCallback() {
+        if (book.getISBN().isEmpty() || book.getTitle().isEmpty() || book.getAuthor().isEmpty()
+        || book.getPublisher().isEmpty() || book.getPublicationDate() == null || book.getQuantity() < 0
+        || book.getDescription().isEmpty() || book.getCoverImagePath().isEmpty() || book.getGenreList().isEmpty()
+        || book.getISBN().length() < 10 || book.getISBN().length() > 30 || book.getTitle().length() > 100
+        || book.getAuthor().length() > 100 || book.getPublisher().length() > 100
+        || book.getCoverImagePath().length() > 256 || ISBNExists(book.getISBN())) {
+
+            // controller for invalid
+            throw new RuntimeException("Invalid values");
+        }
+
+        BookSyncDAO.updateBookSync(book, new DAOUpdateCallback() {
+
             @Override
             public void onSuccess() {
                 System.out.println("update book successful");
+                // controller;
             }
 
             @Override
             public void onError(Throwable e) {
+                System.out.println("update book failed");
                 throw new RuntimeException("update book failed", e);
+                // controller;
             }
-        };
-        BookSyncDAO.updateBookSync(book,callback);
+        });
     }
 
     public void addBook(String ISBN, String title, String author, String publisher,
@@ -166,5 +181,7 @@ public class BookService {
 
 
     }
-
+    private static boolean ISBNExists(String ISBN) {
+        return BookDAO.getBookByISBN(ISBN) != null;
+    }
 }

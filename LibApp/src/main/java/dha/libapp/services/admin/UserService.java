@@ -35,7 +35,7 @@ public class UserService {
                 || userName.length() > 50 || password.length() > 100 || fullName.length() > 100) {
 
             // controller for invalid
-            throw new RuntimeException("Invalid username or password");
+            throw new RuntimeException("Invalid values");
         }
 
         try {
@@ -70,7 +70,7 @@ public class UserService {
                 || !isValidPhone(phoneNumber) || password.length() > 50 || fullName.length() > 100) {
 
             // controller for invalid
-            throw new RuntimeException("Invalid username or password");
+            throw new RuntimeException("Invalid values");
         }
 
         try {
@@ -106,7 +106,7 @@ public class UserService {
                 || user.getFullName().length() > 100) {
 
             // controller for invalid
-            throw new RuntimeException("Invalid username or password");
+            throw new RuntimeException("Invalid values");
         }
 
         try {
