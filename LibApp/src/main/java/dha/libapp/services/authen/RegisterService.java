@@ -3,6 +3,8 @@ package dha.libapp.services.authen;
 import dha.libapp.controllers.authen.RegisterController;
 import dha.libapp.dao.UserDAO;
 import dha.libapp.models.UserRole;
+import dha.libapp.syncdao.UserSyncDAO;
+import dha.libapp.syncdao.utils.DAOUpdateCallback;
 
 public class RegisterService {
     public static void register(String username, String password, String fullName, String phone, String email) {
@@ -33,8 +35,18 @@ public class RegisterService {
         try {
             String hashedPassword = PasswordService.hashPassword(password);
 
-            UserDAO.addNewUser(username, hashedPassword, UserRole.MEMBER, fullName, phone, email);
-            RegisterController.getInstance().onRegisterSuccess();
+            UserSyncDAO.addNewUserSync(username, hashedPassword, UserRole.MEMBER,
+                    fullName, phone, email, new DAOUpdateCallback() {
+                @Override
+                public void onSuccess() {
+                    RegisterController.getInstance().onRegisterSuccess();
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    RegisterController.getInstance().onRegisterFailure();
+                }
+            });
         } catch (Exception e) {
             RegisterController.getInstance().onRegisterFailure();
         }
