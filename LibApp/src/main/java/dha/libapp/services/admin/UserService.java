@@ -77,8 +77,8 @@ public class UserService {
         try {
             String hashedPassword = PasswordService.hashPassword(password);
 
-            UserSyncDAO.updateUserSync(userId, password, fullName, phoneNumber,
-                    email, new DAOUpdateCallback() {
+            UserSyncDAO.updateUserSync(userId, password, fullName, phoneNumber, email,
+                    new DAOUpdateCallback() {
 
                         @Override
                         public void onSuccess() {
@@ -98,6 +98,46 @@ public class UserService {
             throw new Exception(e);
             // controller for error
         }
+    }
+
+    public void updateUser(User user) throws Exception {
+        if (user.getPassword().isEmpty() || user.getFullName().isEmpty() || user.getPhoneNumber().isEmpty()
+                || user.getEmail().isEmpty() || user.getPassword().length() < 8 || !isValidEmail(user.getEmail())
+                || !isValidPhone(user.getPhoneNumber()) || user.getPassword().length() > 50
+                || user.getFullName().length() > 100) {
+
+            // controller for invalid
+            throw new RuntimeException("Invalid username or password");
+        }
+
+        try {
+            String hashedPassword = PasswordService.hashPassword(user.getPassword());
+
+            UserSyncDAO.updateUserSync(user.getUserId(), user.getPassword(), user.getFullName(),
+                    user.getPhoneNumber(), user.getEmail(), new DAOUpdateCallback() {
+
+                        @Override
+                        public void onSuccess() {
+                            System.out.println("User updated successfully");
+                            // controller;
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            System.out.println("User updated failed");
+                            throw new RuntimeException(e);
+                            // controller;
+                        }
+                    });
+        } catch (Exception e) {
+            System.out.println("User update failed");
+            throw new Exception(e);
+            // controller for error
+        }
+    }
+
+    public void deleteUser(int userId) throws Exception {
+        
     }
 
     private static boolean userExists(String username) {

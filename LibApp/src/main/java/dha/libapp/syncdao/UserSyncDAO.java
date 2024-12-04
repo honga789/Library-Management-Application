@@ -70,8 +70,8 @@ public class UserSyncDAO {
     }
 
     // Update user by ID
-    public static void updateUserSync(int userId, String password,
-                                      String fullName, String phoneNumber, String email, DAOUpdateCallback callback) {
+    public static void updateUserSync(int userId, String password, String fullName, String phoneNumber,
+                                      String email, DAOUpdateCallback callback) {
         Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
