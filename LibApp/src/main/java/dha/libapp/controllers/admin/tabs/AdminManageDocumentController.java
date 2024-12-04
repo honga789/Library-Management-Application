@@ -13,6 +13,15 @@ import dha.libapp.utils.API.GoogleBooks.GoogleBooksTask;
 import javafx.fxml.FXML;
 import dha.libapp.dao.GenreTypeDAO;
 
+import dha.libapp.cache.Cache;
+import dha.libapp.cache.members.HomeTabCache;
+import dha.libapp.controllers.members.tabs.MemberHomeTabController;
+import dha.libapp.models.Book;
+import dha.libapp.services.SessionService;
+import dha.libapp.services.members.RecommendationService;
+import dha.libapp.syncdao.BookSyncDAO;
+import dha.libapp.syncdao.utils.DAOExecuteCallback;
+
 import java.util.ArrayList;
 import java.util.Optional;
 import javafx.geometry.Insets;
@@ -33,6 +42,9 @@ import javafx.scene.text.Text;
 import java.util.List;
 
 public class AdminManageDocumentController {
+
+
+
 
     @FXML
     private Button newBook;
