@@ -48,7 +48,7 @@
                                        </font>
                                     </Label>
                                     <Label fx:id="bookDetailDescription" prefWidth="240.0" text="This is the prescription of the book. This gripping novel delves into themes of love, loss, and self-discovery. Set in [location], it follows [main character] as they navigate personal challenges and face tough choices that will change their life forever. A compelling tale of resilience, this book will resonate with readers on an emotional level." wrapText="true" />
-                                    <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #50e2fa; -fx-background-radius: 15;" styleClass="button-borrow" stylesheets="@../../../css/hometab.css" text="Borrow">
+                                    <Button fx:id="borrowBookBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #50e2fa; -fx-background-radius: 15;" styleClass="button-borrow" stylesheets="@../../../css/hometab.css" text="Borrow">
                                        <VBox.margin>
                                           <Insets bottom="10.0" top="15.0" />
                                        </VBox.margin>
