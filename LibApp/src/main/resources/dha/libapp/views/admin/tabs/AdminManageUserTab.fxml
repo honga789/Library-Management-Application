@@ -12,7 +12,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane layoutX="0" layoutY="0" prefHeight="700.0" prefWidth="1050.0" style="-fx-padding: 0;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dha.libapp.controllers.admin.tabs.AdminApproveRequestController">
+<AnchorPane layoutX="0" layoutY="0" prefHeight="700.0" prefWidth="1050.0" style="-fx-padding: 0;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dha.libapp.controllers.admin.tabs.AdminManageUserController">
     <children>
         <Button mnemonicParsing="false" prefHeight="700.0" prefWidth="1050.0" style="-fx-background-color: red; -fx-background-radius: 30; -fx-padding: 0;">
             <graphic>
@@ -25,12 +25,12 @@
                                         <Font name="System Bold" size="14.0" />
                                     </font></Label>
                                 <Pane prefHeight="200.0" prefWidth="200.0" />
-                        <Button layoutX="254.0" layoutY="535.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="91.0" style="-fx-background-color: red; -fx-background-radius: 15; -fx-cursor: hand;" text="Delete" textFill="#f2f2f2">
+                        <Button layoutX="254.0" layoutY="535.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="91.0" style="-fx-background-color: red; -fx-background-radius: 15; -fx-cursor: hand;" text="Delete" textFill="#f2f2f2" fx:id="deleteUserButton">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Button>
-                                <Button layoutX="24.0" layoutY="535.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="84.0" style="-fx-background-color: #7AE582; -fx-background-radius: 15; -fx-cursor: hand;" styleClass="button-borrow" stylesheets="@../../../css/hometab.css" text="Add">
+                                <Button layoutX="24.0" layoutY="535.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="84.0" style="-fx-background-color: #7AE582; -fx-background-radius: 15; -fx-cursor: hand;" styleClass="button-borrow" stylesheets="@../../../css/hometab.css" text="Add" fx:id="addUserButton">
                                     <cursor>
                                         <Cursor fx:constant="HAND" />
                                     </cursor>
@@ -65,7 +65,7 @@
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <Button layoutX="138.0" layoutY="535.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="84.0" style="-fx-background-color: yellow; -fx-cursor: hand; -fx-background-radius: 15;" text="Edit">
+                        <Button layoutX="138.0" layoutY="535.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="84.0" style="-fx-background-color: yellow; -fx-cursor: hand; -fx-background-radius: 15;" text="Edit" fx:id="editUserButton">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
