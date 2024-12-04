@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import dha.libapp.models.Book;
 import dha.libapp.models.GenreType;
+import dha.libapp.models.User;
 import dha.libapp.services.admin.BookService;
 import dha.libapp.utils.API.ExecutorHandle;
 import dha.libapp.utils.API.GoogleBooks.BookFetchCallback;
@@ -26,17 +27,11 @@ import java.util.ArrayList;
 import java.util.Optional;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.DialogPane;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
-import javafx.scene.control.CheckBox;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import java.util.List;
@@ -54,6 +49,11 @@ public class AdminManageDocumentController {
     private Label editStatus = new Label();
 
     @FXML
+    private ListView<Book> bookListView;
+
+    private Book selectedBook = null;
+
+    @FXML
     public void initialize() {
         initializeButton();
         BookService.GenreCallback callback = new BookService.GenreCallback() {
@@ -65,7 +65,18 @@ public class AdminManageDocumentController {
         };
         BookService.getInstance().getGenres(callback);
 
+        bookListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                Book selected = (Book) newValue;
+                System.out.println("Selected Book: " + selected.getClass().toString() + ": " + selected);
+                this.setBookDetailView(selected);
+                this.selectedBook = selected;
+            }
+        });
+    }
 
+    public void setBookDetailView(Book book) {
+        
     }
 
     private void initializeButton() {
