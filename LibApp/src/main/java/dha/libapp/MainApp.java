@@ -67,7 +67,7 @@ public class MainApp extends Application {
 
                 RecommendationService.getRecommendedBooksForUser(user, recommendedBook -> {
                     System.out.println(recommendedBook);
-                });
+                }, 5);
 
 
                 try {

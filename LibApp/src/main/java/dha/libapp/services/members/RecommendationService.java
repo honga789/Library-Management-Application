@@ -1,26 +1,19 @@
 package dha.libapp.services.members;
 
-import dha.libapp.MainApp;
 import dha.libapp.dao.BookDAO;
 import dha.libapp.dao.BorrowRecordDAO;
 import dha.libapp.dao.GenreTypeDAO;
-import dha.libapp.dao.UserDAO;
 import dha.libapp.models.Book;
 import dha.libapp.models.BorrowRecord;
 import dha.libapp.models.GenreType;
 import dha.libapp.models.User;
-import dha.libapp.syncdao.BookSyncDAO;
-import dha.libapp.syncdao.BorrowRecordSyncDAO;
-import dha.libapp.syncdao.utils.DAOExecuteCallback;
-import dha.libapp.utils.Database.DBUtil;
 import javafx.concurrent.Task;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class RecommendationService {
 
@@ -28,7 +21,7 @@ public class RecommendationService {
         void onSuccess(List<Book> recommendedBook);
     }
 
-    public static void getRecommendedBooksForUser(User user, RecommendCallback recommendCallback) {
+    public static void getRecommendedBooksForUser(User user, RecommendCallback recommendCallback, int maxRecommended) {
 
         Task<List<Book>> task = new Task<List<Book>>() {
             @Override
@@ -70,7 +63,82 @@ public class RecommendationService {
                     System.out.println(key + ": " + value);
                 });
 
-                return null;
+                List<Integer> userVector = vectors.get(user.getUserId());
+                double userVectorMagnitude = 0;
+                for (int i = 0; i < n; i++) {
+                    userVectorMagnitude += weights.get(i) * userVector.get(i) * userVector.get(i);
+                }
+                userVectorMagnitude = Math.sqrt(userVectorMagnitude);
+
+                if (userVectorMagnitude == 0) {
+                    return BookDAO.getAllBook().subList(0, maxRecommended);
+                }
+
+                HashMap<Integer, Double> cosineSimilarities = new HashMap<>();
+                double finalUserVectorMagnitude = userVectorMagnitude;
+                vectors.forEach((key, otherVector) -> {
+                    if (key != user.getUserId()) {
+                        double productDot = 0;
+                        for (int i = 0; i < n; i++) {
+                            productDot += weights.get(i) * userVector.get(i) * otherVector.get(i);
+                        }
+                        double vectorMagnitude = 0;
+                        for (int i = 0; i < n; i++) {
+                            vectorMagnitude += weights.get(i) * otherVector.get(i) * otherVector.get(i);
+                        }
+                        vectorMagnitude = Math.sqrt(vectorMagnitude);
+
+                        double cosineSimilarity = 0;
+                        if (finalUserVectorMagnitude * vectorMagnitude != 0) {
+                            cosineSimilarity = productDot / (finalUserVectorMagnitude * vectorMagnitude);
+                        }
+
+                        cosineSimilarities.put(key, cosineSimilarity);
+                    }
+                });
+
+                cosineSimilarities.put(0, 0.0);
+
+                System.out.println("Cosines:");
+                cosineSimilarities.forEach((key, value) -> {
+                    System.out.println(key + ": " + value);
+                });
+
+                List<Integer> sortedKeys = cosineSimilarities.entrySet()
+                        .stream()
+                        .sorted((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue())) // sort by value
+                        .map(Map.Entry::getKey) // get key from Map.Entry
+                        .collect(Collectors.toList()); // change to List<Integer>
+
+                System.out.println(sortedKeys);
+
+                List<Book> recommendedBooks = new ArrayList<>();
+                List<BorrowRecord> brs = BorrowRecordDAO.getAllBorrowRecordsByUserId(user.getUserId());
+
+                int i = 0;
+                while (recommendedBooks.size() < maxRecommended && i < sortedKeys.size()) {
+                    List<BorrowRecord> borrowRecords = BorrowRecordDAO.getAllBorrowRecordsByUserId(sortedKeys.get(i));
+                    for (BorrowRecord borrowRecord : borrowRecords) {
+                        Book book = BookDAO.getBookById(borrowRecord.getBookId());
+
+                        boolean isBorrowed = false;
+                        for (BorrowRecord br : brs) {
+                            if (br.getBookId() == book.getBookId()) {
+                                isBorrowed = true;
+                            }
+                        }
+
+                        if (!isBorrowed) recommendedBooks.add(book);
+                        if (recommendedBooks.size() >= maxRecommended) {
+                            break;
+                        }
+                    }
+                    i++;
+                }
+
+                System.out.println(recommendedBooks);
+
+                return recommendedBooks;
             }
 
             @Override
@@ -83,11 +151,5 @@ public class RecommendationService {
         new Thread(task).start();
 
     }
-
-    public static void main(String[] args) {
-        // Test chức năng với một user giả
-        getRecommendedBooksForUser(new User(), recommendedBook -> {
-            System.out.println("Recommended Books: " + recommendedBook.size());
-        });
-    }
 }
+
