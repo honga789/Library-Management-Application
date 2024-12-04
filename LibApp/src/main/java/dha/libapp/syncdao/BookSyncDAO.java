@@ -20,4 +20,44 @@ public class BookSyncDAO {
         DAOTaskRunner.executeTask(task, callback);
     }
 
+    public static void getBookByIdSync(int bookId, DAOExecuteCallback<Book> callback) {
+        Task<Book> task = new Task<Book>() {
+            @Override
+            protected Book call() throws Exception {
+                return BookDAO.getBookById(bookId);
+            }
+        };
+        DAOTaskRunner.executeTask(task, callback);
+    }
+
+    public static void getBookByISBNSync(String ISBN, DAOExecuteCallback<Book> callback) {
+        Task<Book> task = new Task<Book>() {
+            @Override
+            protected Book call() throws Exception {
+                return BookDAO.getBookByISBN(ISBN);
+            }
+        };
+        DAOTaskRunner.executeTask(task, callback);
+    }
+
+    public static void getDeletedBookByIdSync(int bookId, DAOExecuteCallback<Book> callback) {
+        Task<Book> task = new Task<Book>() {
+            @Override
+            protected Book call() throws Exception {
+                return BookDAO.getDeletedBookById(bookId);
+            }
+        };
+        DAOTaskRunner.executeTask(task, callback);
+    }
+
+    public static void getDeletedBookByISBNSync(String ISBN, DAOExecuteCallback<Book> callback) {
+        Task<Book> task = new Task<Book>() {
+            @Override
+            protected Book call() throws Exception {
+                return BookDAO.getDeletedBookByISBN(ISBN);
+            }
+        };
+        DAOTaskRunner.executeTask(task, callback);
+    }
+
 }
