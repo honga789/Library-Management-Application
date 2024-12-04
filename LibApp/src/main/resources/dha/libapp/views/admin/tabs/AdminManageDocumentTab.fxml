@@ -48,7 +48,7 @@
                                  <Label fx:id="bookDetailDescription" prefWidth="240.0" text="This is the prescription of the book. This gripping novel delves into themes of love, loss, and self-discovery. Set in [location], it follows [main character] as they navigate personal challenges and face tough choices that will change their life forever. A compelling tale of resilience, this book will resonate with readers on an emotional level." wrapText="true" />
                                     <Pane prefHeight="54.0" prefWidth="334.0">
                                        <children>
-                                       <Button layoutX="58.0" layoutY="7.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="94.0" style="-fx-background-color: red; -fx-background-radius: 15; -fx-cursor: hand;" styleClass="button-borrow" stylesheets="@../../../css/hometab.css" text="Delete" textFill="WHITE">
+                                       <Button layoutX="58.0" layoutY="7.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="94.0" style="-fx-background-color: red; -fx-background-radius: 15; -fx-cursor: hand;" styleClass="button-borrow" stylesheets="@../../../css/hometab.css" text="Delete" textFill="WHITE" fx:id="deleteBook">
                                           <cursor>
                                              <Cursor fx:constant="HAND" />
                                           </cursor>

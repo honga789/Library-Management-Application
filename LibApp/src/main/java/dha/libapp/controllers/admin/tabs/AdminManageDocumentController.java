@@ -464,7 +464,7 @@ public class AdminManageDocumentController {
                 BookService.getInstance().updateBook(newBook);
                 System.out.println("Updated Book: " + newBook.getISBN());
             } catch (Exception e) {
-                showErrorPopup("Error Update Book", "Please enter valid book data");
+                showErrorPopup("Error Update Book","Got:" + e.getMessage() + "\nPlease enter valid book data");
             }
 
         });
