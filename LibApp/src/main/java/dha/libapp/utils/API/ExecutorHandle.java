@@ -24,24 +24,25 @@ public class ExecutorHandle {
         executorService.submit(task);
     }
 
-    public Image getImage(String imageUrl) {
-        List<Image> container = new ArrayList<>();
-        ImageFetchCallback callback = new ImageFetchCallback() {
-            @Override
-            public void onSuccess(Image image) {
-                System.out.println("Get image success");
-                container.add(image);
-            }
-            @Override
-            public void onFailure(Exception e) {
-                System.out.println("Get image failure");
-            }
-        };
-        ImageTask imageTask = new ImageTask(imageUrl, callback);
-        if (container.isEmpty()) {
-            return null;
-        } else {
-            return container.getFirst();
-        }
-    }
+//    public static Image getImage(String imageUrl) {
+//        List<Image> container = new ArrayList<>();
+//        ImageFetchCallback callback = new ImageFetchCallback() {
+//            @Override
+//            public void onSuccess(Image image) {
+//                System.out.println("Get image success");
+//                container.add(image);
+//            }
+//            @Override
+//            public void onFailure(Exception e) {
+//                System.out.println("Get image failure");
+//            }
+//        };
+//        ImageTask imageTask = new ImageTask(imageUrl, callback);
+//        instance.addTask(imageTask);
+//        if (container.isEmpty()) {
+//            return null;
+//        } else {
+//            return container.getFirst();
+//        }
+//    }
 }
