@@ -135,6 +135,21 @@ public class UserDAO {
         }
     }
 
+    public static void updateUser(User user) {
+        String sql = "UPDATE User SET password = ?, role = ?, "
+                + "full_name = ?, phone_number = ?, email = ? WHERE user_id = ?";
+
+        try (PreparedStatement preparedStatement = DBUtil.getPrepareStatement(MainApp.getDbConnection(),
+                sql, user.getPassword(), user.getRole().toString(), user.getFullName(),
+                user.getPhoneNumber(), user.getEmail(), user.getUserId())) {
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error when updateUser...");
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void deleteUserById(int userId) {
         User user = getUserById(userId);
         if (user == null) {
@@ -159,8 +174,7 @@ public class UserDAO {
         if (user == null) {
             return;
         }
-
-        int userId = user.getUserId();
-        deleteUserById(userId);
+        
+        deleteUserById(user.getUserId());
     }
 }
