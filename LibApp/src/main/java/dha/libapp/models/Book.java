@@ -136,20 +136,17 @@ public class Book {
         this.genreList = genreList;
         return this;
     }
-
+    @Override
     public String toString() {
-        return  "Book: [\n"
-                + "bookId: " + bookId + ",\n"
-                + "ISBN: " + ISBN + ",\n"
-                + "Title: " + title + ",\n"
-                + "Author: " + author + ",\n"
-                + "Publisher: " + publisher + ",\n"
-                + "Publication Date: " + publicationDate + ",\n"
-                + "Quantity: " + quantity + ",\n"
-                + "Description: " + description + ",\n"
-                + "Cover Image: " + coverImagePath + ",\n"
-                + "GenreList: " + genreList
-                + "\n]";
+        String genreString = "";
+        for (GenreType genreType : genreList) {
+            genreString += genreType.getGenreName() + ", ";
+        }
+        genreString = genreString.substring(0, genreString.length() - 2);
+        return String.format(
+                "\nName: %s\nAuthor: %s\nGenres: %s\n ",
+                title, author, genreString
+        );
     }
 
     public void displayInfo() {

@@ -1,24 +1,9 @@
 package dha.libapp.services.members;
 
-import dha.libapp.MainApp;
-import dha.libapp.dao.BookDAO;
-import dha.libapp.dao.BorrowRecordDAO;
-import dha.libapp.dao.UserDAO;
 import dha.libapp.models.Book;
-import dha.libapp.models.BorrowRecord;
-import dha.libapp.models.GenreType;
 import dha.libapp.models.User;
-import dha.libapp.syncdao.BookSyncDAO;
-import dha.libapp.syncdao.BorrowRecordSyncDAO;
-import dha.libapp.syncdao.utils.DAOExecuteCallback;
-import dha.libapp.utils.Database.DBUtil;
 import javafx.concurrent.Task;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 public class RecommendationService {
 
@@ -32,7 +17,7 @@ public class RecommendationService {
             @Override
             protected List<Book> call() throws Exception {
 
-                
+
 
                 return null;
             }
