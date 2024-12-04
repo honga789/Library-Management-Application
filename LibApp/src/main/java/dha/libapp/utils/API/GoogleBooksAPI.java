@@ -1,10 +1,12 @@
 package dha.libapp.utils.API;
 
+import com.google.gson.JsonElement;
 import dha.libapp.models.Book;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import dha.libapp.models.GenreType;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -12,6 +14,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -23,7 +26,7 @@ public class GoogleBooksAPI {
 
     // Interface for the callback function
     interface BookFetchCallback {
-        void onSuccess(List<String> bookTitles);
+        void onSuccess(List<Book> booksData);
         void onFailure(Exception ex);
     }
 
@@ -39,12 +42,13 @@ public class GoogleBooksAPI {
         @Override
         public void run() {
             List<String> bookTitles = new ArrayList<>();
+            List<Book> booksData = new ArrayList<>();
             try {
                 // URL encode the query string to handle special characters
-                String encodedQuery = URLEncoder.encode(query, "UTF-8");
+                String encodedQuery = query;
                 // Construct the URL to access the Google Books API
-                String url = "https://www.googleapis.com/books/v1/volumes?q=" + encodedQuery + "&key=" + API_KEY;
-
+                String url = "https://www.googleapis.com/books/v1/volumes?q" + encodedQuery + "&key=" + API_KEY;
+                System.out.println(url);
                 // Create a URL object
                 URL apiUrl = new URL(url);
 
@@ -75,16 +79,45 @@ public class GoogleBooksAPI {
                     JsonArray items = jsonResponse.getAsJsonArray("items");
 
                     if (items != null) {
-                        // Extract and collect book titles
+                        // Extract and collect book info
                         for (int i = 0; i < items.size(); i++) {
+                            System.out.println("Get JSON Item:");
                             JsonObject volumeInfo = items.get(i).getAsJsonObject().getAsJsonObject("volumeInfo");
+                            //System.out.println(volumeInfo.getAsString());
                             String title = volumeInfo.get("title").getAsString();
+                            System.out.println("Title: " + title);
+                            JsonArray authorsArray = volumeInfo.getAsJsonArray("authors");
+
+                            String author = authorsArray.get(0).getAsString();
+                            System.out.println("Author: " + author);
+                            String publisher = volumeInfo.get("publisher").getAsString();
+                            System.out.println("Publisher: " + publisher);
+                            String publishedDateJson = volumeInfo.get("publishedDate").getAsString();
+                            System.out.println("Published Date: " + publishedDateJson);
+                            Date publishedDate = Date.valueOf(publishedDateJson);
+                            int quantity = 0;
+                            String description = volumeInfo.get("description").getAsString();
+                            System.out.println("Description: " + description);
+                            JsonObject imgLinks = volumeInfo.getAsJsonObject("imageLinks");
+                            String imgUrl = imgLinks.get("thumbnail").getAsString();
+                            System.out.println("imgUrl: " + imgUrl);
+                            JsonArray identifiersArray = volumeInfo.getAsJsonArray("industryIdentifiers");
+                            String ISBN_10 = "0000000000";
+                            for (int j = 0; j < identifiersArray.size(); j++) {
+                                JsonObject identifierObj = identifiersArray.get(j).getAsJsonObject();
+                                if ("ISBN_10".equals(identifierObj.get("type").getAsString())) {
+                                    ISBN_10 = identifierObj.get("identifier").getAsString();
+                                }
+                            }
+                            System.out.println("ISBN_10: " + ISBN_10);
+                            Book book = new Book(-1, ISBN_10, title,author, publisher, publishedDate, quantity, description, imgUrl, null);
                             bookTitles.add(title);
+                            booksData.add(book);
                         }
 
                         // On success, trigger the callback
                         if (callback != null) {
-                            callback.onSuccess(bookTitles);
+                            callback.onSuccess(booksData);
                         }
                     } else {
                         throw new Exception("No books found in the response");
@@ -103,25 +136,19 @@ public class GoogleBooksAPI {
         }
     }
 
-    public static void getBookByTitle(String title, BookFetchCallback callback) {
-        // Use ExecutorService for managing threads
-        ExecutorService executor = Executors.newFixedThreadPool(1);
 
-        // Create and submit the task to fetch books
-        GoogleBooksTask task = new GoogleBooksTask(title, callback);
-        executor.submit(task);
-
-        // Shutdown the executor once the task is submitted
-        executor.shutdown();
+    public static GoogleBooksTask getBookDataByISBN(String isbn, BookFetchCallback callback) {
+        String query = "=isbn:" + isbn;
+        return new GoogleBooksTask(query, callback);
     }
 
     public static void main(String[] args) {
         // Define the callback for handling success and failure
         BookFetchCallback callback = new BookFetchCallback() {
             @Override
-            public void onSuccess(List<String> bookTitles) {
+            public void onSuccess(List<Book> bookTitles) {
                 System.out.println("Books fetched successfully!");
-                for (String bookTitle : bookTitles) {
+                for (Book bookTitle : bookTitles) {
                     System.out.println(bookTitle);
                 }
             }
@@ -131,6 +158,15 @@ public class GoogleBooksAPI {
                 System.err.println("Error fetching books: " + ex.getMessage());
             }
         };
-        getBookByTitle("java Books", callback);
+        ExecutorService executorService = Executors.newFixedThreadPool(3);
+
+        GoogleBooksTask getByISBN = getBookDataByISBN("1975335341", callback);
+        GoogleBooksTask getByISBN2 = getBookDataByISBN("1975335342", callback);
+        System.out.println("test 1");
+        executorService.submit(getByISBN);
+        System.out.println("test 2");
+        executorService.submit(getByISBN2);
+        executorService.shutdown();
+
     }
 }
