@@ -72,7 +72,7 @@ public class MemberBorrowedTabService {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        throw new RuntimeException();
                     }
             });
         }

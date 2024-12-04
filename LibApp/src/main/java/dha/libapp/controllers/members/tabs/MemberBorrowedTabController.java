@@ -3,11 +3,17 @@ package dha.libapp.controllers.members.tabs;
 import dha.libapp.models.Book;
 import dha.libapp.services.SessionService;
 import dha.libapp.services.members.tabs.MemberBorrowedTabService;
+import dha.libapp.utils.API.ExecutorHandle;
+import dha.libapp.utils.API.Image.ImageAPI;
+import dha.libapp.utils.API.Image.ImageFetchCallback;
+import dha.libapp.utils.API.Image.ImageTask;
 import dha.libapp.utils.ListView.BookListView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
 import java.net.URL;
@@ -39,6 +45,9 @@ public class MemberBorrowedTabController implements Initializable {
     @FXML
     private Label bookDetailDescription;
 
+    @FXML
+    private ImageView bookDetailImage;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         instance = this;
@@ -66,6 +75,20 @@ public class MemberBorrowedTabController implements Initializable {
         bookDetailName.setText(book.getTitle());
         bookDetailAuthor.setText(book.getAuthor());
         bookDetailDescription.setText(book.getDescription());
+
+        ImageTask imageTask = ImageAPI.getImageWithUrl(book.getCoverImagePath(), new ImageFetchCallback() {
+            @Override
+            public void onSuccess(Image image) {
+                bookDetailImage.setImage(image);
+            }
+
+            @Override
+            public void onFailure(Exception ex) {
+
+            }
+        });
+
+        ExecutorHandle.getInstance().addTask(imageTask);
     }
 
     public void setLoadingPaneVisible(boolean visible) {

@@ -71,7 +71,7 @@ public class MemberPendingTabService {
 
                         @Override
                         public void onError(Throwable e) {
-
+                            throw new RuntimeException();
                         }
                     });
         }

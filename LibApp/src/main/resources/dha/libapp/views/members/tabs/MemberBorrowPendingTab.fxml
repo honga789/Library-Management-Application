@@ -28,7 +28,7 @@
                                                                         <content>
                                                                                 <VBox alignment="TOP_CENTER" minHeight="580.0" prefWidth="334.0" spacing="10.0" style="-fx-background-color: pink; -fx-padding: 0;">
                                                                                         <children>
-                                                                                                <ImageView fitHeight="294.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                                                                                                <ImageView fx:id="bookDetailImage" fitHeight="294.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                                                                                                         <image>
                                                                                                                 <Image url="@../../../images/book_loader.jpg" />
                                                                                                         </image>
