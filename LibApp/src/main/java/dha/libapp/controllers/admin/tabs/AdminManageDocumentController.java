@@ -116,10 +116,17 @@ public class AdminManageDocumentController {
         confirmButton.setStyle("-fx-background-color: #d46dd2; -fx-text-fill: white; -fx-font-weight: bold; -fx-border-radius: 5; -fx-background-radius: 5;");
         confirmButton.setOnAction(event -> {
             StringBuilder selectedGenres = new StringBuilder("Selected Genres: ");
+            BookService.GenreCallback callback = new BookService.GenreCallback() {
+
+                @Override
+                public void onSuccess(List<GenreType> genreTypesCallback) {
+                    selectedGenreTypeList.addAll(genreTypesCallback);
+                }
+            };
             for (Node node : genreBox.getChildren()) {
                 if (node instanceof CheckBox checkBox && checkBox.isSelected()) {
                     selectedGenres.append(checkBox.getText()).append(", ");
-
+                    BookService.getInstance().getGenreByName(checkBox.getText(), callback);
                 }
             }
             if (selectedGenres.length() > 17) {
@@ -186,7 +193,7 @@ public class AdminManageDocumentController {
         });
 
         //call api autofill
-        Button autofillButton = new Button("Tự điền");
+        Button autofillButton = new Button("Tự động điền");
         autofillButton.setStyle("-fx-background-color: #d46dd2; -fx-text-fill: white; -fx-font-weight: bold; -fx-border-radius: 5; -fx-background-radius: 5;");
         autofillButton.setOnMouseClicked(event -> {
             List<Book> dataHolder = new ArrayList<>();
@@ -220,7 +227,7 @@ public class AdminManageDocumentController {
                 coverField.setText(dataHolder.getFirst().getCoverImagePath());
                 publisherField.setText(dataHolder.getFirst().getPublisher());
                 //publishedDateField.setText(dataHolder.getFirst().getPublicationDate().toString());
-
+                authorField.setText(dataHolder.getFirst().getAuthor());
             }
         });
 

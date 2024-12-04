@@ -25,6 +25,32 @@ public class BookService {
         void onSuccess(List<GenreType> genreTypesCallback);
     }
 
+    public void getGenreByName(String genreName, GenreCallback callback) {
+        Task<List<GenreType>> task = new Task<>() {
+
+            @Override
+            protected List<GenreType> call() throws Exception {
+                List<GenreType> genreTypes = new ArrayList<>();
+                genreTypes.add(GenreTypeDAO.getGenreTypeByName(genreName));
+                return genreTypes;
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                callback.onSuccess(getValue());
+                System.out.println("get genre success");
+            }
+
+            @Override
+            protected void failed() {
+                super.failed();
+                System.out.println("get genre by name failed");
+            }
+        };
+        new Thread(task).start();
+    }
+
     public void getGenres(GenreCallback callback) {
         Task<List<GenreType>> task = new Task<>() {
 
