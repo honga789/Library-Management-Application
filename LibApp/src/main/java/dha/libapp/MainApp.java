@@ -1,8 +1,8 @@
 package dha.libapp;
 
+import dha.libapp.models.Book;
 import dha.libapp.models.User;
-import dha.libapp.syncdao.UserSyncDAO;
-import dha.libapp.syncdao.utils.DAOExecuteCallback;
+import dha.libapp.services.members.RecommendationService;
 import dha.libapp.utils.Database.DBUtil;
 import javafx.application.Application;
 import javafx.concurrent.Task;
@@ -61,6 +61,14 @@ public class MainApp extends Application {
             @Override
             protected void succeeded() {
                 super.succeeded();
+
+                User user = new User();
+                user.setUserId(2);
+
+                RecommendationService.getRecommendedBooksForUser(user, recommendedBook -> {
+                    System.out.println(recommendedBook);
+                });
+
 
                 try {
                     Parent fxmlContent = MainApp.getContentFromFxml("views/MainAppView.fxml");

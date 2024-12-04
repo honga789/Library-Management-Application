@@ -38,16 +38,16 @@ public class BookListView {
 
         listView.getItems().addAll(allStringBook);
 
-        listView.setCellFactory(param -> new ListCell<String>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                } else {
-                    setText(item);
-                }
-            }
-        });
+//        listView.setCellFactory(param -> new ListCell<String>() {
+//            @Override
+//            protected void updateItem(String item, boolean empty) {
+//                super.updateItem(item, empty);
+//                if (empty || item == null) {
+//                    setText(null);
+//                } else {
+//                    setText(item);
+//                }
+//            }
+//        });
     }
 }

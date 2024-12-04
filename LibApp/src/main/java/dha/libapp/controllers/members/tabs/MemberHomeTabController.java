@@ -46,6 +46,10 @@ public class MemberHomeTabController implements Initializable {
         userFullName.setText(SessionService.getInstance().getUser().getFullName());
 
         MemberHomeTabService.renderRecommendationBooks();
+
+        recommendationListView.setOnMouseClicked(e -> {
+            System.out.println(recommendationListView.getSelectionModel().getSelectedItems().getFirst());
+        });
     }
 
     public void renderRecommendationBooks(List<Book> bookList) {

@@ -51,7 +51,7 @@ public class LoginController implements Initializable {
     }
 
     public void onLoginToAdminScene(User user) {
-        MainAppController.changeScene("views/admin/MemberView.fxml");
+        MainAppController.changeScene("views/admin/AdminView.fxml");
     }
 
     public void onInvalidInput() {
