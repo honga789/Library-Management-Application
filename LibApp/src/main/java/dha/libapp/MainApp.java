@@ -49,7 +49,8 @@ public class MainApp extends Application {
         Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                Connection connection = DBUtil.connect("jdbc:mysql://b0dhldnmrpv8rotqmh6y-mysql.services.clever-cloud.com/b0dhldnmrpv8rotqmh6y",
+                Connection connection = DBUtil.connect(
+                        "jdbc:mysql://b0dhldnmrpv8rotqmh6y-mysql.services.clever-cloud.com/b0dhldnmrpv8rotqmh6y",
                         "uoxesvpdndreask6",
                         "LTpg5gRkVYgDyuiSKjt3");
                 System.out.println(connection);
@@ -60,46 +61,6 @@ public class MainApp extends Application {
             @Override
             protected void succeeded() {
                 super.succeeded();
-
-                UserSyncDAO.getAllUserSync(new DAOExecuteCallback<List<User>>() {
-                    @Override
-                    public void onSuccess(List<User> result) {
-                        System.out.println("There are " + result.size() + " users!");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        System.out.println("Some error when get all user sync");
-                        throw new RuntimeException();
-                    }
-                });
-
-//                UserSyncDAO.addNewUserSync("duchieu", "-1", UserRole.MEMBER, "Dau Duc Hieu", "0", "1", new DAOUpdateCallback() {
-//                    @Override
-//                    public void onSuccess() {
-//                        System.out.println("Add new User success");
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//
-//                    }
-//                });
-
-
-                UserSyncDAO.getUserByUsernameSync("duchieu", new DAOExecuteCallback<User>() {
-                    @Override
-                    public void onSuccess(User result) {
-                        System.out.println("get user, user name: " + result.getUserName() + ", pass: " + result.getPassword());
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        System.out.println("Some error when get user by id sync");
-                        throw new RuntimeException();
-                    }
-                });
-
 
                 try {
                     Parent fxmlContent = MainApp.getContentFromFxml("views/MainAppView.fxml");

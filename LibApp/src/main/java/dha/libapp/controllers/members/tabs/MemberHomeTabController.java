@@ -46,7 +46,6 @@ public class MemberHomeTabController implements Initializable {
         userFullName.setText(SessionService.getInstance().getUser().getFullName());
 
         MemberHomeTabService.renderRecommendationBooks();
-
     }
 
     public void renderRecommendationBooks(List<Book> bookList) {
