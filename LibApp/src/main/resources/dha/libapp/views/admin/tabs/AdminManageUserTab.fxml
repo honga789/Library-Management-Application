@@ -14,7 +14,9 @@
             <TableColumn prefWidth="75.0" />
         </columns>
       </TableView>
-      <Button layoutX="263.0" layoutY="358.0" mnemonicParsing="false" text="Button" fx:id="addUserButton"/>
+      <Button fx:id="addUserButton" layoutX="263.0" layoutY="358.0" mnemonicParsing="false" text="Add User" />
+      <Button layoutX="410.0" layoutY="346.0" mnemonicParsing="false" text="Delete User" fx:id="deleteUserButton"/>
+      <Button layoutX="107.0" layoutY="346.0" mnemonicParsing="false" text="Edit User" fx:id="editUserButton" />
    </children>
 
 </AnchorPane>

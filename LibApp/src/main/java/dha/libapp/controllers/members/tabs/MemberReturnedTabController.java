@@ -2,6 +2,7 @@ package dha.libapp.controllers.members.tabs;
 
 import dha.libapp.models.Book;
 import dha.libapp.services.SessionService;
+import dha.libapp.services.members.UserBorrowBookService;
 import dha.libapp.services.members.tabs.MemberReturnedTabService;
 import dha.libapp.utils.API.ExecutorHandle;
 import dha.libapp.utils.API.Image.ImageAPI;
@@ -10,6 +11,7 @@ import dha.libapp.utils.API.Image.ImageTask;
 import dha.libapp.utils.ListView.BookListView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
@@ -48,6 +50,12 @@ public class MemberReturnedTabController implements Initializable {
     @FXML
     private ImageView bookDetailImage;
 
+    @FXML
+    private Button borrowBookBtn;
+
+    @FXML
+    private Book selectedBook;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         instance = this;
@@ -63,6 +71,15 @@ public class MemberReturnedTabController implements Initializable {
                 Book selected = (Book) newValue;
                 System.out.println("Selected Book: " + selected.getClass().toString() + ": " + selected);
                 this.setBookDetailView(selected);
+                this.selectedBook = selected;
+            }
+        });
+
+        borrowBookBtn.setOnMouseClicked(e -> {
+            if (selectedBook == null) {
+                System.out.println("Please choose Book!");
+            } else {
+                UserBorrowBookService.borrowBook(selectedBook);
             }
         });
     }
