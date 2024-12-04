@@ -51,6 +51,11 @@ public class BookService {
         new Thread(task).start();
     }
 
+    public interface GlobalCallback {
+        void onSuccess();
+        void onFailure(Exception genreTypesCallback);
+    }
+
     public void getGenres(GenreCallback callback) {
         Task<List<GenreType>> task = new Task<>() {
 
@@ -70,6 +75,30 @@ public class BookService {
             protected void failed() {
                 super.failed();
                 System.out.println("get genres failed");
+            }
+        };
+        new Thread(task).start();
+    }
+
+    public void deleteBook(Book book) throws Exception {
+        Task<Void> task = new Task<>() {
+            @Override
+            protected Void call() throws Exception {
+                BookDAO.deleteBookById(book.getBookId());
+                return null;
+            }
+
+            @Override
+            protected void failed() {
+                super.failed();
+                throw new RuntimeException("delete book failed");
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                System.out.println("delete book successful");
+
             }
         };
         new Thread(task).start();
