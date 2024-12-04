@@ -93,7 +93,7 @@
                            </children>
                         </AnchorPane>
                      </children></AnchorPane>
-                  <TextField layoutX="45.0" layoutY="20.0" prefHeight="60.0" prefWidth="570.0" promptText="Search book..." style="-fx-background-color: #fff; -fx-background-radius: 30; -fx-padding: 0 25;">
+                  <TextField fx:id="searchInput" layoutX="45.0" layoutY="20.0" prefHeight="60.0" prefWidth="570.0" promptText="Search book..." style="-fx-background-color: #fff; -fx-background-radius: 30; -fx-padding: 0 25;">
                      <effect>
                         <DropShadow height="15.0" offsetX="5.0" offsetY="5.0" radius="7.0" width="15.0">
                            <color>
@@ -102,10 +102,10 @@
                         </DropShadow>
                      </effect>
                   </TextField>
-                  <AnchorPane layoutX="16.0" layoutY="96.0" prefHeight="606.0" prefWidth="651.0">
+                  <AnchorPane fx:id="searchBox" layoutX="16.0" layoutY="96.0" prefHeight="586.0" prefWidth="656.0" style="-fx-background-color: #fff;">
                      <children>
-                        <ListView prefHeight="606.0" prefWidth="652.0" />
-                        <Pane prefHeight="603.0" prefWidth="651.0" style="-fx-background-color: white;">
+                        <ListView fx:id="searchBookListView" layoutY="44.0" prefHeight="550.0" prefWidth="652.0" />
+                        <Pane fx:id="searchLoadingPane" prefHeight="591.0" prefWidth="656.0" style="-fx-background-color: white;">
                            <children>
                               <Label alignment="CENTER" layoutX="258.0" layoutY="151.0" prefHeight="27.0" prefWidth="135.0" text="Please wait...">
                                  <font>
@@ -114,9 +114,14 @@
                               </Label>
                            </children>
                         </Pane>
+                        <ImageView fx:id="closeSearchBox" fitHeight="46.0" fitWidth="41.0" layoutX="610.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../images/close.png" />
+                           </image>
+                        </ImageView>
                      </children>
                   </AnchorPane>
-                  <Button layoutX="660.0" layoutY="20.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: #fff; -fx-background-radius: 20;">
+                  <Button fx:id="searchBtn" layoutX="660.0" layoutY="20.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: #fff; -fx-background-radius: 20;">
                      <effect>
                         <DropShadow height="15.0" offsetX="5.0" offsetY="5.0" radius="7.0" width="15.0">
                            <color>

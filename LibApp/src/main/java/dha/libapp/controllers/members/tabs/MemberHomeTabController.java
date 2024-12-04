@@ -4,6 +4,8 @@ import dha.libapp.dao.BookDAO;
 import dha.libapp.models.Book;
 import dha.libapp.services.SessionService;
 import dha.libapp.services.members.tabs.MemberHomeTabService;
+import dha.libapp.syncdao.BookSyncDAO;
+import dha.libapp.syncdao.utils.DAOExecuteCallback;
 import dha.libapp.utils.API.ExecutorHandle;
 import dha.libapp.utils.API.Image.ImageAPI;
 import dha.libapp.utils.API.Image.ImageFetchCallback;
@@ -11,11 +13,10 @@ import dha.libapp.utils.API.Image.ImageTask;
 import dha.libapp.utils.ListView.BookListView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
 import java.net.URL;
@@ -54,12 +55,63 @@ public class MemberHomeTabController implements Initializable {
     @FXML
     private ImageView bookDetailImage;
 
+    @FXML
+    private Pane searchLoadingPane;
+
+    @FXML
+    private ListView<Book> searchBookListView;
+
+    @FXML
+    private AnchorPane searchBox;
+
+    @FXML
+    private ImageView closeSearchBox;
+
+    @FXML
+    private TextField searchInput;
+
+    @FXML
+    private Button searchBtn;
+
+    public void setSearchLoadingPaneVisible(boolean visible) {
+        searchLoadingPane.setVisible(visible);
+    }
+
+    public void setSearchBoxVisible(boolean visible) {
+        searchBox.setVisible(visible);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         instance = this;
 
         setLoadingTrendingPaneVisible(true);
         setLoadingRecommendationPaneVisible(true);
+
+        setSearchLoadingPaneVisible(false);
+        setSearchBoxVisible(false);
+
+        closeSearchBox.setOnMouseClicked(e -> {
+            setSearchBoxVisible(false);
+        });
+
+        searchBtn.setOnMouseClicked(e -> {
+            setSearchLoadingPaneVisible(true);
+            setSearchBoxVisible(true);
+            String search = searchInput.getText();
+            BookSyncDAO.searchBookByTitleSync(search, new DAOExecuteCallback<List<Book>>() {
+                @Override
+                public void onSuccess(List<Book> result) {
+                    setSearchLoadingPaneVisible(false);
+                    BookListView.renderToListView(searchBookListView, result);
+                }
+
+                @Override
+                public void onError(Throwable e) {
+
+                }
+            });
+        });
 
         userFullName.setText(SessionService.getInstance().getUser().getFullName());
 
@@ -75,6 +127,14 @@ public class MemberHomeTabController implements Initializable {
         });
 
         topTrendingListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                Book selected = (Book) newValue;
+                System.out.println("Selected Book: " + selected.getClass().toString() + ": " + selected);
+                this.setBookDetailView(selected);
+            }
+        });
+
+        searchBookListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 Book selected = (Book) newValue;
                 System.out.println("Selected Book: " + selected.getClass().toString() + ": " + selected);
