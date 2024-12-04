@@ -1,4 +1,4 @@
-package dha.libapp.services;
+package dha.libapp.services.admin;
 
 import dha.libapp.dao.BookDAO;
 import dha.libapp.dao.GenreTypeDAO;

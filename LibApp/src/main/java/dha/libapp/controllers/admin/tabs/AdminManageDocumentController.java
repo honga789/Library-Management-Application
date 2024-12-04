@@ -5,15 +5,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import dha.libapp.models.Book;
 import dha.libapp.models.GenreType;
-import dha.libapp.services.BookService;
+import dha.libapp.services.admin.BookService;
 import dha.libapp.utils.API.ExecutorHandle;
 import dha.libapp.utils.API.GoogleBooks.BookFetchCallback;
 import dha.libapp.utils.API.GoogleBooks.GoogleBooksAPI;
 import dha.libapp.utils.API.GoogleBooks.GoogleBooksTask;
 import javafx.fxml.FXML;
 import dha.libapp.dao.GenreTypeDAO;
-import dha.libapp.syncdao.BookSyncDAO;
-import dha.libapp.dao.BookDAO;
+
 import java.util.ArrayList;
 import java.util.Optional;
 import javafx.geometry.Insets;
