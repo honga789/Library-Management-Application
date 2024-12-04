@@ -1,5 +1,7 @@
 package dha.libapp;
 
+import dha.libapp.models.User;
+import dha.libapp.syncdao.utils.DAOExecuteCallback;
 import dha.libapp.utils.Database.DBUtil;
 import javafx.application.Application;
 import javafx.concurrent.Task;
@@ -13,6 +15,7 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.util.List;
 
 public class MainApp extends Application {
 
