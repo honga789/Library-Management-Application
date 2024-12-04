@@ -3,6 +3,7 @@ package dha.libapp.controllers.admin.tabs;
 import dha.libapp.models.Book;
 import dha.libapp.models.GenreType;
 import dha.libapp.services.admin.BookService;
+import dha.libapp.services.admin.UserService;
 import dha.libapp.utils.API.ExecutorHandle;
 import dha.libapp.utils.API.GoogleBooks.BookFetchCallback;
 import dha.libapp.utils.API.GoogleBooks.GoogleBooksAPI;
@@ -72,7 +73,16 @@ public class AdminManageUserController {
         javafx.scene.control.Button addButton = new javafx.scene.control.Button("Add");
         addButton.setStyle("-fx-font-size: 15px; -fx-background-color: #d46dd2; -fx-text-fill: white; -fx-font-weight: bold; -fx-border-radius: 5; -fx-background-radius: 5;");
         addButton.setOnMouseClicked(event -> {
-
+            String usernameText = username.getText();
+            String passwordText = password.getText();
+            String fullNameText = fullName.getText();
+            String phoneNumberText = phoneNumber.getText();
+            String emailText = email.getText();
+            try {
+                UserService.getInstance().addUser(usernameText, passwordText, fullNameText, phoneNumberText, emailText);
+            } catch (Exception e) {
+                showErrorPopup("Error Adding User","Please enter valid user data");
+            }
         });
 
         gridPane.add(createStyledLabel("Username:"), 0, 0);
@@ -117,6 +127,18 @@ public class AdminManageUserController {
         text.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         text.setStyle("-fx-fill: #333;");
         return text;
+    }
+    private void showErrorPopup(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        // Apply custom styling if needed
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.setStyle("-fx-font-size: 14px; -fx-background-color: #fff; -fx-border-radius: 10; -fx-background-radius: 10;");
+
+        alert.showAndWait();
     }
 
     //text field
