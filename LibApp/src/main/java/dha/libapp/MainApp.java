@@ -2,6 +2,7 @@ package dha.libapp;
 
 import dha.libapp.utils.Database.DBUtil;
 import javafx.application.Application;
+import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -19,9 +20,12 @@ public class MainApp extends Application {
     private double offsetY;
 
     private static Connection dbConnection;
+
     public static Connection getDbConnection() {
         if (dbConnection == null) {
-            dbConnection = DBUtil.connect("jdbc:mysql://b0dhldnmrpv8rotqmh6y-mysql.services.clever-cloud.com/b0dhldnmrpv8rotqmh6y", "uoxesvpdndreask6", "LTpg5gRkVYgDyuiSKjt3");
+            dbConnection = DBUtil.connect("jdbc:mysql://b0dhldnmrpv8rotqmh6y-mysql.services.clever-cloud.com/b0dhldnmrpv8rotqmh6y",
+                    "uoxesvpdndreask6",
+                    "LTpg5gRkVYgDyuiSKjt3");
         }
         return dbConnection;
     }
@@ -32,23 +36,49 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Connection connection = DBUtil.connect("jdbc:mysql://b0dhldnmrpv8rotqmh6y-mysql.services.clever-cloud.com/b0dhldnmrpv8rotqmh6y", "uoxesvpdndreask6", "LTpg5gRkVYgDyuiSKjt3");
-        System.out.println(connection);
-        dbConnection = connection;
-
         StackPane root = new StackPane();
-        root.setStyle(
-                "-fx-background-color: #ffffff; -fx-background-radius: 30"
-        );
+        root.setStyle("-fx-background-color: #ffffff; -fx-background-radius: 30");
 
-        Parent fxmlContent = MainApp.getContentFromFxml("views/MainAppView.fxml");
+        Parent loadingContent = MainApp.getContentFromFxml("views/MainAppLoading.fxml");
+        root.getChildren().addAll(loadingContent);
 
-        root.getChildren().addAll(fxmlContent);
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                Connection connection = DBUtil.connect("jdbc:mysql://b0dhldnmrpv8rotqmh6y-mysql.services.clever-cloud.com/b0dhldnmrpv8rotqmh6y",
+                        "uoxesvpdndreask6",
+                        "LTpg5gRkVYgDyuiSKjt3");
+                System.out.println(connection);
+                dbConnection = connection;
+                return null;
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                try {
+                    Parent fxmlContent = MainApp.getContentFromFxml("views/MainAppView.fxml");
+                    root.getChildren().clear();
+                    root.getChildren().add(fxmlContent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            protected void failed() {
+                super.failed();
+                System.err.println("Failed to connect to the database");
+            }
+        };
+
         Scene scene = new Scene(root, 1275, 720);
         scene.setFill(Color.TRANSPARENT);
         primaryStage.initStyle(StageStyle.TRANSPARENT);
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        new Thread(task).start();
 
         root.setOnMousePressed(e -> {
             offsetX = e.getSceneX();
