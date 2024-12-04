@@ -9,13 +9,8 @@
 <AnchorPane prefHeight="720.0" prefWidth="1275.0" style="-fx-background-radius: 30;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dha.libapp.controllers.admin.AdminViewController">
     <children>
         <AnchorPane fx:id="tabContent" layoutX="215.0" layoutY="10.0" prefHeight="700.0" prefWidth="1050.0" style="-fx-background-color: #faf9fd; -fx-background-radius: 30;" />
-        <VBox layoutY="125.0" prefHeight="366.0" prefWidth="214.0" spacing="4.0">
+        <VBox layoutX="-1.0" layoutY="126.0" prefHeight="366.0" prefWidth="214.0" spacing="4.0">
             <children>
-                <Button mnemonicParsing="false" onMouseClicked="#switchToHomeTab" prefHeight="44.0" prefWidth="214.0" styleClass="navi-tab" stylesheets="@../../css/mainapp.css" text="Home">
-                    <font>
-                        <Font name="Monospaced Regular" size="19.0" />
-                    </font>
-                </Button>
                 <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#switchToManageUserTab" prefHeight="44.0" prefWidth="214.0" styleClass="navi-tab" stylesheets="@../../css/mainapp.css" text="User Manager">
                     <font>
                         <Font name="Monospaced Regular" size="19.0" />
@@ -44,7 +39,7 @@
 
             </children>
         </VBox>
-        <Label layoutX="19.0" layoutY="65.0" prefHeight="32.0" prefWidth="175.0" text="DHA Library" textFill="WHITE">
+        <Label alignment="CENTER" layoutX="19.0" layoutY="65.0" prefHeight="32.0" prefWidth="175.0" text="DHA Library" textFill="#00a1ff">
             <font>
                 <Font name="Arial Bold" size="26.0" />
             </font>
