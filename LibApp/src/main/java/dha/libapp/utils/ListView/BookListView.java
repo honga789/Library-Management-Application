@@ -1,6 +1,7 @@
 package dha.libapp.utils.ListView;
 
 import dha.libapp.models.Book;
+import dha.libapp.models.GenreType;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 
@@ -20,7 +21,20 @@ public class BookListView {
         }
 
         List<String> allStringBook = new ArrayList<>();
-         for (Book b : bookList) { if (b == null) continue; allStringBook.add(b.toString()); }
+         for (Book b : bookList) {
+             if (b == null) continue;
+
+             String genre = "";
+             for (GenreType genreType : b.getGenreList()) {
+                 genre += genreType.getGenreName() + ", ";
+             }
+             genre = genre.substring(0, genre.length() - 2);
+
+             allStringBook.add(String.format(
+                     "\nName: %s\nAuthor: %s\nGenre: %s\n ",
+                     b.getTitle(), b.getAuthor(), genre
+             ));
+         }
 
         listView.getItems().addAll(allStringBook);
 
