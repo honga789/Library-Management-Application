@@ -51,9 +51,9 @@ public class MainApp extends Application {
             @Override
             protected Void call() throws Exception {
                 Connection connection = DBUtil.connect(
-                        "jdbc:mysql://b0dhldnmrpv8rotqmh6y-mysql.services.clever-cloud.com/b0dhldnmrpv8rotqmh6y",
-                        "uoxesvpdndreask6",
-                        "LTpg5gRkVYgDyuiSKjt3");
+                        "jdbc:mysql://localhost:3306/library_models",
+                        "root",
+                        "");
                 System.out.println(connection);
                 dbConnection = connection;
                 return null;

@@ -7,6 +7,7 @@ import dha.libapp.dao.BookDAO;
 import dha.libapp.models.Book;
 import dha.libapp.models.BorrowStatus;
 import dha.libapp.services.SessionService;
+import dha.libapp.services.members.UserBorrowBookService;
 import dha.libapp.services.members.tabs.MemberHomeTabService;
 import dha.libapp.syncdao.BookSyncDAO;
 import dha.libapp.syncdao.BorrowRecordSyncDAO;
@@ -126,29 +127,7 @@ public class MemberHomeTabController implements Initializable {
             if (selectedBook == null) {
                 System.out.println("Please choose Book!");
             } else {
-                Date current = new Date();
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(current);
-                calendar.add(Calendar.DATE, 30);
-                BorrowRecordSyncDAO.addNewBorrowRecordSync(
-                        SessionService.getInstance().getUser().getUserId(),
-                        selectedBook.getBookId(),
-                        current, calendar.getTime(),
-                        BorrowStatus.PENDING, null,
-                        new DAOUpdateCallback() {
-                            @Override
-                            public void onSuccess() {
-                                System.out.println("Borrow Pending");
-                                PendingTabCache.getInstance().getPendingBookList().clear();
-                                MemberViewController.getInstance().switchToBorrowPendingTab();
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-
-                            }
-                        }
-                );
+                UserBorrowBookService.borrowBook(selectedBook);
             }
         });
 
