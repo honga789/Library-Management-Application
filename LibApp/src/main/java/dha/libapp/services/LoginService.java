@@ -25,7 +25,6 @@ public class LoginService {
                 @Override
                 public void onSuccess(User user) {
                     if (user != null) {
-
                         SessionService.getInstance().setUser(user);
 
                         if (user.getRole().equals(UserRole.MEMBER)) {
@@ -34,16 +33,19 @@ public class LoginService {
                             LoginController.getInstance().onLoginToAdminScene(user);
                         }
                     } else {
+                        LoginController.getInstance().setloginLoadingPaneVisible(false);
                         LoginController.getInstance().onIncorrectInput();
                     }
                 }
 
                 @Override
                 public void onError(Throwable e) {
+                    LoginController.getInstance().setloginLoadingPaneVisible(false);
                     LoginController.getInstance().onLoginFailure();
                 }
             });
         } catch (Exception e) {
+            LoginController.getInstance().setloginLoadingPaneVisible(false);
             LoginController.getInstance().onLoginFailure();
         }
     }
