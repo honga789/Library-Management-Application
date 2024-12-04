@@ -29,14 +29,8 @@ public class ImageAPI {
             }
         };
         ImageTask task = new ImageTask(testUrl, callback);
-        ExecutorService executorService = Executors.newFixedThreadPool(1);
+        ExecutorService executorService = Executors.newFixedThreadPool(2);
         executorService.submit(task);
-        while (test.isEmpty()) {
-            //System.out.println("Waiting for image");
-            if (!test.isEmpty()) {
-                System.out.println(test.get(0));
-            }
-        }
 
         executorService.shutdown();
 

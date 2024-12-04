@@ -33,7 +33,10 @@ public class ImageTask extends Thread {
                 image = new Image(inputStream);
             }
             if (callback != null) {
+                System.out.println("callback: " + callback);
                 callback.onSuccess(image);
+            } else {
+                System.out.println("callback: null");
             }
 
         } catch (Exception e) {
