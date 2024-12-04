@@ -144,13 +144,13 @@ public class GoogleBooksAPI {
 
     public static void main(String[] args) {
         // Define the callback for handling success and failure
+        List<Book> booksData = new ArrayList<>();
+
         BookFetchCallback callback = new BookFetchCallback() {
             @Override
             public void onSuccess(List<Book> bookTitles) {
                 System.out.println("Books fetched successfully!");
-                for (Book bookTitle : bookTitles) {
-                    System.out.println(bookTitle);
-                }
+                booksData.addAll(bookTitles);
             }
 
             @Override
@@ -159,13 +159,9 @@ public class GoogleBooksAPI {
             }
         };
         ExecutorService executorService = Executors.newFixedThreadPool(3);
-
         GoogleBooksTask getByISBN = getBookDataByISBN("1975335341", callback);
-        GoogleBooksTask getByISBN2 = getBookDataByISBN("1975335342", callback);
-        System.out.println("test 1");
         executorService.submit(getByISBN);
-        System.out.println("test 2");
-        executorService.submit(getByISBN2);
+
         executorService.shutdown();
 
     }
