@@ -53,7 +53,7 @@
                                              <Cursor fx:constant="HAND" />
                                           </cursor>
                                        </Button>
-                                          <Button layoutX="177.0" layoutY="7.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="94.0" style="-fx-background-color: yellow; -fx-background-radius: 15; -fx-cursor: hand;" styleClass="button-borrow" stylesheets="@../../../css/hometab.css" text="Edit" />
+                                          <Button layoutX="177.0" layoutY="7.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="94.0" style="-fx-background-color: yellow; -fx-background-radius: 15; -fx-cursor: hand;" styleClass="button-borrow" stylesheets="@../../../css/hometab.css" text="Edit" fx:id="editBook"/>
                                        </children>
                                     </Pane>
                               </children>

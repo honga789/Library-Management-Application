@@ -46,7 +46,10 @@ public class AdminManageDocumentController {
 
     @FXML
     private Button newBook;
+    @FXML
     private Button editBook;
+    @FXML
+    private Button deleteBook;
     private List<GenreType> genreTypeList = new ArrayList<GenreType>();
     private ArrayList<GenreType> selectedGenreTypeList = new ArrayList<GenreType>();
     private Label editStatus = new Label();
@@ -103,8 +106,24 @@ public class AdminManageDocumentController {
         newBook.setOnAction(event -> {
             openFieldBox();
         });
+        editBook.setOnAction(event -> {
+            if (selectedBook != null) {
+                openFieldBoxEdit(selectedBook);
+            } else {
+                showErrorPopup("Error Select Book", "Please Select a Book");
+            }
+        });
+        deleteBook.setOnAction(event -> {
+            if (selectedBook != null) {
+                deleteBook(selectedBook);
+            } else {
+                showErrorPopup("Error Select Book", "Please Select a Book");
+            }
+        });
     }
+    private void deleteBook(Book book) {
 
+    }
     private void openFieldBox() {
         Alert alert = new Alert(Alert.AlertType.NONE);
         alert.setTitle("Add new book");
@@ -425,41 +444,30 @@ public class AdminManageDocumentController {
         Button addButton = new Button("Confirm Edit");
         addButton.setStyle("-fx-font-size: 15px; -fx-background-color: #d46dd2; -fx-text-fill: white; -fx-font-weight: bold; -fx-border-radius: 5; -fx-background-radius: 5;");
         addButton.setOnMouseClicked(event -> {
-            String isbn = isbnField.getText();
-            String title = titleField.getText();
-            String description = descriptionField.getText();
-            int quantity = 1;
+            Book newBook = new Book(book);
+            newBook.setISBN(isbnField.getText());
+            newBook.setAuthor(authorField.getText());
+            newBook.setDescription(descriptionField.getText());
+            newBook.setCoverImagePath(coverField.getText());
             try {
-                quantity = Integer.parseInt(stockField.getText());
+                newBook.setQuantity(Integer.parseInt(stockField.getText()));
             } catch (NumberFormatException e) {
                 System.out.println("Error formatting quantity");
             }
-            String author = authorField.getText();
-            String publisher = publisherField.getText();
+            newBook.setPublisher(publisherField.getText());
+            newBook.setGenreList(selectedGenreTypeList);
             String publishDateString = publishedDateField.getText();
-            String imgUrl = coverField.getText();
-            Date editedDate = null;
             try {
+                Date editedDate = null;
                 editedDate = formatter.parse(publishDateString);
-                System.out.println("Converted Date: " + publishDate);
-            } catch (ParseException e) {
-                System.out.println("Invalid date format!");
-                e.printStackTrace();
-            }
-            try {
-
-                BookService.getInstance().addBook(isbn, title, author, publisher,
-                        publishDate,quantity,description,imgUrl,selectedGenreTypeList);
-                System.out.println("Updated Book: " + isbn);
-
+                newBook.setPublicationDate(editedDate);
+                BookService.getInstance().updateBook(newBook);
+                System.out.println("Updated Book: " + newBook.getISBN());
             } catch (Exception e) {
-                e.printStackTrace();
+                showErrorPopup("Error Update Book", "Please enter valid book data");
             }
 
         });
-
-        //call api autofill
-
 
         gridPane.add(createStyledLabel("ISBN:"), 0, 0);
         gridPane.add(isbnField, 1, 0);
@@ -516,6 +524,18 @@ public class AdminManageDocumentController {
         text.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         text.setStyle("-fx-fill: #333;");
         return text;
+    }
+    private void showErrorPopup(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        // Apply custom styling if needed
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.setStyle("-fx-font-size: 14px; -fx-background-color: #fff; -fx-border-radius: 10; -fx-background-radius: 10;");
+
+        alert.showAndWait();
     }
 
 
