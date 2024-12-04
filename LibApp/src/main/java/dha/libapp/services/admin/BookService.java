@@ -3,6 +3,8 @@ package dha.libapp.services.admin;
 import dha.libapp.dao.BookDAO;
 import dha.libapp.dao.GenreTypeDAO;
 import dha.libapp.models.GenreType;
+import dha.libapp.syncdao.BookSyncDAO;
+import dha.libapp.syncdao.utils.DAOUpdateCallback;
 import javafx.concurrent.Task;
 import java.util.List;
 
@@ -104,7 +106,18 @@ public class BookService {
         new Thread(task).start();
     }
     public void updateBook(Book book) throws Exception {
+        DAOUpdateCallback callback = new DAOUpdateCallback() {
+            @Override
+            public void onSuccess() {
+                System.out.println("update book successful");
+            }
 
+            @Override
+            public void onError(Throwable e) {
+                throw new RuntimeException("update book failed", e);
+            }
+        };
+        BookSyncDAO.updateBookSync(book,callback);
     }
 
     public void addBook(String ISBN, String title, String author, String publisher,
