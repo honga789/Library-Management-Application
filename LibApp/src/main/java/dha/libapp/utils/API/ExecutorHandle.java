@@ -13,7 +13,9 @@ public class ExecutorHandle {
     private ExecutorService executorService;
     private static final ExecutorHandle instance = new ExecutorHandle();
     private ExecutorHandle() {
+
         executorService = Executors.newFixedThreadPool(10);
+        System.out.println("init executorService");
     }
 
     public static ExecutorHandle getInstance() {
@@ -23,8 +25,12 @@ public class ExecutorHandle {
     public void addTask(Runnable task) {
         executorService.submit(task);
     }
+    public ExecutorService getExecutorService() {
+        return executorService;
+    }
     public void shutdownExecutorService() {
         executorService.shutdown();
+        System.out.println("shutdown executorService");
     }
 
 
