@@ -1,22 +1,106 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dha.libapp.controllers.admin.tabs.AdminManageUserController">
-   <children>
-      <TableView layoutX="42.0" layoutY="56.0" prefHeight="287.0" prefWidth="516.0">
-        <columns>
-          <TableColumn maxWidth="50.0" prefWidth="40.0" text="ID" />
-            <TableColumn maxWidth="100.0" prefWidth="100.0" text="Full name" />
-            <TableColumn maxWidth="150.0" prefWidth="150.0" text="Phone number" />
-            <TableColumn maxWidth="150.0" prefWidth="150.0" text="Email" />
-            <TableColumn prefWidth="75.0" />
-        </columns>
-      </TableView>
-      <Button fx:id="addUserButton" layoutX="263.0" layoutY="358.0" mnemonicParsing="false" text="Add User" />
-      <Button layoutX="410.0" layoutY="346.0" mnemonicParsing="false" text="Delete User" fx:id="deleteUserButton"/>
-      <Button layoutX="107.0" layoutY="346.0" mnemonicParsing="false" text="Edit User" fx:id="editUserButton" />
-   </children>
+<AnchorPane layoutX="0" layoutY="0" prefHeight="700.0" prefWidth="1050.0" style="-fx-padding: 0;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dha.libapp.controllers.admin.tabs.AdminApproveRequestController">
+    <children>
+        <Button mnemonicParsing="false" prefHeight="700.0" prefWidth="1050.0" style="-fx-background-color: red; -fx-background-radius: 30; -fx-padding: 0;">
+            <graphic>
+                <AnchorPane prefHeight="700.0" prefWidth="1050.0" style="-fx-background-color: green; -fx-background-radius: 30;">
+                    <children>
+                        <AnchorPane layoutX="690.0" prefHeight="700.0" prefWidth="360.0" style="-fx-background-color: pink; -fx-background-radius: 0 25 25 0;">
+                            <children>
+                                <Label fx:id="userFullName" alignment="CENTER" contentDisplay="CENTER" layoutX="104.0" layoutY="43.0" prefHeight="20.0" prefWidth="152.0" text="Trinh Tran Anh Duy" textAlignment="RIGHT" wrapText="true">
+                                    <font>
+                                        <Font name="System Bold" size="14.0" />
+                                    </font></Label>
+                                <Pane prefHeight="200.0" prefWidth="200.0" />
+                        <Button layoutX="254.0" layoutY="535.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="91.0" style="-fx-background-color: red; -fx-background-radius: 15; -fx-cursor: hand;" text="Delete" textFill="#f2f2f2">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                                <Button layoutX="24.0" layoutY="535.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="84.0" style="-fx-background-color: #7AE582; -fx-background-radius: 15; -fx-cursor: hand;" styleClass="button-borrow" stylesheets="@../../../css/hometab.css" text="Add">
+                                    <cursor>
+                                        <Cursor fx:constant="HAND" />
+                                    </cursor>
+                                </Button>
+                                <Label fx:id="phoneNumber" layoutX="23.0" layoutY="429.0" prefHeight="27.0" prefWidth="335.0" text="Phone number: 012345" wrapText="true">
+                                    <font>
+                                        <Font name="System Bold" size="18.0" />
+                                    </font>
+                                </Label>
+                                <Label fx:id="fullName" contentDisplay="CENTER" layoutX="22.0" layoutY="385.0" prefHeight="27.0" prefWidth="334.0" text="User Full Name: Full name" textAlignment="CENTER">
+                                    <font>
+                                        <Font name="System Bold" size="18.0" />
+                                    </font>
+                                </Label>
+                                <Label fx:id="userId" contentDisplay="CENTER" layoutX="23.0" layoutY="289.0" prefHeight="27.0" prefWidth="334.0" text="User ID: User ID" textAlignment="CENTER" wrapText="true">
+                                    <font>
+                                        <Font name="System Bold" size="18.0" />
+                                    </font>
+                                </Label>
+                                <Label fx:id="email" layoutX="23.0" layoutY="477.0" prefHeight="27.0" prefWidth="335.0" text="Email: dha@gmail.com">
+                                    <font>
+                                        <Font name="System Bold" size="18.0" />
+                                    </font>
+                                </Label>
+                                <Label layoutX="104.0" layoutY="213.0" text="Information">
+                                    <font>
+                                        <Font name="System Bold" size="24.0" />
+                                    </font>
+                                </Label>
+                        <Label fx:id="username" layoutX="23.0" layoutY="336.0" prefHeight="27.0" prefWidth="334.0" text="Username: Username">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="138.0" layoutY="535.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="84.0" style="-fx-background-color: yellow; -fx-cursor: hand; -fx-background-radius: 15;" text="Edit">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                            </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="700.0" prefWidth="690.0" style="-fx-background-radius: 30 0 0 30; -fx-background-color: lightblue;">
+                            <children>
+                                <ListView fx:id="manageUserListView" layoutX="31.0" layoutY="131.0" prefHeight="478.0" prefWidth="628.0" />
+                                <Label layoutX="237.0" layoutY="71.0" text="Manage User">
+                                    <font>
+                                        <Font name="System Bold" size="24.0" />
+                                    </font>
+                                </Label>
+                            </children></AnchorPane>
+                        <Button layoutX="957.0" layoutY="20.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: #fff; -fx-background-radius: 20;">
+                            <effect>
+                                <DropShadow height="15.0" offsetX="5.0" offsetY="5.0" radius="7.0" width="15.0">
+                                    <color>
+                                        <Color red="0.5899999737739563" green="0.5899999737739563" blue="0.5899999737739563" opacity="0.6118546724319458" />
+                                    </color>
+                                </DropShadow>
+                            </effect>
+                            <graphic>
+                                <ImageView fitHeight="37.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../../images/test_avt.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                    </children>
+                </AnchorPane>
+            </graphic>
+        </Button>
+    </children>
 
 </AnchorPane>
