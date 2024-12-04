@@ -33,17 +33,17 @@
                                                                                                                 <Image url="@../../../images/book_loader.jpg" />
                                                                                                         </image>
                                                                                                 </ImageView>
-                                                                                                <Label alignment="CENTER" contentDisplay="CENTER" prefWidth="260.0" text="Cam nang pho chong dich 2023 - 2024 Cam nang pho chong dich 2023 - 2024" textAlignment="CENTER" wrapText="true">
+                                                                                                <Label fx:id="bookDetailName" alignment="CENTER" contentDisplay="CENTER" prefWidth="260.0" text="Cam nang pho chong dich 2023 - 2024 Cam nang pho chong dich 2023 - 2024" textAlignment="CENTER" wrapText="true">
                                                                                                         <font>
                                                                                                                 <Font name="System Bold" size="18.0" />
                                                                                                         </font>
                                                                                                 </Label>
-                                                                                                <Label alignment="CENTER" contentDisplay="CENTER" prefWidth="233.0" text="_Tran Anh Duy_" textAlignment="CENTER">
+                                                                                                <Label fx:id="bookDetailAuthor" alignment="CENTER" contentDisplay="CENTER" prefWidth="233.0" text="_Tran Anh Duy_" textAlignment="CENTER">
                                                                                                         <font>
                                                                                                                 <Font name="System Bold Italic" size="15.0" />
                                                                                                         </font>
                                                                                                 </Label>
-                                                                                                <Label prefWidth="240.0" text="Cam nang pho chong dich Cam nang pho chong dich Cam nang pho chong dich Cam nang pho chong dich Cam nang pho chong dich Cam nang pho chong dich Cam nang pho chong dich " wrapText="true" />
+                                                                                                <Label fx:id="bookDetailDescription" prefWidth="240.0" text="Cam nang pho chong dich Cam nang pho chong dich Cam nang pho chong dich Cam nang pho chong dich Cam nang pho chong dich Cam nang pho chong dich Cam nang pho chong dich " wrapText="true" />
                                                                                                 <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #50e2fa; -fx-background-radius: 15;" text="Borrow">
                                                                                                         <VBox.margin>
                                                                                                                 <Insets bottom="10.0" top="15.0" />
