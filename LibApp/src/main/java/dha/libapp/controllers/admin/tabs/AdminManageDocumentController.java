@@ -1,11 +1,15 @@
 package dha.libapp.controllers.admin.tabs;
-
+import java.util.concurrent.TimeUnit;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import dha.libapp.models.Book;
 import dha.libapp.models.GenreType;
 import dha.libapp.services.BookService;
+import dha.libapp.utils.API.ExecutorHandle;
+import dha.libapp.utils.API.GoogleBooks.BookFetchCallback;
+import dha.libapp.utils.API.GoogleBooks.GoogleBooksAPI;
+import dha.libapp.utils.API.GoogleBooks.GoogleBooksTask;
 import javafx.fxml.FXML;
 import dha.libapp.dao.GenreTypeDAO;
 import dha.libapp.syncdao.BookSyncDAO;
@@ -89,11 +93,16 @@ public class AdminManageDocumentController {
 
         genrePopup.getContent().add(genreBox);
         // List of genres
-
-        for (GenreType genre : genreTypeList) {
-            CheckBox genreCheckBox = new CheckBox(genre.getGenreName());
-            genreBox.getChildren().add(genreCheckBox);
+        if (!genreTypeList.isEmpty()) {
+            for (GenreType genre : genreTypeList) {
+                CheckBox genreCheckBox = new CheckBox(genre.getGenreName());
+                genreBox.getChildren().add(genreCheckBox);
+            }
+        } else {
+            CheckBox nullGenreCheckBox = new CheckBox("Null genre");
+            genreBox.getChildren().add(nullGenreCheckBox);
         }
+
         // Add the Confirm button inside the popup
         Button confirmButton = new Button("Confirm");
         confirmButton.setStyle("-fx-background-color: #d46dd2; -fx-text-fill: white; -fx-font-weight: bold; -fx-border-radius: 5; -fx-background-radius: 5;");
@@ -150,20 +159,61 @@ public class AdminManageDocumentController {
             SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
             Date publishDate = null;
             try {
-                Date date = formatter.parse(publishDateString);
-                System.out.println("Converted Date: " + date);
+                publishDate = formatter.parse(publishDateString);
+                System.out.println("Converted Date: " + publishDate);
             } catch (ParseException e) {
                 System.out.println("Invalid date format!");
                 e.printStackTrace();
             }
-            //BookService.addBook();
+            try {
+
+                BookService.getInstance().addBook(isbn, title, author, publisher,
+                        publishDate,quantity,description,imgUrl,selectedGenreTypeList);
+                System.out.println("Added Book: " + isbn);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         });
 
         //call api autofill
         Button autofillButton = new Button("Tự điền");
         autofillButton.setStyle("-fx-background-color: #d46dd2; -fx-text-fill: white; -fx-font-weight: bold; -fx-border-radius: 5; -fx-background-radius: 5;");
         autofillButton.setOnMouseClicked(event -> {
+            List<Book> dataHolder = new ArrayList<>();
+            String isbn = isbnField.getText();
+            BookFetchCallback callback = new BookFetchCallback() {
+                @Override
+                public void onSuccess(List<Book> booksData) {
+                    dataHolder.addAll(booksData);
+                }
+                @Override
+                public void onFailure(Exception ex) {
+                    System.out.println(ex.getMessage());
+                }
+            };
 
+            GoogleBooksTask googleBooksTask = GoogleBooksAPI.getBookDataByISBN(isbn, callback);
+            ExecutorHandle.getInstance().addTask(googleBooksTask);
+            try {
+                // Wait for 1000ms for tasks to complete
+                if (!ExecutorHandle.getInstance().getExecutorService().awaitTermination(1000, TimeUnit.MILLISECONDS)) {
+                    System.out.println("API call timed out skipping autoFillTask");
+                } else {
+                    System.out.println("API call tasks completed within timeout.");
+                }
+            } catch (InterruptedException e) {
+                System.out.println("Thread was interrupted while waiting.");
+            }
+            if (!dataHolder.isEmpty()) {
+                titleField.setText(dataHolder.getFirst().getTitle());
+                descriptionField.setText(dataHolder.getFirst().getDescription());
+                coverField.setText(dataHolder.getFirst().getCoverImagePath());
+                publisherField.setText(dataHolder.getFirst().getPublisher());
+                //publishedDateField.setText(dataHolder.getFirst().getPublicationDate().toString());
+
+            }
         });
 
         gridPane.add(createStyledLabel("ISBN:"), 0, 0);
