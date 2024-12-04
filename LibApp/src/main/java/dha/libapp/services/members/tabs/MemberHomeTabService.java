@@ -23,8 +23,6 @@ public class MemberHomeTabService {
                 @Override
                 public void onSuccess(List<Book> result) {
 
-                    System.out.println("Get " + result.size() + " books!");
-
                     recommendedCache.setData(result);
 
                     MemberHomeTabController.getInstance().setLoadingRecommendationPaneVisible(false);
