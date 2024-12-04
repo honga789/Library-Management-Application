@@ -61,6 +61,22 @@ public class GenreTypeDAO {
         }
     }
 
+    public static GenreType getGenreTypeByName(String genre_name) {
+        String sql = "SELECT * FROM Genre_type WHERE genre_name = ?";
+
+        try (PreparedStatement preparedStatement = DBUtil.getPrepareStatement(MainApp.getDbConnection(), sql, genre_name);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            if (resultSet.next()) {
+                return getGenreTypeFromResultSet(resultSet);
+            }
+            return null;
+        } catch (SQLException e) {
+            System.out.println("Error when get genretype by name");
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void addGenreTypeToBook(int book_id, int genre_id) {
         String sql = "INSERT INTO Book_genre_type(book_id, genre_id) VALUES(?,?)";
 

@@ -2,11 +2,14 @@ package dha.libapp.syncdao;
 
 import dha.libapp.dao.BookDAO;
 import dha.libapp.models.Book;
+import dha.libapp.models.GenreType;
 import dha.libapp.syncdao.utils.DAOExecuteCallback;
 import dha.libapp.syncdao.utils.DAOTaskRunner;
 import dha.libapp.syncdao.utils.DAOUpdateCallback;
 import javafx.concurrent.Task;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class BookSyncDAO {
@@ -59,6 +62,22 @@ public class BookSyncDAO {
             }
         };
         DAOTaskRunner.executeTask(task, callback);
+    }
+
+    public static void addNewBookSync(String ISBN, String title, String author, String publisher,
+                                      Date publicationDate, int quantity, String description,
+                                      String coverImagePath, ArrayList<GenreType> genreList,
+                                      DAOUpdateCallback callback) {
+        Task<Void> task = new Task<Void>() {
+
+            @Override
+            protected Void call() throws Exception {
+                BookDAO.addNewBook(ISBN, title, author, publisher, publicationDate, quantity,
+                        description, coverImagePath, genreList);
+                return null;
+            }
+        };
+        DAOTaskRunner.updateTask(task, callback);
     }
 
     public static void updateBookSync(Book book, DAOUpdateCallback callback) {
