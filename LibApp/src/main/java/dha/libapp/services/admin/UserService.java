@@ -1,0 +1,82 @@
+package dha.libapp.services.admin;
+
+import dha.libapp.controllers.authen.RegisterController;
+import dha.libapp.dao.UserDAO;
+import dha.libapp.models.User;
+import dha.libapp.models.UserRole;
+import dha.libapp.services.authen.PasswordService;
+import dha.libapp.syncdao.UserSyncDAO;
+import dha.libapp.syncdao.utils.DAOUpdateCallback;
+import javafx.concurrent.Task;
+
+import java.util.List;
+
+public class UserService {
+    private static UserService instance;
+
+    private UserService() {
+    }
+
+    public static UserService getInstance() {
+        if (instance == null) {
+            instance = new UserService();
+        }
+        return instance;
+    }
+
+    public interface UserCallback {
+        void onSuccess(List<User> userList);
+
+        void onFailure();
+    }
+
+    public void addUser(String userName, String password, String fullName,
+                        String phoneNumber, String email) {
+        if (userName.isEmpty() || password.isEmpty() || fullName.isEmpty()
+                || phoneNumber.isEmpty() || email.isEmpty() || userExists(userName)
+                || password.length() < 8 || !isValidEmail(email) || !isValidPhone(phoneNumber)
+                || userName.length() > 50 || password.length() > 100 || fullName.length() > 100) {
+
+            // controller for invalid
+            return;
+        }
+
+        try {
+            String hashedPassword = PasswordService.hashPassword(password);
+
+            UserSyncDAO.addNewUserSync(userName, hashedPassword, UserRole.MEMBER,
+                    fullName, phoneNumber, email, new DAOUpdateCallback() {
+                @Override
+                public void onSuccess() {
+                    System.out.println("User added successfully");
+                    // controller;
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    System.out.println("User added failed");
+                    // controller;
+                }
+            });
+        } catch (Exception e) {
+            System.out.println("User added failed");
+            // controller for error.
+        }
+    }
+
+    
+
+    private static boolean userExists(String username) {
+        return UserDAO.getUserByUsername(username) != null;
+    }
+
+    private static boolean isValidEmail(String email) {
+        return email != null && email.contains("@")
+                && email.contains(".") && email.length() < 100;
+    }
+
+    private static boolean isValidPhone(String phone) {
+        return phone != null && phone.matches("[0-9]+")
+                && phone.length() >= 10 && phone.length() < 20;
+    }
+}
