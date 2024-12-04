@@ -10,6 +10,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MemberViewController implements Initializable {
+    private static MemberViewController instance;
+    public static MemberViewController getInstance() { return instance; }
 
     @FXML
     private AnchorPane tabContent;
@@ -42,6 +44,7 @@ public class MemberViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        instance = this;
         switchTab("views/members/tabs/MemberHomeTab.fxml");
     }
 }

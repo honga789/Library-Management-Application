@@ -48,6 +48,7 @@ public class AdminManageDocumentController {
 
     @FXML
     private Button newBook;
+    private Button editBook;
     private List<GenreType> genreTypeList = new ArrayList<GenreType>();
     private ArrayList<GenreType> selectedGenreTypeList = new ArrayList<GenreType>();
     private Label editStatus = new Label();
@@ -286,6 +287,192 @@ public class AdminManageDocumentController {
 
 
     }
+
+    private void openFieldBoxEdit(Book book) {
+        Alert alert = new Alert(Alert.AlertType.NONE);
+        alert.setTitle("Edit book");
+        alert.setHeaderText("Enter book information:");
+        alert.setContentText(null);
+
+        GridPane gridPane = new GridPane();
+        gridPane.setHgap(60);
+        gridPane.setVgap(10);
+        gridPane.setPadding(new Insets(20, 20, 20, 20));
+        gridPane.setStyle("-fx-background-color: #f9f9f9; -fx-border-radius: 10; -fx-background-radius: 10;");
+
+        TextField isbnField = createStyledTextField("ISBN");
+        isbnField.setText(book.getISBN());
+
+        TextField titleField = createStyledTextField("Title");
+        titleField.setText(book.getTitle());
+
+        TextField descriptionField = createStyledTextField("Description");
+        descriptionField.setText(book.getDescription());
+
+        TextField stockField = createStyledTextField("Quantity");
+        stockField.setText(String.valueOf(book.getQuantity()));
+
+        TextField coverField = createStyledTextField("Cover");
+        coverField.setText(book.getCoverImagePath());
+
+        TextField authorField = createStyledTextField("Author");
+        authorField.setText(book.getAuthor());
+
+        TextField publishedDateField = createStyledTextField("Published Date");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        Date publishDate = book.getPublicationDate();
+        publishedDateField.setText(formatter.format(publishDate));
+
+        TextField publisherField = createStyledTextField("Publisher");
+        publisherField.setText(book.getPublisher());
+
+        //genre checkbox
+
+        // Create a Popup for the dropdown
+        Popup genrePopup = new Popup();
+
+        // VBox to hold checkboxes
+        VBox genreBox = new VBox(10);
+        genreBox.setStyle("-fx-background-color: #ffffff; -fx-padding: 10; -fx-border-color: #cccccc; -fx-border-radius: 5; -fx-background-radius: 5;");
+
+        genrePopup.getContent().add(genreBox);
+        // List of genres
+        if (!genreTypeList.isEmpty()) {
+            for (GenreType genre : genreTypeList) {
+                CheckBox genreCheckBox = new CheckBox(genre.getGenreName());
+                genreBox.getChildren().add(genreCheckBox);
+            }
+        } else {
+            CheckBox nullGenreCheckBox = new CheckBox("Null genre");
+            genreBox.getChildren().add(nullGenreCheckBox);
+        }
+
+        // Add the Confirm button inside the popup
+        Button confirmButton = new Button("Confirm");
+        confirmButton.setStyle("-fx-background-color: #d46dd2; -fx-text-fill: white; -fx-font-weight: bold; -fx-border-radius: 5; -fx-background-radius: 5;");
+        confirmButton.setOnAction(event -> {
+            StringBuilder selectedGenres = new StringBuilder("Selected Genres: ");
+            BookService.GenreCallback callback = new BookService.GenreCallback() {
+
+                @Override
+                public void onSuccess(List<GenreType> genreTypesCallback) {
+                    selectedGenreTypeList.addAll(genreTypesCallback);
+                }
+            };
+            for (Node node : genreBox.getChildren()) {
+                if (node instanceof CheckBox checkBox && checkBox.isSelected()) {
+                    selectedGenres.append(checkBox.getText()).append(", ");
+                    BookService.getInstance().getGenreByName(checkBox.getText(), callback);
+                }
+            }
+            if (selectedGenres.length() > 17) {
+                selectedGenres.setLength(selectedGenres.length() - 2); // Trim trailing ", "
+            } else {
+                selectedGenres.append("None");
+            }
+            System.out.println(selectedGenres);
+            genrePopup.hide();
+        });
+        genreBox.getChildren().add(confirmButton);
+
+        //choose genre
+        Button genreCheckButton = new Button("Choose genres");
+        genreCheckButton.setStyle("-fx-font-size: 12px; -fx-background-color: #d46dd2; -fx-text-fill: white; -fx-font-weight: bold; -fx-border-radius: 5; -fx-background-radius: 5;");
+        genreCheckButton.setOnMouseClicked(event -> {
+            if (!genrePopup.isShowing()) {
+                // Position the popup near the genreCheckButton
+                genrePopup.show(
+                        genreCheckButton,
+                        genreCheckButton.localToScene(0, 0).getX() + genreCheckButton.getScene().getWindow().getX(),
+                        genreCheckButton.localToScene(0, 0).getY() + genreCheckButton.getScene().getWindow().getY() + genreCheckButton.getHeight()
+                );
+            } else {
+                genrePopup.hide();
+            }
+        });
+        //add book
+        Button addButton = new Button("Confirm Edit");
+        addButton.setStyle("-fx-font-size: 15px; -fx-background-color: #d46dd2; -fx-text-fill: white; -fx-font-weight: bold; -fx-border-radius: 5; -fx-background-radius: 5;");
+        addButton.setOnMouseClicked(event -> {
+            String isbn = isbnField.getText();
+            String title = titleField.getText();
+            String description = descriptionField.getText();
+            int quantity = 1;
+            try {
+                quantity = Integer.parseInt(stockField.getText());
+            } catch (NumberFormatException e) {
+                System.out.println("Error formatting quantity");
+            }
+            String author = authorField.getText();
+            String publisher = publisherField.getText();
+            String publishDateString = publishedDateField.getText();
+            String imgUrl = coverField.getText();
+            Date editedDate = null;
+            try {
+                editedDate = formatter.parse(publishDateString);
+                System.out.println("Converted Date: " + publishDate);
+            } catch (ParseException e) {
+                System.out.println("Invalid date format!");
+                e.printStackTrace();
+            }
+            try {
+
+                BookService.getInstance().addBook(isbn, title, author, publisher,
+                        publishDate,quantity,description,imgUrl,selectedGenreTypeList);
+                System.out.println("Updated Book: " + isbn);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        });
+
+        //call api autofill
+
+
+        gridPane.add(createStyledLabel("ISBN:"), 0, 0);
+        gridPane.add(isbnField, 1, 0);
+
+        gridPane.add(createStyledLabel("Title:"), 0, 1);
+        gridPane.add(titleField, 1, 1);
+
+        gridPane.add(createStyledLabel("Description:"), 0, 2);
+        gridPane.add(descriptionField, 1, 2);
+
+        gridPane.add(createStyledLabel("Quantity:"), 0, 3);
+        gridPane.add(stockField, 1, 3);
+
+        gridPane.add(createStyledLabel("Cover:"), 0, 4);
+        gridPane.add(coverField, 1, 4);
+
+        gridPane.add(createStyledLabel("Author:"), 0, 5);
+        gridPane.add(authorField, 1, 5);
+
+        gridPane.add(createStyledLabel("Genres:"), 0, 6);
+        gridPane.add(genreCheckButton, 1, 6);
+
+        gridPane.add(createStyledLabel("Published Date:"), 0, 7);
+        gridPane.add(publishedDateField, 1, 7);
+
+        gridPane.add(createStyledLabel("Publisher:"), 0, 8);
+        gridPane.add(publisherField, 1, 8);
+
+        gridPane.add(addButton, 0, 10);
+
+        gridPane.add(editStatus, 0, 11);
+
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.setContent(gridPane);
+
+        dialogPane.setStyle("-fx-border-color: #d6d6d6; -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 20;");
+
+        alert.getButtonTypes().addAll(ButtonType.CANCEL);
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+
+    }
+
     private TextField createStyledTextField(String promptText) {
         TextField textField = new TextField();
         textField.setPromptText(promptText);
