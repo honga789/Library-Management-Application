@@ -10,5 +10,7 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="dha.libapp.controllers.admin.tabs.AdminBorrowRequestController"
             prefHeight="400.0" prefWidth="600.0">
+    <Label alignment="CENTER" contentDisplay="CENTER" prefWidth="260.0" text="Cam nang pho chong dich 2023 - 2024 Cam nang pho chong dich 2023 - 2024" textAlignment="CENTER" wrapText="true">
 
+    </Label>
 </AnchorPane>
