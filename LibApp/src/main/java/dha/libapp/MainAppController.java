@@ -1,6 +1,7 @@
 package dha.libapp;
 
 import dha.libapp.effects.HoverEffect;
+import dha.libapp.utils.API.ExecutorHandle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -27,6 +28,7 @@ public class MainAppController implements Initializable {
     @FXML
     public void handleClose() {
         Stage stage = (Stage) closeIcon.getScene().getWindow();
+        ExecutorHandle.getInstance().shutdownExecutorService();
         stage.close();
     }
 

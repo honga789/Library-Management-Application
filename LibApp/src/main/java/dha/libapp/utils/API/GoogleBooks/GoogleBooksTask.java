@@ -1,5 +1,7 @@
 package dha.libapp.utils.API.GoogleBooks;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -9,7 +11,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,7 +83,15 @@ public class GoogleBooksTask extends Thread {
                         System.out.println("Publisher: " + publisher);
                         String publishedDateJson = volumeInfo.get("publishedDate").getAsString();
                         System.out.println("Published Date: " + publishedDateJson);
-                        Date publishedDate = Date.valueOf(publishedDateJson);
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                        Date publishedDate = null;
+                        try {
+                            Date date = formatter.parse(publishedDateJson);
+                            System.out.println("Converted Date: " + date);
+                        } catch (ParseException e) {
+                            System.out.println("Invalid date format!");
+                            e.printStackTrace();
+                        }
                         int quantity = 0;
                         String description = volumeInfo.get("description").getAsString();
                         System.out.println("Description: " + description);

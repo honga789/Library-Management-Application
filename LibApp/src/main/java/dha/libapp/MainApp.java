@@ -3,6 +3,7 @@ package dha.libapp;
 import dha.libapp.models.Book;
 import dha.libapp.models.User;
 import dha.libapp.services.members.RecommendationService;
+import dha.libapp.utils.API.ExecutorHandle;
 import dha.libapp.utils.Database.DBUtil;
 import javafx.application.Application;
 import javafx.concurrent.Task;
@@ -61,7 +62,6 @@ public class MainApp extends Application {
             @Override
             protected void succeeded() {
                 super.succeeded();
-
                 User user = new User();
                 user.setUserId(2);
 
