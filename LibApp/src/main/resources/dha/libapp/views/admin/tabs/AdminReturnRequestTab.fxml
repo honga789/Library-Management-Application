@@ -24,7 +24,6 @@
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font></Label>
-                        <Pane prefHeight="200.0" prefWidth="200.0" />
                         <Button layoutX="117.0" layoutY="499.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="110.0" style="-fx-background-color: #7AE582; -fx-background-radius: 15; -fx-cursor: hand;" styleClass="button-borrow" stylesheets="@../../../css/hometab.css" text="Confirm">
                            <cursor>
                               <Cursor fx:constant="HAND" />
@@ -60,6 +59,11 @@
                   <AnchorPane prefHeight="700.0" prefWidth="690.0" style="-fx-background-radius: 30 0 0 30; -fx-background-color: lightblue;">
                      <children>
                         <ListView fx:id="returnRequestListView" layoutX="31.0" layoutY="131.0" prefHeight="478.0" prefWidth="628.0" />
+                        <Pane fx:id="loadingPane" layoutX="31.0" layoutY="131.0" prefHeight="477.0" prefWidth="627.0" styleClass="loading-pane" stylesheets="@../../../css/hometab.css">
+                           <children>
+                              <Label layoutX="231.0" layoutY="212.0" styleClass="loading-text" stylesheets="@../../../css/hometab.css" text="Loading..." />
+                           </children>
+                        </Pane>
                         <Label layoutX="237.0" layoutY="71.0" text="Return Request">
                            <font>
                               <Font name="System Bold" size="24.0" />
