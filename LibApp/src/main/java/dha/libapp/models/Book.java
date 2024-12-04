@@ -142,7 +142,7 @@ public class Book {
         for (GenreType genreType : genreList) {
             genreString += genreType.getGenreName() + ", ";
         }
-        genreString = genreString.substring(0, genreString.length() - 2);
+        if (genreString.length() >= 2) genreString = genreString.substring(0, genreString.length() - 2);
         return String.format(
                 "\nName: %s\nAuthor: %s\nGenres: %s\n ",
                 title, author, genreString
