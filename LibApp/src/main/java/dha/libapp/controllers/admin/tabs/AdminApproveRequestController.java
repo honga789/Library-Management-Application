@@ -20,18 +20,6 @@ public class AdminApproveRequestController {
         });
     }
     public void approveBorrow(BorrowRecord borrowRecord) {
-        BorrowRecord approvedBorrowRecord = new BorrowRecord(borrowRecord);
-        Date current = new Date();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(current);
-        calendar.add(Calendar.DATE, 30);
-        approvedBorrowRecord.setDueDate(calendar.getTime());
-        approvedBorrowRecord.setStatus(BorrowStatus.BORROWED);
-        try {
-            BorrowService.getInstance().updateBorrowRecord(approvedBorrowRecord);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
     }
 }
