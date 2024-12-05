@@ -80,7 +80,8 @@ public class BookService {
 
     public void addBook(String ISBN, String title, String author, String publisher,
                         Date publicationDate, int quantity, String description,
-                        String coverImagePath, ArrayList<GenreType> genreList) {
+                        String coverImagePath, ArrayList<GenreType> genreList,
+                        DAOUpdateCallback callback) {
         //check for book in dataBase
         Task<Book> task = new Task<>() {
 
@@ -110,13 +111,13 @@ public class BookService {
             @Override
             protected void failed() {
                 System.out.println("Task failed");
-                throw new RuntimeException("add Book failed");
+                callback.onError(new RuntimeException("add Book failed"));
             }
 
             @Override
             protected void succeeded() {
-                super.succeeded();
                 System.out.println("Book added successfully");
+                callback.onSuccess();
             }
         };
         new Thread(task).start();
@@ -162,6 +163,7 @@ public class BookService {
                 throw new RuntimeException("Update book failed");
             }
         };
+        new Thread(task).start();
     }
 
     public void deleteBook(Book book) throws Exception {

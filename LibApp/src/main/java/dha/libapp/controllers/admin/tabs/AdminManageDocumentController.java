@@ -1,8 +1,10 @@
 package dha.libapp.controllers.admin.tabs;
+
 import java.util.concurrent.TimeUnit;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import dha.libapp.models.Book;
 import dha.libapp.models.GenreType;
 import dha.libapp.models.User;
@@ -27,6 +29,7 @@ import dha.libapp.syncdao.utils.DAOExecuteCallback;
 
 import java.util.ArrayList;
 import java.util.Optional;
+
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -37,11 +40,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+
 import java.util.List;
 
 public class AdminManageDocumentController {
-
-
 
 
     @FXML
@@ -121,9 +123,11 @@ public class AdminManageDocumentController {
             }
         });
     }
+
     private void deleteBook(Book book) {
 
     }
+
     private void openFieldBox() {
         Alert alert = new Alert(Alert.AlertType.NONE);
         alert.setTitle("Add new book");
@@ -243,16 +247,22 @@ public class AdminManageDocumentController {
                 System.out.println("Invalid date format!");
                 e.printStackTrace();
             }
-            try {
+            BookService.getInstance().addBook(isbn, title, author, publisher,
+                    publishDate, quantity, description, imgUrl, selectedGenreTypeList,
+                    new DAOUpdateCallback() {
+                        @Override
+                        public void onSuccess() {
+                            System.out.println("Book added successfully!");
+                            // controller
+                        }
 
-                BookService.getInstance().addBook(isbn, title, author, publisher,
-                        publishDate,quantity,description,imgUrl,selectedGenreTypeList);
-                System.out.println("Added Book: " + isbn);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
+                        @Override
+                        public void onError(Throwable e) {
+                            System.out.println("Book could not be added!");
+                            // controller
+                        }
+                    });
+            System.out.println("Added Book: " + isbn);
         });
 
         //call api autofill
@@ -266,6 +276,7 @@ public class AdminManageDocumentController {
                 public void onSuccess(List<Book> booksData) {
                     dataHolder.addAll(booksData);
                 }
+
                 @Override
                 public void onFailure(Exception ex) {
                     System.out.println(ex.getMessage());
@@ -464,7 +475,7 @@ public class AdminManageDocumentController {
                 BookService.getInstance().updateBook(newBook);
                 System.out.println("Updated Book: " + newBook.getISBN());
             } catch (Exception e) {
-                showErrorPopup("Error Update Book","Got:" + e.getMessage() + "\nPlease enter valid book data");
+                showErrorPopup("Error Update Book", "Got:" + e.getMessage() + "\nPlease enter valid book data");
             }
 
         });
@@ -525,6 +536,7 @@ public class AdminManageDocumentController {
         text.setStyle("-fx-fill: #333;");
         return text;
     }
+
     private void showErrorPopup(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
@@ -537,8 +549,6 @@ public class AdminManageDocumentController {
 
         alert.showAndWait();
     }
-
-
 
 
 }

@@ -23,14 +23,13 @@ public class UserService {
     }
 
     public void addUser(String userName, String password, String fullName,
-                        String phoneNumber, String email) throws Exception {
+                        String phoneNumber, String email, DAOUpdateCallback callback) {
         if (userName.isEmpty() || password.isEmpty() || fullName.isEmpty()
                 || phoneNumber.isEmpty() || email.isEmpty() || userExists(userName)
                 || password.length() < 8 || !isValidEmail(email) || !isValidPhone(phoneNumber)
                 || userName.length() > 50 || password.length() > 100 || fullName.length() > 100) {
 
-            // controller for invalid
-            throw new Exception("Invalid input");
+            callback.onError(new RuntimeException("Invalid input"));
         }
 
         try {
@@ -41,20 +40,18 @@ public class UserService {
                         @Override
                         public void onSuccess() {
                             System.out.println("User added successfully");
-                            // controller;
+                            callback.onSuccess();
                         }
 
                         @Override
                         public void onError(Throwable e) {
                             System.out.println("User added failed");
-                            throw new RuntimeException(e);
-                            // controller;
+                            callback.onError(new RuntimeException("User added failed"));
                         }
                     });
         } catch (Exception e) {
             System.out.println("User added failed");
-            throw new Exception("User added failed");
-            // controller for error.
+            callback.onError(new RuntimeException("User added failed"));
         }
     }
 

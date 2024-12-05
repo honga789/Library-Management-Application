@@ -6,6 +6,7 @@ import dha.libapp.services.admin.BookService;
 import dha.libapp.services.admin.UserService;
 import dha.libapp.syncdao.UserSyncDAO;
 import dha.libapp.syncdao.utils.DAOExecuteCallback;
+import dha.libapp.syncdao.utils.DAOUpdateCallback;
 import dha.libapp.utils.API.ExecutorHandle;
 import dha.libapp.utils.API.GoogleBooks.BookFetchCallback;
 import dha.libapp.utils.API.GoogleBooks.GoogleBooksAPI;
@@ -197,11 +198,18 @@ public class AdminManageUserController implements Initializable {
             String fullNameText = fullName.getText();
             String phoneNumberText = phoneNumber.getText();
             String emailText = email.getText();
-            try {
-                UserService.getInstance().addUser(usernameText, passwordText, fullNameText, phoneNumberText, emailText);
-            } catch (Exception e) {
-                showErrorPopup("Error Adding User","Please enter valid user data");
-            }
+            UserService.getInstance().addUser(usernameText, passwordText, fullNameText, phoneNumberText,
+                    emailText, new DAOUpdateCallback() {
+                        @Override
+                        public void onSuccess() {
+                            // controller
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            // controller
+                        }
+                    });
         });
 
         gridPane.add(createStyledLabel("Username:"), 0, 0);
