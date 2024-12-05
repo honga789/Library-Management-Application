@@ -76,6 +76,8 @@ public class BorrowService {
                     return false;
                 }
 
+                book.setQuantity(book.getQuantity() - 1);
+                BookDAO.updateBook(book);
                 BorrowRecordDAO.updateBorrowRecord(borrowRecord);
                 return true;
             }

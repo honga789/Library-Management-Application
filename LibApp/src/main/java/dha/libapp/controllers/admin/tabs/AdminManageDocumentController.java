@@ -451,6 +451,7 @@ public class AdminManageDocumentController {
         confirmButton.setStyle("-fx-background-color: #d46dd2; -fx-text-fill: white; -fx-font-weight: bold; -fx-border-radius: 5; -fx-background-radius: 5;");
         confirmButton.setOnAction(event -> {
             StringBuilder selectedGenres = new StringBuilder("Selected Genres: ");
+            selectedGenreTypeList.clear();
             BookService.GenreCallback callback = new BookService.GenreCallback() {
 
                 @Override
@@ -458,6 +459,7 @@ public class AdminManageDocumentController {
                     selectedGenreTypeList.addAll(genreTypesCallback);
                 }
             };
+
             for (Node node : genreBox.getChildren()) {
                 if (node instanceof CheckBox checkBox && checkBox.isSelected()) {
                     selectedGenres.append(checkBox.getText()).append(", ");
