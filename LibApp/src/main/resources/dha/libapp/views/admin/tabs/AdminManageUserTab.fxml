@@ -25,7 +25,7 @@
                                         <Font name="System Bold" size="14.0" />
                                     </font></Label>
                                 <Pane prefHeight="200.0" prefWidth="200.0" />
-                        <Button layoutX="254.0" layoutY="535.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="91.0" style="-fx-background-color: red; -fx-background-radius: 15; -fx-cursor: hand;" text="Delete" textFill="#f2f2f2">
+                        <Button layoutX="254.0" layoutY="535.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="91.0" style="-fx-background-color: red; -fx-background-radius: 15; -fx-cursor: hand;" text="Delete" textFill="#f2f2f2" fx:id="deleteUserButton">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>

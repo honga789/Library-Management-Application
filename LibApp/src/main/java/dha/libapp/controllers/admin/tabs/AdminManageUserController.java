@@ -120,7 +120,16 @@ public class AdminManageUserController implements Initializable {
                 showErrorPopup("No User Selected", "Please Select a User First");
             }
         });
+        deleteUserButton.setOnAction(event -> {
+            if (selectedUser != null) {
+                showConfirmDeletePopup("Confirm User Delete","Please confirm user delete",selectedUser);
+            } else {
+                showErrorPopup("No User Selected", "Please Select a User First");
+            }
+        });
     }
+
+
 
     private void openFieldBoxForEdit(User user) {
         Alert alert = new Alert(Alert.AlertType.NONE);
@@ -312,6 +321,33 @@ public class AdminManageUserController implements Initializable {
         dialogPane.setStyle("-fx-font-size: 14px; -fx-background-color: #fff; -fx-border-radius: 10; -fx-background-radius: 10;");
 
         alert.showAndWait();
+    }
+    private void showConfirmDeletePopup(String header, String message, User user) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation");
+        alert.setHeaderText(header);
+        alert.setContentText(message);
+
+        // Show the alert and wait for a response
+        Optional<ButtonType> result = alert.showAndWait();
+        DAOUpdateCallback callback = new DAOUpdateCallback() {
+            @Override
+            public void onSuccess() {
+                showSuccessPopup("Users Deleted", "User deleted successfully");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                showErrorPopup("User Delete Error", "Got: " + e.getMessage() + "\nPlease try again");
+            }
+        };
+        // Handle the user's response
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            System.out.println("User chose OK");
+            UserService.getInstance().deleteUser(user.getUserId(), callback);
+        } else {
+            System.out.println("User chose Cancel or closed the dialog");
+        }
     }
     //text field
 
