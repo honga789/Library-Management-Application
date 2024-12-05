@@ -98,6 +98,29 @@ public class BorrowService {
         new Thread(bookTask).start();
     }
 
+    public void deniedBorrow(BorrowRecord borrowRecord, DAOUpdateCallback callback) {
+        if (borrowRecord == null) {
+            callback.onError(new RuntimeException("borrow record is null"));
+            return;
+        }
+
+        borrowRecord.setStatus(BorrowStatus.CANCELED);
+        BorrowRecordSyncDAO.updateBorrowRecordSync(borrowRecord, new DAOUpdateCallback() {
+
+            @Override
+            public void onSuccess() {
+                System.out.println("denied borrow record successfully");
+                callback.onSuccess();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                System.out.println("failed to denied borrow record");
+                callback.onError(new RuntimeException("failed to denied borrow record"));
+            }
+        });
+    }
+
     public void returnedBorrow(BorrowRecord borrowRecord, DAOUpdateCallback callback) {
         if (borrowRecord == null) {
             callback.onError(new RuntimeException("borrow record is null"));
