@@ -30,11 +30,6 @@ public class AdminViewController implements Initializable {
     }
 
     @FXML
-    public void switchToHomeTab() {
-        switchTab("views/admin/tabs/AdminHomeTab.fxml");
-    }
-
-    @FXML
     public void switchToManageUserTab() {
         switchTab("views/admin/tabs/AdminManageUserTab.fxml");
     }
@@ -47,11 +42,6 @@ public class AdminViewController implements Initializable {
     @FXML
     public void switchToReturnRequestTab() {
         switchTab("views/admin/tabs/AdminReturnRequestTab.fxml");
-    }
-
-    @FXML
-    public void switchToBorrowRequestTab() {
-        switchTab("views/admin/tabs/AdminBorrowRequestTab.fxml");
     }
 
     @FXML
