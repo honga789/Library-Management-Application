@@ -14,6 +14,9 @@ import dha.libapp.utils.API.ExecutorHandle;
 import dha.libapp.utils.API.GoogleBooks.BookFetchCallback;
 import dha.libapp.utils.API.GoogleBooks.GoogleBooksAPI;
 import dha.libapp.utils.API.GoogleBooks.GoogleBooksTask;
+import dha.libapp.utils.API.Image.ImageAPI;
+import dha.libapp.utils.API.Image.ImageFetchCallback;
+import dha.libapp.utils.API.Image.ImageTask;
 import dha.libapp.utils.ListView.BookListView;
 import javafx.fxml.FXML;
 import dha.libapp.dao.GenreTypeDAO;
@@ -33,6 +36,8 @@ import java.util.Optional;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
@@ -44,7 +49,6 @@ import javafx.scene.text.Text;
 import java.util.List;
 
 public class AdminManageDocumentController {
-
 
     @FXML
     private Button newBook;
@@ -62,7 +66,20 @@ public class AdminManageDocumentController {
     @FXML
     private Pane loadingPane;
 
-    private Book selectedBook = null;
+    @FXML
+    private Label bookDetailName;
+
+    @FXML
+    private Label bookDetailAuthor;
+
+    @FXML
+    private Label bookDetailDescription;
+
+    @FXML
+    private ImageView bookDetailImage;
+
+    @FXML
+    private Book selectedBook;
 
     @FXML
     public void initialize() {
@@ -101,7 +118,23 @@ public class AdminManageDocumentController {
     }
 
     public void setBookDetailView(Book book) {
+        bookDetailName.setText(book.getTitle());
+        bookDetailAuthor.setText(book.getAuthor());
+        bookDetailDescription.setText(book.getDescription());
 
+        ImageTask imageTask = ImageAPI.getImageWithUrl(book.getCoverImagePath(), new ImageFetchCallback() {
+            @Override
+            public void onSuccess(Image image) {
+                bookDetailImage.setImage(image);
+            }
+
+            @Override
+            public void onFailure(Exception ex) {
+
+            }
+        });
+
+        ExecutorHandle.getInstance().addTask(imageTask);
     }
 
     private void initializeButton() {

@@ -1,5 +1,6 @@
 package dha.libapp.controllers.admin.tabs;
 
+import dha.libapp.controllers.admin.AdminViewController;
 import dha.libapp.models.Book;
 import dha.libapp.models.BorrowRecord;
 import dha.libapp.models.BorrowStatus;
@@ -9,6 +10,7 @@ import dha.libapp.services.admin.BorrowService;
 import dha.libapp.services.admin.tabs.AdminApproveRequestService;
 import dha.libapp.services.admin.tabs.AdminReturnRequestService;
 import dha.libapp.syncdao.BookSyncDAO;
+import dha.libapp.syncdao.utils.DAOUpdateCallback;
 import dha.libapp.utils.ListView.BorrowListView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -75,6 +77,24 @@ public class AdminApproveRequestController implements Initializable {
                 this.selectBorrow = selected;
             }
         });
+
+        approveButton.setOnMouseClicked(e -> {
+            System.out.println("clicked");
+            BorrowService.getInstance().acceptBorrow(selectBorrow, new DAOUpdateCallback() {
+                @Override
+                public void onSuccess() {
+                    System.out.println("Approve button");
+                    AdminViewController.getInstance().switchToApproveRequestTab();
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    System.out.println("Approve false");
+                }
+            });
+        });
+
+
     }
 
     public void renderApproveBooks(List<BorrowRecord> approveBooks) {
@@ -103,6 +123,6 @@ public class AdminApproveRequestController implements Initializable {
     }
 
     public void approveBorrow(BorrowRecord borrowRecord) {
-
+        System.out.println("approve");
     }
 }
