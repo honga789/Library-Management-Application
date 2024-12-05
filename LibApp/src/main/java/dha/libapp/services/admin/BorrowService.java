@@ -5,42 +5,46 @@ import dha.libapp.dao.BorrowRecordDAO;
 import dha.libapp.models.Book;
 import dha.libapp.models.BorrowRecord;
 import dha.libapp.models.BorrowStatus;
+import dha.libapp.syncdao.BookSyncDAO;
 import dha.libapp.syncdao.BorrowRecordSyncDAO;
 import dha.libapp.syncdao.utils.DAOUpdateCallback;
 import javafx.concurrent.Task;
 
-import java.sql.SQLException;
 import java.util.Date;
 
 public class BorrowService {
+    private static BorrowService instance;
+
     private BorrowService() {}
-    private final static BorrowService instance = new BorrowService();
+
     public static BorrowService getInstance() {
+        if (instance == null) {
+            BorrowService instance = new BorrowService();
+        }
         return instance;
     }
 
     public void addBorrowRecord(int userId, int bookId, Date borrowDate, Date dueDate,
-                                 BorrowStatus status, Date returnDate) throws Exception {
-        Task<Void> task = new Task<>() {
-            @Override
-            protected Void call() throws Exception {
-                BorrowRecordDAO.addNewBorrowRecord(userId, bookId, borrowDate, dueDate, status, returnDate);
-                return null;
-            }
+                                 BorrowStatus status, Date returnDate, DAOUpdateCallback callback) {
+        if (dueDate.compareTo(borrowDate) < 0) {
+            callback.onError(new RuntimeException("dueDate is less than borrowDate"));
+            return;
+        }
 
-            @Override
-            protected void succeeded() {
-                super.succeeded();
-                System.out.println("add record success");
-            }
+        BorrowRecordSyncDAO.addNewBorrowRecordSync(userId, bookId, borrowDate, dueDate, status,
+                returnDate, new DAOUpdateCallback() {
+                    @Override
+                    public void onSuccess() {
+                        System.out.println("added new borrow record successfully");
+                        callback.onSuccess();
+                    }
 
-            @Override
-            protected void failed() {
-                super.failed();
-                System.out.println("add record failed");
-            }
-        };
-        new Thread(task).start();
+                    @Override
+                    public void onError(Throwable e) {
+                        System.out.println("failed to add new borrow record");
+                        callback.onError(new RuntimeException("failed to add new borrow record"));
+                    }
+                });
     }
 
     public void updateBorrowRecord(BorrowRecord borrowRecord) throws Exception {
