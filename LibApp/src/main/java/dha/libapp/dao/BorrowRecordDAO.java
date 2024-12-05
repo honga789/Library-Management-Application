@@ -105,7 +105,7 @@ public class BorrowRecordDAO {
 
     public static List<BorrowRecord> getAllBorrowRecordsByStatus(BorrowStatus status) {
         List<BorrowRecord> borrowRecordList = new ArrayList<>();
-        String sql = "SELECT * FROM Borrow_record WHERE status = ?";
+        String sql = "SELECT * FROM Borrow_record WHERE status = ? ORDER BY borrow_date";
 
         try (PreparedStatement preparedStatement = DBUtil.getPrepareStatement(MainApp.getDbConnection(),
                 sql, status.toString());
@@ -123,7 +123,7 @@ public class BorrowRecordDAO {
 
     public static List<BorrowRecord> getAllBorrowRecordsByUserIdAndStatus(int user_id, BorrowStatus status) {
         List<BorrowRecord> borrowRecordList = new ArrayList<>();
-        String sql = "SELECT * FROM Borrow_record WHERE user_id = ? AND status = ?";
+        String sql = "SELECT * FROM Borrow_record WHERE user_id = ? AND status = ? ORDER BY borrow_date DESC";
 
         try (PreparedStatement preparedStatement = DBUtil.getPrepareStatement(MainApp.getDbConnection(),
                 sql, user_id, status.toString());
