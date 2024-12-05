@@ -52,6 +52,9 @@ public class AdminApproveRequestController implements Initializable {
     private BorrowRecord selectBorrow;
 
     @FXML
+    private Button cancelButton;
+
+    @FXML
     private Button approveButton;
     private BorrowRecord tempBorrowRecord;
 
@@ -86,6 +89,21 @@ public class AdminApproveRequestController implements Initializable {
                 @Override
                 public void onError(Throwable e) {
                     showErrorPopup("Cannot Approve Request", "Got: " + e.getMessage());
+                }
+            });
+        });
+        cancelButton.setOnMouseClicked(e -> {
+            System.out.println("clicked");
+            BorrowService.getInstance().deniedBorrow(selectBorrow, new DAOUpdateCallback() {
+                @Override
+                public void onSuccess() {
+                    showConfirmPopup("Request Cancelled", "Request Cancelled Successfully");
+                    AdminViewController.getInstance().switchToApproveRequestTab();
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    showErrorPopup("Cannot Cancel Request", "Got: " + e.getMessage());
                 }
             });
         });

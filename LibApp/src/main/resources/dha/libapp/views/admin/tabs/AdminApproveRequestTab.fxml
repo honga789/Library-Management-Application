@@ -55,7 +55,7 @@
                               <Font name="System Bold" size="24.0" />
                            </font>
                         </Label>
-                        <Button layoutX="201.0" layoutY="511.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="110.0" style="-fx-background-color: red; -fx-cursor: hand; -fx-background-radius: 15;" styleClass="button-borrow" stylesheets="@../../../css/hometab.css" text="Cancel" textFill="#f7f7f7" />
+                        <Button layoutX="201.0" layoutY="511.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="110.0" style="-fx-background-color: red; -fx-cursor: hand; -fx-background-radius: 15;" styleClass="button-borrow" stylesheets="@../../../css/hometab.css" text="Cancel" textFill="#f7f7f7" fx:id="cancelButton"/>
                             </children>
                         </AnchorPane>
                         <AnchorPane prefHeight="700.0" prefWidth="690.0" style="-fx-background-radius: 30 0 0 30; -fx-background-color: lightblue;">
