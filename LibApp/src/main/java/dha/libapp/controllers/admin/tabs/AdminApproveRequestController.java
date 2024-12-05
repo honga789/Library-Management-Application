@@ -52,6 +52,9 @@ public class AdminApproveRequestController implements Initializable {
     private BorrowRecord selectBorrow;
 
     @FXML
+    private Button cancelButton;
+
+    @FXML
     private Button approveButton;
     private BorrowRecord tempBorrowRecord;
 
@@ -86,6 +89,21 @@ public class AdminApproveRequestController implements Initializable {
                 @Override
                 public void onError(Throwable e) {
                     showErrorPopup("Cannot Approve Request", "Got: " + e.getMessage());
+                }
+            });
+        });
+        cancelButton.setOnMouseClicked(e -> {
+            System.out.println("clicked");
+            BorrowService.getInstance().deniedBorrow(selectBorrow, new DAOUpdateCallback() {
+                @Override
+                public void onSuccess() {
+                    showSuccessPopup("Request Cancelled", "Request Cancelled Successfully");
+                    AdminViewController.getInstance().switchToApproveRequestTab();
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    showErrorPopup("Cannot Cancel Request", "Got: " + e.getMessage());
                 }
             });
         });
@@ -158,5 +176,17 @@ public class AdminApproveRequestController implements Initializable {
         } else {
             System.out.println("User chose Cancel or closed the dialog");
         }
+    }
+    private void showSuccessPopup(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        // Apply custom styling if needed
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.setStyle("-fx-font-size: 14px; -fx-background-color: #fff; -fx-border-radius: 10; -fx-background-radius: 10;");
+
+        alert.showAndWait();
     }
 }
