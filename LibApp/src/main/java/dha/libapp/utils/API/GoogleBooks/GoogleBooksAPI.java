@@ -12,6 +12,13 @@ public class GoogleBooksAPI {
     private static final String API_KEY = "AIzaSyCb4_1F0aXwL6lDlhdW6VhJ-KUKyQzVM4U";
 
     public static GoogleBooksTask getBookDataByISBN(String isbn, BookFetchCallback callback) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < isbn.length(); ++i) {
+            if (isbn.charAt(i) != '-') {
+                sb.append(isbn.charAt(i));
+            }
+        }
+        isbn = sb.toString();
         String query = "=isbn:" + isbn;
         return new GoogleBooksTask(query, callback);
     }
