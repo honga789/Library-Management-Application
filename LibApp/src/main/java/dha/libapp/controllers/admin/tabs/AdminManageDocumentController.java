@@ -288,7 +288,7 @@ public class AdminManageDocumentController {
                     new DAOUpdateCallback() {
                         @Override
                         public void onSuccess() {
-                            showConfirmPopup("Book Added", "Book Added Successfully");
+                            showSuccessPopup("Book Added", "Book Added Successfully");
                             // controller
                         }
 
