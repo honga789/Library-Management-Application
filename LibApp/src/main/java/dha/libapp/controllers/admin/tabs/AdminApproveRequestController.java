@@ -97,7 +97,7 @@ public class AdminApproveRequestController implements Initializable {
             BorrowService.getInstance().deniedBorrow(selectBorrow, new DAOUpdateCallback() {
                 @Override
                 public void onSuccess() {
-                    showConfirmPopup("Request Cancelled", "Request Cancelled Successfully");
+                    showSuccessPopup("Request Cancelled", "Request Cancelled Successfully");
                     AdminViewController.getInstance().switchToApproveRequestTab();
                 }
 
@@ -176,5 +176,17 @@ public class AdminApproveRequestController implements Initializable {
         } else {
             System.out.println("User chose Cancel or closed the dialog");
         }
+    }
+    private void showSuccessPopup(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        // Apply custom styling if needed
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.setStyle("-fx-font-size: 14px; -fx-background-color: #fff; -fx-border-radius: 10; -fx-background-radius: 10;");
+
+        alert.showAndWait();
     }
 }
