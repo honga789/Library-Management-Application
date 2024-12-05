@@ -158,7 +158,7 @@ public class AdminManageDocumentController {
     }
 
     private void deleteBook(Book book) {
-        showConfirmPopup("Confirm Book Deletion","Please Confirm Book Delete");
+        showConfirmDeletePopup("Confirm Book Deletion","Please Confirm Book Delete", book);
     }
 
     private void openFieldBox() {
@@ -514,7 +514,7 @@ public class AdminManageDocumentController {
                 DAOUpdateCallback callback = new DAOUpdateCallback() {
                     @Override
                     public void onSuccess() {
-                        showConfirmPopup("Book Edited", "Book Edited Successfully");
+                        showSuccessPopup("Book Edited", "Book Edited Successfully");
                     }
 
                     @Override
@@ -617,6 +617,45 @@ public class AdminManageDocumentController {
         } else {
             System.out.println("User chose Cancel or closed the dialog");
         }
+    }
+    private void showConfirmDeletePopup(String header, String message, Book book) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation");
+        alert.setHeaderText(header);
+        alert.setContentText(message);
+
+        // Show the alert and wait for a response
+        Optional<ButtonType> result = alert.showAndWait();
+        DAOUpdateCallback callback = new DAOUpdateCallback() {
+            @Override
+            public void onSuccess() {
+                showSuccessPopup("Book Deleted", "Book deleted successfully");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                showErrorPopup("Book Delete Error", "Got: " + e.getMessage() + "\nPlease try again");
+            }
+        };
+        // Handle the user's response
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            System.out.println("User chose OK");
+            BookService.getInstance().deleteBook(book, callback);
+        } else {
+            System.out.println("User chose Cancel or closed the dialog");
+        }
+    }
+    private void showSuccessPopup(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        // Apply custom styling if needed
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.setStyle("-fx-font-size: 14px; -fx-background-color: #fff; -fx-border-radius: 10; -fx-background-radius: 10;");
+
+        alert.showAndWait();
     }
 
 
