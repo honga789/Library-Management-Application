@@ -5,81 +5,78 @@ import dha.libapp.dao.BorrowRecordDAO;
 import dha.libapp.models.Book;
 import dha.libapp.models.BorrowRecord;
 import dha.libapp.models.BorrowStatus;
+import dha.libapp.syncdao.BookSyncDAO;
 import dha.libapp.syncdao.BorrowRecordSyncDAO;
 import dha.libapp.syncdao.utils.DAOUpdateCallback;
 import javafx.concurrent.Task;
 
-import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.Date;
 
 public class BorrowService {
+    private static BorrowService instance;
+
     private BorrowService() {}
-    private final static BorrowService instance = new BorrowService();
+
     public static BorrowService getInstance() {
+        if (instance == null) {
+            BorrowService instance = new BorrowService();
+        }
         return instance;
     }
 
-    public void addBorrowRecord(int userId, int bookId, Date borrowDate, Date dueDate,
-                                 BorrowStatus status, Date returnDate) throws Exception {
-        Task<Void> task = new Task<>() {
-            @Override
-            protected Void call() throws Exception {
-                BorrowRecordDAO.addNewBorrowRecord(userId, bookId, borrowDate, dueDate, status, returnDate);
-                return null;
-            }
+    public void addBorrowRecord(int userId, int bookId, BorrowStatus status, DAOUpdateCallback callback) {
 
-            @Override
-            protected void succeeded() {
-                super.succeeded();
-                System.out.println("add record success");
-            }
+        Date borrowDate = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(borrowDate);
+        calendar.add(Calendar.DATE, 30);
+        Date dueDate = calendar.getTime();
 
-            @Override
-            protected void failed() {
-                super.failed();
-                System.out.println("add record failed");
-            }
-        };
-        new Thread(task).start();
-    }
+        BorrowRecordSyncDAO.addNewBorrowRecordSync(userId, bookId, borrowDate, dueDate, status,
+                null, new DAOUpdateCallback() {
+                    @Override
+                    public void onSuccess() {
+                        System.out.println("added new borrow record successfully");
+                        callback.onSuccess();
+                    }
 
-    public void updateBorrowRecord(BorrowRecord borrowRecord) throws Exception {
-        DAOUpdateCallback callback = new DAOUpdateCallback() {
-
-            @Override
-            public void onSuccess() {
-                System.out.println("update record success");
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                throw new RuntimeException("error on update record",e);
-            }
-        };
-        BorrowRecordSyncDAO.updateBorrowRecordSync(borrowRecord, callback);
+                    @Override
+                    public void onError(Throwable e) {
+                        System.out.println("failed to add new borrow record");
+                        callback.onError(new RuntimeException("failed to add new borrow record"));
+                    }
+                });
     }
 
     public void acceptBorrow(BorrowRecord borrowRecord, DAOUpdateCallback callback) {
+        if (borrowRecord == null) {
+            callback.onError(new RuntimeException("borrow record is null"));
+            return;
+        }
+
+        borrowRecord.setBorrowDate(new Date());
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(borrowRecord.getBorrowDate());
+        calendar.add(Calendar.DATE, 30);
+        borrowRecord.setDueDate(calendar.getTime());
+        borrowRecord.setStatus(BorrowStatus.BORROWED);
+        borrowRecord.setReturnDate(null);
 
         Task<Boolean> bookTask = new Task<Boolean>() {
             @Override
             protected Boolean call() throws Exception {
-                if (borrowRecord == null) {
-                    return false;
-                }
-
                 Book book = BookDAO.getBookById(borrowRecord.getBookId());
                 if (book == null) {
-                    callback.onError(new RuntimeException("Book is null"));
+                    callback.onError(new RuntimeException("Run out of book"));
                     return false;
                 }
 
                 if (book.getQuantity() < 1) {
-                    callback.onError(new RuntimeException("Book quantity < 1"));
+                    callback.onError(new RuntimeException("Run out of book"));
                     return false;
                 }
 
-                borrowRecord.setStatus(BorrowStatus.BORROWED);
                 BorrowRecordDAO.updateBorrowRecord(borrowRecord);
                 return true;
             }
@@ -100,7 +97,6 @@ public class BorrowService {
         };
 
         new Thread(bookTask).start();
-
     }
 
 }

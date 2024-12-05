@@ -35,7 +35,7 @@
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                                    <Label fx:id="fullname" contentDisplay="CENTER" layoutX="25.0" layoutY="336.0" prefHeight="27.0" prefWidth="334.0" text="User Full Name: Full name" textAlignment="CENTER">
+                                    <Label fx:id="fullName" contentDisplay="CENTER" layoutX="25.0" layoutY="336.0" prefHeight="27.0" prefWidth="334.0" text="User Full Name: Full name" textAlignment="CENTER">
                                         <font>
                                             <Font name="System Bold" size="18.0" />
                                         </font>

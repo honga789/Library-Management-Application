@@ -10,6 +10,7 @@ import dha.libapp.services.admin.BorrowService;
 import dha.libapp.services.admin.tabs.AdminApproveRequestService;
 import dha.libapp.services.admin.tabs.AdminReturnRequestService;
 import dha.libapp.syncdao.BookSyncDAO;
+import dha.libapp.syncdao.utils.DAOExecuteCallback;
 import dha.libapp.syncdao.utils.DAOUpdateCallback;
 import dha.libapp.utils.ListView.BorrowListView;
 import javafx.fxml.FXML;
@@ -106,6 +107,20 @@ public class AdminApproveRequestController implements Initializable {
 //        fullName.setText(user.getFullName());
 //        titleBook.setText(book.getTitle());
 //        authorBook.setText(book.getAuthor());
+        AdminApproveRequestService.getInfoBorrow(selected, new DAOExecuteCallback<AdminApproveRequestService.BorrowInfo>() {
+            @Override
+            public void onSuccess(AdminApproveRequestService.BorrowInfo result) {
+                userId.setText("User ID: " + result.user.getUserId());
+                fullName.setText("User full name: " + result.user.getFullName());
+                titleBook.setText("Book title: " + result.book.getTitle());
+                authorBook.setText("Book author: " + result.book.getAuthor());
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
     }
 
     public void setLoadingPaneVisible(boolean visible) {

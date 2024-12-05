@@ -4,7 +4,6 @@ import dha.libapp.dao.BookDAO;
 import dha.libapp.dao.GenreTypeDAO;
 import dha.libapp.models.GenreType;
 import dha.libapp.syncdao.BookSyncDAO;
-import dha.libapp.syncdao.utils.DAOExecuteCallback;
 import dha.libapp.syncdao.utils.DAOUpdateCallback;
 import javafx.concurrent.Task;
 
@@ -121,7 +120,7 @@ public class BookService {
 
             @Override
             protected void failed() {
-                System.out.println("Task failed");
+                System.out.println("Book add failed");
                 callback.onError(new RuntimeException("add Book failed"));
             }
 
