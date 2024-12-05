@@ -99,7 +99,6 @@ public class AdminManageUserController implements Initializable {
             } else {
                 showErrorPopup("No User Selected", "Please Select a User First");
             }
-
         });
     }
 
@@ -116,15 +115,15 @@ public class AdminManageUserController implements Initializable {
         gridPane.setStyle("-fx-background-color: #f9f9f9; -fx-border-radius: 10; -fx-background-radius: 10;");
 
         TextField username = createStyledTextField("Username");
-        username.setPromptText(user.getUserName());
+        username.setText(user.getUserName());
         TextField password = createStyledTextField("Password");
-        password.setPromptText(user.getPassword());
+        password.setText(user.getPassword());
         TextField fullName = createStyledTextField("Full Name");
-        fullName.setPromptText(user.getFullName());
+        fullName.setText(user.getFullName());
         TextField phoneNumber = createStyledTextField("Phone Number");
-        phoneNumber.setPromptText(user.getPhoneNumber());
+        phoneNumber.setText(user.getPhoneNumber());
         TextField email = createStyledTextField("Email");
-        email.setPromptText(user.getEmail());
+        email.setText(user.getEmail());
         //add user
         javafx.scene.control.Button addButton = new javafx.scene.control.Button("Confirm Edit");
         addButton.setStyle("-fx-font-size: 15px; -fx-background-color: #d46dd2; -fx-text-fill: white; -fx-font-weight: bold; -fx-border-radius: 5; -fx-background-radius: 5;");
@@ -137,7 +136,7 @@ public class AdminManageUserController implements Initializable {
             DAOUpdateCallback callback = new DAOUpdateCallback() {
                 @Override
                 public void onSuccess() {
-                    showErrorPopup("User Edited", "User Edited Successfully");
+                    showSuccessPopup("User Edited", "User Edited Successfully");
                 }
 
                 @Override
@@ -218,7 +217,7 @@ public class AdminManageUserController implements Initializable {
                         @Override
                         public void onSuccess() {
                             // controller
-                            showErrorPopup("Add User Success", "User Added Successfully");
+                            showSuccessPopup("Add User Success", "User Added Successfully");
                         }
                         @Override
                         public void onError(Throwable e) {
@@ -272,6 +271,18 @@ public class AdminManageUserController implements Initializable {
     }
     private void showErrorPopup(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        // Apply custom styling if needed
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.setStyle("-fx-font-size: 14px; -fx-background-color: #fff; -fx-border-radius: 10; -fx-background-radius: 10;");
+
+        alert.showAndWait();
+    }
+    private void showSuccessPopup(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);

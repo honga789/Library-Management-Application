@@ -285,13 +285,13 @@ public class AdminManageDocumentController {
                     new DAOUpdateCallback() {
                         @Override
                         public void onSuccess() {
-                            System.out.println("Book added successfully!");
+                            showConfirmPopup("Book Added", "Book Added Successfully");
                             // controller
                         }
 
                         @Override
                         public void onError(Throwable e) {
-                            System.out.println("Book could not be added!");
+                            showErrorPopup("Add Book Error", "Got: " + e.getMessage() + "\nPlease try again");
                             // controller
                         }
                     });
@@ -320,7 +320,7 @@ public class AdminManageDocumentController {
             ExecutorHandle.getInstance().addTask(googleBooksTask);
             try {
                 // Wait for 1000ms for tasks to complete
-                if (!ExecutorHandle.getInstance().getExecutorService().awaitTermination(1000, TimeUnit.MILLISECONDS)) {
+                if (!ExecutorHandle.getInstance().getExecutorService().awaitTermination(3000, TimeUnit.MILLISECONDS)) {
                     System.out.println("API call timed out skipping autoFillTask");
                 } else {
                     System.out.println("API call tasks completed within timeout.");
@@ -328,14 +328,7 @@ public class AdminManageDocumentController {
             } catch (InterruptedException e) {
                 System.out.println("Thread was interrupted while waiting.");
             }
-            if (!dataHolder.isEmpty()) {
-                titleField.setText(dataHolder.getFirst().getTitle());
-                descriptionField.setText(dataHolder.getFirst().getDescription());
-                coverField.setText(dataHolder.getFirst().getCoverImagePath());
-                publisherField.setText(dataHolder.getFirst().getPublisher());
-                //publishedDateField.setText(dataHolder.getFirst().getPublicationDate().toString());
-                authorField.setText(dataHolder.getFirst().getAuthor());
-            }
+            
         });
 
         gridPane.add(createStyledLabel("ISBN:"), 0, 0);
@@ -502,10 +495,21 @@ public class AdminManageDocumentController {
             newBook.setGenreList(selectedGenreTypeList);
             String publishDateString = publishedDateField.getText();
             try {
+                DAOUpdateCallback callback = new DAOUpdateCallback() {
+                    @Override
+                    public void onSuccess() {
+                        showConfirmPopup("Book Edited", "Book Edited Successfully");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        showErrorPopup("Book Edited", "Got: " + e.getMessage() + "\nPlease try again");
+                    }
+                };
                 Date editedDate = null;
                 editedDate = formatter.parse(publishDateString);
                 newBook.setPublicationDate(editedDate);
-                BookService.getInstance().updateBook(newBook);
+                BookService.getInstance().updateBook(newBook, callback);
                 System.out.println("Updated Book: " + newBook.getISBN());
             } catch (Exception e) {
                 showErrorPopup("Error Update Book", "Got:" + e.getMessage() + "\nPlease enter valid book data");
