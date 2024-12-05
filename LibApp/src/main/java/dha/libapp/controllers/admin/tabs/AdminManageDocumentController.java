@@ -84,6 +84,7 @@ public class AdminManageDocumentController {
 
     @FXML
     public void initialize() {
+        genreTypeList.clear();
         initializeButton();
         BookService.GenreCallback callback = new BookService.GenreCallback() {
 
@@ -217,6 +218,7 @@ public class AdminManageDocumentController {
         confirmButton.setStyle("-fx-background-color: #d46dd2; -fx-text-fill: white; -fx-font-weight: bold; -fx-border-radius: 5; -fx-background-radius: 5;");
         confirmButton.setOnAction(event -> {
             StringBuilder selectedGenres = new StringBuilder("Selected Genres: ");
+            selectedGenreTypeList.clear();
             BookService.GenreCallback callback = new BookService.GenreCallback() {
 
                 @Override
@@ -309,6 +311,7 @@ public class AdminManageDocumentController {
             BookFetchCallback callback = new BookFetchCallback() {
                 @Override
                 public void onSuccess(List<Book> booksData) {
+                    dataHolder.clear();
                     dataHolder.addAll(booksData);
                     System.out.println("book data added");
                     latch.countDown();
@@ -436,16 +439,26 @@ public class AdminManageDocumentController {
 
         genrePopup.getContent().add(genreBox);
         // List of genres
+        //clone selected from book
+        selectedGenreTypeList.clear();
+        selectedGenreTypeList.addAll(book.getGenreList());
+        System.out.println(selectedGenreTypeList);
         if (!genreTypeList.isEmpty()) {
             for (GenreType genre : genreTypeList) {
                 CheckBox genreCheckBox = new CheckBox(genre.getGenreName());
+                //pre check
+                for (GenreType genreType : selectedGenreTypeList) {
+                    if (genre.getGenreId()==(genreType.getGenreId())) {
+                        genreCheckBox.setSelected(true);
+                        System.out.println(genre.getGenreName());
+                    }
+                }
                 genreBox.getChildren().add(genreCheckBox);
             }
         } else {
             CheckBox nullGenreCheckBox = new CheckBox("Null genre");
             genreBox.getChildren().add(nullGenreCheckBox);
         }
-
         // Add the Confirm button inside the popup
         Button confirmButton = new Button("Confirm");
         confirmButton.setStyle("-fx-background-color: #d46dd2; -fx-text-fill: white; -fx-font-weight: bold; -fx-border-radius: 5; -fx-background-radius: 5;");
