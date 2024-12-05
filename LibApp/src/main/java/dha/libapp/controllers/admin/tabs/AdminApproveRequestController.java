@@ -15,16 +15,11 @@ import dha.libapp.syncdao.utils.DAOUpdateCallback;
 import dha.libapp.utils.ListView.BorrowListView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 
 import java.net.URL;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class AdminApproveRequestController implements Initializable {
     private static AdminApproveRequestController instance;
@@ -84,13 +79,13 @@ public class AdminApproveRequestController implements Initializable {
             BorrowService.getInstance().acceptBorrow(selectBorrow, new DAOUpdateCallback() {
                 @Override
                 public void onSuccess() {
-                    System.out.println("Approve button");
+                    showConfirmPopup("Request Approved", "Approved Successfully");
                     AdminViewController.getInstance().switchToApproveRequestTab();
                 }
 
                 @Override
                 public void onError(Throwable e) {
-                    System.out.println("Approve false");
+                    showErrorPopup("Cannot Approve Request", "Got: " + e.getMessage());
                 }
             });
         });
@@ -139,5 +134,33 @@ public class AdminApproveRequestController implements Initializable {
 
     public void approveBorrow(BorrowRecord borrowRecord) {
         System.out.println("approve");
+    }
+    private void showErrorPopup(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        // Apply custom styling if needed
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.setStyle("-fx-font-size: 14px; -fx-background-color: #fff; -fx-border-radius: 10; -fx-background-radius: 10;");
+
+        alert.showAndWait();
+    }
+    private void showConfirmPopup(String header, String message) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation");
+        alert.setHeaderText(header);
+        alert.setContentText(message);
+
+        // Show the alert and wait for a response
+        Optional<ButtonType> result = alert.showAndWait();
+
+        // Handle the user's response
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            System.out.println("User chose OK");
+        } else {
+            System.out.println("User chose Cancel or closed the dialog");
+        }
     }
 }

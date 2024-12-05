@@ -13,7 +13,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class BorrowService {
-    private static BorrowService instance;
+    private static BorrowService instance = new BorrowService();
 
     private BorrowService() {}
 
