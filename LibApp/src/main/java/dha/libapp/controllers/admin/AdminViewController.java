@@ -1,6 +1,13 @@
 package dha.libapp.controllers.admin;
 
 import dha.libapp.MainApp;
+import dha.libapp.MainAppController;
+import dha.libapp.cache.members.BorrowedTabCache;
+import dha.libapp.cache.members.HomeTabCache;
+import dha.libapp.cache.members.PendingTabCache;
+import dha.libapp.cache.members.ReturnedTabCache;
+import dha.libapp.controllers.members.MemberViewController;
+import dha.libapp.services.SessionService;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -56,5 +63,20 @@ public class AdminViewController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         instance = this;
         switchTab("views/admin/tabs/AdminManageUserTab.fxml");
+    }
+
+    private void clearAllCache() {
+        HomeTabCache.getInstance().getRecommendationBookList().clear();
+        HomeTabCache.getInstance().getTopTrendingBookList().clear();
+        PendingTabCache.getInstance().getPendingBookList().clear();
+        BorrowedTabCache.getInstance().getBorrowedBookList().clear();
+        ReturnedTabCache.getInstance().getReturnedBookList().clear();
+    }
+
+    @FXML
+    public void handleLogout() {
+        clearAllCache();
+        SessionService.getInstance().setUser(null);
+        MainAppController.changeScene("views/authen/Login.fxml");
     }
 }
