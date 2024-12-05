@@ -14,6 +14,10 @@ import java.util.Date;
 public class UserBorrowBookService {
 
     public static void borrowBook(Book book) {
+        if (book == null || book.getQuantity() < 1) {
+            return;
+        }
+
         Date current = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(current);
