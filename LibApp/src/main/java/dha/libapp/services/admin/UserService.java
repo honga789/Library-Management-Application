@@ -24,6 +24,7 @@ public class UserService {
 
     public void addUser(String userName, String password, String fullName,
                         String phoneNumber, String email, DAOUpdateCallback callback) {
+
         if (userName.isEmpty() || password.isEmpty() || fullName.isEmpty()
                 || phoneNumber.isEmpty() || email.isEmpty() || userExists(userName)
                 || password.length() < 8 || !isValidEmail(email) || !isValidPhone(phoneNumber)
@@ -56,13 +57,13 @@ public class UserService {
     }
 
     public void updateUser(int userId, String password, String fullName, String phoneNumber,
-                           String email) throws Exception {
+                           String email, DAOUpdateCallback callback) {
+
         if (password.isEmpty() || fullName.isEmpty() || phoneNumber.isEmpty()
                 || email.isEmpty() || password.length() < 8 || !isValidEmail(email)
                 || !isValidPhone(phoneNumber) || password.length() > 50 || fullName.length() > 100) {
 
-            // controller for invalid
-            throw new RuntimeException("Invalid input");
+            callback.onError(new RuntimeException("Invalid input"));
         }
 
         try {
@@ -74,31 +75,28 @@ public class UserService {
                         @Override
                         public void onSuccess() {
                             System.out.println("User updated successfully");
-                            // controller;
+                            callback.onSuccess();
                         }
 
                         @Override
                         public void onError(Throwable e) {
                             System.out.println("User updated failed");
-                            throw new RuntimeException(e);
-                            // controller;
+                            callback.onError(new RuntimeException("User updated failed"));
                         }
                     });
         } catch (Exception e) {
             System.out.println("User update failed");
-            throw new Exception("User update failed");
-            // controller for error
+            callback.onError(new RuntimeException("User update failed"));
         }
     }
 
-    public void updateUser(User user) throws Exception {
+    public void updateUser(User user, DAOUpdateCallback callback) {
         if (user.getPassword().isEmpty() || user.getFullName().isEmpty() || user.getPhoneNumber().isEmpty()
                 || user.getEmail().isEmpty() || user.getPassword().length() < 8 || !isValidEmail(user.getEmail())
                 || !isValidPhone(user.getPhoneNumber()) || user.getPassword().length() > 50
                 || user.getFullName().length() > 100) {
 
-            // controller for invalid
-            throw new RuntimeException("Invalid input");
+            callback.onError(new RuntimeException("Invalid input"));
         }
 
         try {
@@ -110,45 +108,36 @@ public class UserService {
                         @Override
                         public void onSuccess() {
                             System.out.println("User updated successfully");
-                            // controller;
+                            callback.onSuccess();
                         }
 
                         @Override
                         public void onError(Throwable e) {
                             System.out.println("User updated failed");
-                            throw new RuntimeException(e);
-                            // controller;
+                            callback.onError(new RuntimeException("User updated failed"));
                         }
                     });
         } catch (Exception e) {
             System.out.println("User update failed");
-            throw new Exception("User update failed");
-            // controller for error
+            callback.onError(new RuntimeException("User update failed"));
         }
     }
 
-    public void deleteUser(int userId) throws Exception {
-        try {
-            UserSyncDAO.deleteUserByIdSync(userId, new DAOUpdateCallback() {
+    public void deleteUser(int userId, DAOUpdateCallback callback) {
+        UserSyncDAO.deleteUserByIdSync(userId, new DAOUpdateCallback() {
 
-                @Override
-                public void onSuccess() {
-                    System.out.println("User deleted successfully");
-                    //controller;
-                }
+            @Override
+            public void onSuccess() {
+                System.out.println("User deleted successfully");
+                callback.onSuccess();
+            }
 
-                @Override
-                public void onError(Throwable e) {
-                    System.out.println("User deleted failed");
-                    throw new RuntimeException(e);
-                    //controller;
-                }
-            });
-        } catch (Exception e) {
-            System.out.println("User deleted failed");
-            throw new Exception("User deleted failed");
-            //controller for error;
-        }
+            @Override
+            public void onError(Throwable e) {
+                System.out.println("User deleted failed");
+                callback.onError(new RuntimeException("User deleted failed"));
+            }
+        });
     }
 
     private static boolean userExists(String username) {
