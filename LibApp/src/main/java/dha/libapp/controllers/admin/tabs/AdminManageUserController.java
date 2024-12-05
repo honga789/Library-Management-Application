@@ -19,6 +19,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -51,6 +52,21 @@ public class AdminManageUserController implements Initializable {
 
     @FXML
     private ListView<User> manageUserListView;
+
+    @FXML
+    private Label userId;
+
+    @FXML
+    private Label username;
+
+    @FXML
+    private Label fullName;
+
+    @FXML
+    private Label phoneNumber;
+
+    @FXML
+    private Label email;
 
     private User selectedUser;
 
@@ -86,7 +102,11 @@ public class AdminManageUserController implements Initializable {
     }
 
     public void setBookDetailView(User user) {
-
+        userId.setText("User ID: " + user.getUserId());
+        username.setText("Username: " + user.getUserName());
+        fullName.setText("Full name: " + user.getFullName());
+        phoneNumber.setText("Phone number: " + user.getPhoneNumber());
+        email.setText("Email: " + user.getEmail());
     }
 
     private void initializeButton() {
