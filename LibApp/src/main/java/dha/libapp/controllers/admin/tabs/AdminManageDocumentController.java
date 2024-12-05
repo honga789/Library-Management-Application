@@ -1,5 +1,6 @@
 package dha.libapp.controllers.admin.tabs;
 
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -304,45 +305,40 @@ public class AdminManageDocumentController {
         autofillButton.setOnMouseClicked(event -> {
             List<Book> dataHolder = new ArrayList<>();
             String isbn = isbnField.getText();
+            CountDownLatch latch = new CountDownLatch(1);
             BookFetchCallback callback = new BookFetchCallback() {
                 @Override
                 public void onSuccess(List<Book> booksData) {
                     dataHolder.addAll(booksData);
+                    System.out.println("book data added");
+                    latch.countDown();
                 }
 
                 @Override
                 public void onFailure(Exception ex) {
                     System.out.println(ex.getMessage());
+                    latch.countDown();
                 }
             };
 
             GoogleBooksTask googleBooksTask = GoogleBooksAPI.getBookDataByISBN(isbn, callback);
             ExecutorHandle.getInstance().addTask(googleBooksTask);
+
             try {
-                // Wait for 1000ms for tasks to complete
-                if (!ExecutorHandle.getInstance().getExecutorService().awaitTermination(10000, TimeUnit.MILLISECONDS)) {
-                    System.out.println("API call over 10000ms");
-                    if (!dataHolder.isEmpty()) {
-                        titleField.setText(dataHolder.getFirst().getTitle());
-                        descriptionField.setText(dataHolder.getFirst().getDescription());
-                        coverField.setText(dataHolder.getFirst().getCoverImagePath());
-                        publisherField.setText(dataHolder.getFirst().getPublisher());
-                        //publishedDateField.setText(dataHolder.getFirst().getPublicationDate().toString());
-                        authorField.setText(dataHolder.getFirst().getAuthor());
-                    }
-                } else {
-                    System.out.println("API call tasks completed within timeout.");
-                    if (!dataHolder.isEmpty()) {
-                        titleField.setText(dataHolder.getFirst().getTitle());
-                        descriptionField.setText(dataHolder.getFirst().getDescription());
-                        coverField.setText(dataHolder.getFirst().getCoverImagePath());
-                        publisherField.setText(dataHolder.getFirst().getPublisher());
-                        //publishedDateField.setText(dataHolder.getFirst().getPublicationDate().toString());
-                        authorField.setText(dataHolder.getFirst().getAuthor());
-                    }
-                }
+                // Wait for the task to finish
+                latch.await();
             } catch (InterruptedException e) {
-                System.out.println("Thread was interrupted while waiting.");
+                Thread.currentThread().interrupt();
+                System.out.println("Task interrupted: " + e.getMessage());
+            }
+
+            if (!dataHolder.isEmpty()) {
+                titleField.setText(dataHolder.getFirst().getTitle());
+                descriptionField.setText(dataHolder.getFirst().getDescription());
+                coverField.setText(dataHolder.getFirst().getCoverImagePath());
+                publisherField.setText(dataHolder.getFirst().getPublisher());
+                //publishedDateField.setText(dataHolder.getFirst().getPublicationDate().toString());
+                authorField.setText(dataHolder.getFirst().getAuthor());
             }
             
         });
