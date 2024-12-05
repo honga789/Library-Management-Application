@@ -7,8 +7,6 @@ import dha.libapp.services.authen.PasswordService;
 import dha.libapp.syncdao.UserSyncDAO;
 import dha.libapp.syncdao.utils.DAOUpdateCallback;
 
-import java.util.List;
-
 public class UserService {
     private static UserService instance;
 
