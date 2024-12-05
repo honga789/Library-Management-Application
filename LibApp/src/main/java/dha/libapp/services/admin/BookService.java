@@ -7,20 +7,26 @@ import dha.libapp.syncdao.BookSyncDAO;
 import dha.libapp.syncdao.utils.DAOExecuteCallback;
 import dha.libapp.syncdao.utils.DAOUpdateCallback;
 import javafx.concurrent.Task;
+
 import java.util.List;
 
 import dha.libapp.models.Book;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 
 public class BookService {
 
-    private static BookService instance = new BookService();
+    private static BookService instance;
 
-    private BookService() {}
+    private BookService() {
+    }
 
     public static BookService getInstance() {
+        if (instance == null) {
+            instance = new BookService();
+        }
         return instance;
     }
 
@@ -82,30 +88,35 @@ public class BookService {
                         Date publicationDate, int quantity, String description,
                         String coverImagePath, ArrayList<GenreType> genreList,
                         DAOUpdateCallback callback) {
-        //check for book in dataBase
-        Task<Book> task = new Task<>() {
+
+        if (ISBN == null || title == null || author == null || publisher == null || publicationDate == null
+                || quantity < 0 || description == null || coverImagePath == null || genreList == null
+                || ISBN.length() < 10 || ISBN.length() > 30 || title.length() > 100 || author.length() > 100
+                || publisher.length() > 100 || coverImagePath.length() > 256) {
+
+            callback.onError(new RuntimeException("Invalid input"));
+            return;
+        }
+
+        Task<Void> task = new Task<>() {
 
             @Override
-            protected Book call() throws Exception {
-                try {
-                    Book book = BookDAO.getBookByISBN(ISBN);
+            protected Void call() throws Exception {
+                Book book = BookDAO.getBookByISBN(ISBN);
+                if (book == null) {
+                    book = BookDAO.getDeletedBookByISBN(ISBN);
                     if (book == null) {
-                        book = BookDAO.getDeletedBookByISBN(ISBN);
-                        if (book == null) {
-                            BookDAO.addNewBook(ISBN, title, author, publisher, publicationDate,
-                                    quantity, description, coverImagePath, genreList);
-                        } else {
-                            book.setQuantity(quantity);
-                            BookDAO.updateBook(book);
-                        }
+                        BookDAO.addNewBook(ISBN, title, author, publisher, publicationDate,
+                                quantity, description, coverImagePath, genreList);
                     } else {
-                        book.setQuantity(book.getQuantity() + quantity);
+                        book.setQuantity(quantity);
                         BookDAO.updateBook(book);
                     }
-                    return null;
-                } catch (Exception e) {
-                    throw new RuntimeException("add Book failed");
+                } else {
+                    book.setQuantity(book.getQuantity() + quantity);
+                    BookDAO.updateBook(book);
                 }
+                return null;
             }
 
             @Override
@@ -123,7 +134,7 @@ public class BookService {
         new Thread(task).start();
     }
 
-    public void updateBook(Book book) throws Exception {
+    public void updateBook(Book book, DAOUpdateCallback callback) {
         if (book.getISBN().isEmpty() || book.getTitle().isEmpty() || book.getAuthor().isEmpty()
                 || book.getPublisher().isEmpty() || book.getPublicationDate() == null || book.getQuantity() < 0
                 || book.getDescription().isEmpty() || book.getCoverImagePath().isEmpty() || book.getGenreList().isEmpty()
@@ -131,8 +142,8 @@ public class BookService {
                 || book.getAuthor().length() > 100 || book.getPublisher().length() > 100
                 || book.getCoverImagePath().length() > 256) {
 
-            // controller for invalid
-            throw new RuntimeException("Invalid values");
+            callback.onError(new RuntimeException("Invalid input"));
+            return;
         }
 
         Task<Void> task = new Task<>() {
@@ -143,7 +154,7 @@ public class BookService {
                 assert bookOld != null;
                 boolean exist = (BookDAO.getBookByISBN(book.getISBN()) != null);
                 if (!Objects.equals(bookOld.getISBN(), book.getISBN()) && exist) {
-                    throw new Exception("Book already exists");
+                    callback.onError(new RuntimeException("Book exists"));
                 }
 
                 BookDAO.updateBook(book);
@@ -152,41 +163,32 @@ public class BookService {
 
             @Override
             protected void succeeded() {
-                super.succeeded();
                 System.out.println("Update book successfully");
+                callback.onSuccess();
             }
 
             @Override
             protected void failed() {
-                super.failed();
                 System.out.println("Update book failed");
-                throw new RuntimeException("Update book failed");
+                callback.onError(new RuntimeException("Update book failed"));
             }
         };
         new Thread(task).start();
     }
 
-    public void deleteBook(Book book) throws Exception {
-        Task<Void> task = new Task<>() {
+    public void deleteBook(Book book, DAOUpdateCallback callback) {
+        BookSyncDAO.deleteBookByIdSync(book.getBookId(), new DAOUpdateCallback() {
             @Override
-            protected Void call() throws Exception {
-                BookDAO.deleteBookById(book.getBookId());
-                return null;
+            public void onSuccess() {
+                System.out.println("Book deleted successfully");
+                callback.onSuccess();
             }
 
             @Override
-            protected void failed() {
-                super.failed();
-                throw new RuntimeException("delete book failed");
+            public void onError(Throwable e) {
+                System.out.println("Book deletion failed");
+                callback.onError(new RuntimeException("Book deletion failed"));
             }
-
-            @Override
-            protected void succeeded() {
-                super.succeeded();
-                System.out.println("delete book successful");
-
-            }
-        };
-        new Thread(task).start();
+        });
     }
 }
