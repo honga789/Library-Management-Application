@@ -62,6 +62,7 @@ public class AdminApproveRequestController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         instance = this;
 
+        initializeButton();
         loadingPane.setVisible(true);
 
         userFullName.setText(SessionService.getInstance().getUser().getFullName());
@@ -77,36 +78,7 @@ public class AdminApproveRequestController implements Initializable {
             }
         });
 
-        approveButton.setOnMouseClicked(e -> {
-            System.out.println("clicked");
-            BorrowService.getInstance().acceptBorrow(selectBorrow, new DAOUpdateCallback() {
-                @Override
-                public void onSuccess() {
-                    showConfirmPopup("Request Approved", "Approved Successfully");
-                    AdminViewController.getInstance().switchToApproveRequestTab();
-                }
 
-                @Override
-                public void onError(Throwable e) {
-                    showErrorPopup("Cannot Approve Request", "Got: " + e.getMessage());
-                }
-            });
-        });
-        cancelButton.setOnMouseClicked(e -> {
-            System.out.println("clicked");
-            BorrowService.getInstance().deniedBorrow(selectBorrow, new DAOUpdateCallback() {
-                @Override
-                public void onSuccess() {
-                    showSuccessPopup("Request Cancelled", "Request Cancelled Successfully");
-                    AdminViewController.getInstance().switchToApproveRequestTab();
-                }
-
-                @Override
-                public void onError(Throwable e) {
-                    showErrorPopup("Cannot Cancel Request", "Got: " + e.getMessage());
-                }
-            });
-        });
 
 
     }
@@ -141,8 +113,44 @@ public class AdminApproveRequestController implements Initializable {
     }
 
     private void initializeButton() {
-        approveButton.setOnAction(event -> {
-            approveBorrow(tempBorrowRecord);
+
+        approveButton.setOnMouseClicked(e -> {
+            if (selectBorrow != null) {
+                System.out.println("clicked");
+                BorrowService.getInstance().acceptBorrow(selectBorrow, new DAOUpdateCallback() {
+                    @Override
+                    public void onSuccess() {
+                        showSuccessPopup("Request Approved", "Approved Successfully");
+                        AdminViewController.getInstance().switchToApproveRequestTab();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        showErrorPopup("Cannot Approve Request", "Got: " + e.getMessage());
+                    }
+                });
+            } else {
+                showErrorPopup("No Borrow Record Selected", "Please select a Borrow Record");
+            }
+        });
+        cancelButton.setOnMouseClicked(e -> {
+            if (selectBorrow != null) {
+                System.out.println("clicked");
+                BorrowService.getInstance().deniedBorrow(selectBorrow, new DAOUpdateCallback() {
+                    @Override
+                    public void onSuccess() {
+                        showSuccessPopup("Request Cancelled", "Request Cancelled Successfully");
+                        AdminViewController.getInstance().switchToApproveRequestTab();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        showErrorPopup("Cannot Cancel Request", "Got: " + e.getMessage());
+                    }
+                });
+            } else {
+                showErrorPopup("No Borrow Record Selected", "Please select a Borrow Record");
+            }
         });
     }
 
