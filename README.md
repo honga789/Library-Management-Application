@@ -54,3 +54,14 @@ trong luồng riêng.
 ### Chức năng tự sáng tạo: Hệ thống đề xuất gợi ý tài liệu dùng Collaborative Filtering
 
 ### Sử dụng Design Pattern vào ứng dụng: Mô hình MVC với DAO (Data Access Object)
+
+
+
+
+
+#Thành viên:
+1. Nguyễn Hồng Anh - 2302 1466
+2. Nguyễn Đức Dũng - 2302 1494
+3. Trần Ánh Duy - 2302 1506
+4. Đậu Đức Hiếu - 2302 1546
+
