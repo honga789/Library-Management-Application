@@ -25,7 +25,7 @@
                                         <Font name="System Bold" size="14.0" />
                                     </font></Label>
                         <Pane prefHeight="200.0" prefWidth="200.0" />
-                                    <Button layoutX="117.0" layoutY="499.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="110.0" style="-fx-background-color: #7AE582; -fx-background-radius: 15; -fx-cursor: hand;" styleClass="button-borrow" stylesheets="@../../../css/hometab.css" text="Accept">
+                                    <Button fx:id="approveButton" layoutX="117.0" layoutY="499.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="110.0" style="-fx-background-color: #7AE582; -fx-background-radius: 15; -fx-cursor: hand;" styleClass="button-borrow" stylesheets="@../../../css/hometab.css" text="Accept">
                                         <cursor>
                                             <Cursor fx:constant="HAND" />
                                         </cursor>

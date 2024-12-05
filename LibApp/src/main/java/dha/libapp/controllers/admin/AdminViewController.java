@@ -10,6 +10,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class AdminViewController implements Initializable {
+    private static AdminViewController instance;
+    public static AdminViewController getInstance() { return instance; }
+
     @FXML
     private AnchorPane tabContent;
 
@@ -51,6 +54,7 @@ public class AdminViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        instance = this;
         switchTab("views/admin/tabs/AdminManageUserTab.fxml");
     }
 }

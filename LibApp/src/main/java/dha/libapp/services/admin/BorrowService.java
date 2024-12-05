@@ -1,6 +1,8 @@
 package dha.libapp.services.admin;
 
+import dha.libapp.dao.BookDAO;
 import dha.libapp.dao.BorrowRecordDAO;
+import dha.libapp.models.Book;
 import dha.libapp.models.BorrowRecord;
 import dha.libapp.models.BorrowStatus;
 import dha.libapp.syncdao.BorrowRecordSyncDAO;
@@ -40,6 +42,7 @@ public class BorrowService {
         };
         new Thread(task).start();
     }
+
     public void updateBorrowRecord(BorrowRecord borrowRecord) throws Exception {
         DAOUpdateCallback callback = new DAOUpdateCallback() {
 
@@ -54,6 +57,50 @@ public class BorrowService {
             }
         };
         BorrowRecordSyncDAO.updateBorrowRecordSync(borrowRecord, callback);
+    }
+
+    public void acceptBorrow(BorrowRecord borrowRecord, DAOUpdateCallback callback) {
+
+        Task<Boolean> bookTask = new Task<Boolean>() {
+            @Override
+            protected Boolean call() throws Exception {
+                if (borrowRecord == null) {
+                    return false;
+                }
+
+                Book book = BookDAO.getBookById(borrowRecord.getBookId());
+                if (book == null) {
+                    callback.onError(new RuntimeException("Book is null"));
+                    return false;
+                }
+
+                if (book.getQuantity() < 1) {
+                    callback.onError(new RuntimeException("Book quantity < 1"));
+                    return false;
+                }
+
+                borrowRecord.setStatus(BorrowStatus.BORROWED);
+                BorrowRecordDAO.updateBorrowRecord(borrowRecord);
+                return true;
+            }
+
+            @Override
+            protected void succeeded() {
+                if (getValue()) {
+                    callback.onSuccess();
+                    return;
+                }
+                callback.onError(new RuntimeException("Accept borrow successfully"));
+            }
+
+            @Override
+            protected void failed() {
+                callback.onError(new RuntimeException("Accept borrow failed"));
+            }
+        };
+
+        new Thread(bookTask).start();
+
     }
 
 }
