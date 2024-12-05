@@ -513,6 +513,7 @@ public class AdminManageDocumentController {
             newBook.setAuthor(authorField.getText());
             newBook.setDescription(descriptionField.getText());
             newBook.setCoverImagePath(coverField.getText());
+            newBook.setTitle(titleField.getText());
             try {
                 newBook.setQuantity(Integer.parseInt(stockField.getText()));
             } catch (NumberFormatException e) {
