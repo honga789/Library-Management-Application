@@ -94,7 +94,12 @@ public class AdminManageUserController implements Initializable {
             openFieldBox();
         });
         editUserButton.setOnAction(event -> {
-            //openFieldBoxForEdit();
+            if (selectedUser != null) {
+                openFieldBoxForEdit(selectedUser);
+            } else {
+                showErrorPopup("No User Selected", "Please Select a User First");
+            }
+
         });
     }
 
@@ -129,11 +134,20 @@ public class AdminManageUserController implements Initializable {
             String fullNameText = fullName.getText();
             String phoneNumberText = phoneNumber.getText();
             String emailText = email.getText();
-            try {
-                UserService.getInstance().updateUser(user.getUserId(), passwordText, fullNameText, phoneNumberText, emailText);
-            } catch (Exception e) {
-                showErrorPopup("Error Editing User","Please enter valid user data");
-            }
+            DAOUpdateCallback callback = new DAOUpdateCallback() {
+                @Override
+                public void onSuccess() {
+                    showErrorPopup("User Edited", "User Edited Successfully");
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    showErrorPopup("Error Editing User", "Got: " + e.getMessage() + "\nPlease try again");
+                }
+            };
+            UserService.getInstance().updateUser(user.getUserId(), passwordText,
+                    fullNameText, phoneNumberText, emailText, callback);
+
         });
 
         gridPane.add(createStyledLabel("Username:"), 0, 0);
@@ -198,16 +212,18 @@ public class AdminManageUserController implements Initializable {
             String fullNameText = fullName.getText();
             String phoneNumberText = phoneNumber.getText();
             String emailText = email.getText();
+            List<Throwable> holder = new ArrayList<>();
             UserService.getInstance().addUser(usernameText, passwordText, fullNameText, phoneNumberText,
                     emailText, new DAOUpdateCallback() {
                         @Override
                         public void onSuccess() {
                             // controller
+                            showErrorPopup("Add User Success", "User Added Successfully");
                         }
-
                         @Override
                         public void onError(Throwable e) {
                             // controller
+                            showErrorPopup("Error Adding User", "Got: " + e.getMessage() + "\nPlease try again");
                         }
                     });
         });
