@@ -20,7 +20,7 @@
                     <children>
                         <AnchorPane layoutX="690.0" prefHeight="700.0" prefWidth="360.0" style="-fx-background-color: pink; -fx-background-radius: 0 25 25 0;">
                             <children>
-                                <Label fx:id="userFullName" alignment="CENTER" contentDisplay="CENTER" layoutX="104.0" layoutY="43.0" prefHeight="20.0" prefWidth="152.0" text="Trinh Tran Anh Duy" textAlignment="RIGHT" wrapText="true">
+                                <Label fx:id="userFullName" alignment="CENTER" contentDisplay="CENTER" layoutX="104.0" layoutY="43.0" prefHeight="20.0" prefWidth="152.0" text="Admin" textAlignment="RIGHT" wrapText="true">
                                     <font>
                                         <Font name="System Bold" size="14.0" />
                                     </font></Label>
