@@ -125,7 +125,7 @@ public class AdminManageDocumentController {
     }
 
     private void deleteBook(Book book) {
-
+        showConfirmPopup("Confirm Book Deletion","Please Confirm Book Delete");
     }
 
     private void openFieldBox() {
@@ -548,6 +548,22 @@ public class AdminManageDocumentController {
         dialogPane.setStyle("-fx-font-size: 14px; -fx-background-color: #fff; -fx-border-radius: 10; -fx-background-radius: 10;");
 
         alert.showAndWait();
+    }
+    private void showConfirmPopup(String header, String message) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation");
+        alert.setHeaderText(header);
+        alert.setContentText(message);
+
+        // Show the alert and wait for a response
+        Optional<ButtonType> result = alert.showAndWait();
+
+        // Handle the user's response
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            System.out.println("User chose OK");
+        } else {
+            System.out.println("User chose Cancel or closed the dialog");
+        }
     }
 
 
