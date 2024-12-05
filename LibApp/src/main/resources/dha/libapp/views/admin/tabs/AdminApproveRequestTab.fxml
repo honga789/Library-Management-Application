@@ -25,7 +25,7 @@
                                         <Font name="System Bold" size="14.0" />
                                     </font></Label>
                         <Pane prefHeight="200.0" prefWidth="200.0" />
-                                    <Button fx:id="approveButton" layoutX="117.0" layoutY="499.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="110.0" style="-fx-background-color: #7AE582; -fx-background-radius: 15; -fx-cursor: hand;" styleClass="button-borrow" stylesheets="@../../../css/hometab.css" text="Accept">
+                                    <Button fx:id="approveButton" layoutX="61.0" layoutY="511.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="110.0" style="-fx-background-color: #7AE582; -fx-background-radius: 15; -fx-cursor: hand;" styleClass="button-borrow" stylesheets="@../../../css/hometab.css" text="Accept">
                                         <cursor>
                                             <Cursor fx:constant="HAND" />
                                         </cursor>
@@ -55,6 +55,7 @@
                               <Font name="System Bold" size="24.0" />
                            </font>
                         </Label>
+                        <Button layoutX="201.0" layoutY="511.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="110.0" style="-fx-background-color: red; -fx-cursor: hand; -fx-background-radius: 15;" styleClass="button-borrow" stylesheets="@../../../css/hometab.css" text="Cancel" textFill="#f7f7f7" />
                             </children>
                         </AnchorPane>
                         <AnchorPane prefHeight="700.0" prefWidth="690.0" style="-fx-background-radius: 30 0 0 30; -fx-background-color: lightblue;">

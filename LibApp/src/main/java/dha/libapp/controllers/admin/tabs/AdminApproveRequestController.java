@@ -98,10 +98,6 @@ public class AdminApproveRequestController implements Initializable {
     }
 
     public void setInformationDetail(BorrowRecord selected) {
-//        userId.setText(user.getUserId() + "");
-//        fullName.setText(user.getFullName());
-//        titleBook.setText(book.getTitle());
-//        authorBook.setText(book.getAuthor());
         AdminApproveRequestService.getInfoBorrow(selected, new DAOExecuteCallback<AdminApproveRequestService.BorrowInfo>() {
             @Override
             public void onSuccess(AdminApproveRequestService.BorrowInfo result) {

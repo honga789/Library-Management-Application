@@ -1,11 +1,15 @@
 package dha.libapp.controllers.admin.tabs;
 
 import dha.libapp.models.Book;
+import dha.libapp.models.BorrowRecord;
 import dha.libapp.models.User;
 import dha.libapp.services.SessionService;
+import dha.libapp.services.admin.tabs.AdminApproveRequestService;
 import dha.libapp.services.admin.tabs.AdminReturnRequestService;
 import dha.libapp.services.members.tabs.MemberReturnedTabService;
+import dha.libapp.syncdao.utils.DAOExecuteCallback;
 import dha.libapp.utils.ListView.BookListView;
+import dha.libapp.utils.ListView.BorrowListView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -27,7 +31,7 @@ public class AdminReturnRequestController implements Initializable {
     private Label userFullName;
 
     @FXML
-    private ListView<Book> returnRequestListView;
+    private ListView<BorrowRecord> returnRequestListView;
 
     @FXML
     private Pane loadingPane;
@@ -64,15 +68,25 @@ public class AdminReturnRequestController implements Initializable {
 //        });
     }
 
-    public void renderReturnedBooks(List<Book> returnedBooks) {
-        BookListView.renderToListView(returnRequestListView, returnedBooks);
+    public void renderReturnedBooks(List<BorrowRecord> returnedBooks) {
+        BorrowListView.renderToListView(returnRequestListView, returnedBooks);
     }
 
-    public void setInformationDetail(Book book, User user) {
-        userId.setText(user.getUserId() + "");
-        fullName.setText(user.getFullName());
-        titleBook.setText(book.getTitle());
-        authorBook.setText(book.getAuthor());
+    public void setInformationDetail(BorrowRecord selected) {
+        AdminReturnRequestService.getInfoBorrow(selected, new DAOExecuteCallback<AdminApproveRequestService.BorrowInfo>() {
+            @Override
+            public void onSuccess(AdminApproveRequestService.BorrowInfo result) {
+                userId.setText("User ID: " + result.user.getUserId());
+                fullName.setText("User full name: " + result.user.getFullName());
+                titleBook.setText("Book title: " + result.book.getTitle());
+                authorBook.setText("Book author: " + result.book.getAuthor());
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
     }
 
     public void setLoadingPaneVisible(boolean visible) {

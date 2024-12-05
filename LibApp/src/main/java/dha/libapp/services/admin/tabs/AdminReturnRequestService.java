@@ -3,15 +3,20 @@ package dha.libapp.services.admin.tabs;
 import dha.libapp.cache.Cache;
 import dha.libapp.cache.members.BorrowedTabCache;
 import dha.libapp.cache.members.ReturnedTabCache;
+import dha.libapp.controllers.admin.tabs.AdminApproveRequestController;
 import dha.libapp.controllers.admin.tabs.AdminReturnRequestController;
 import dha.libapp.controllers.members.tabs.MemberReturnedTabController;
+import dha.libapp.dao.BookDAO;
+import dha.libapp.dao.UserDAO;
 import dha.libapp.models.Book;
 import dha.libapp.models.BorrowRecord;
 import dha.libapp.models.BorrowStatus;
+import dha.libapp.models.User;
 import dha.libapp.services.SessionService;
 import dha.libapp.syncdao.BookSyncDAO;
 import dha.libapp.syncdao.BorrowRecordSyncDAO;
 import dha.libapp.syncdao.utils.DAOExecuteCallback;
+import javafx.concurrent.Task;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -21,42 +26,13 @@ public class AdminReturnRequestService {
     public static void renderReturnedBooks() {
         AdminReturnRequestController.getInstance().setReturnedListViewVisible(true);
 
-        BorrowRecordSyncDAO.getAllBorrowRecordsByStatusSync(BorrowStatus.RETURNED, new DAOExecuteCallback<List<BorrowRecord>>() {
+        BorrowRecordSyncDAO.getAllBorrowRecordsByStatusSync(BorrowStatus.BORROWED, new DAOExecuteCallback<List<BorrowRecord>>() {
             @Override
             public void onSuccess(List<BorrowRecord> result) {
-                List<CompletableFuture<Book>> bookFutures = result.stream()
-                        .map(record -> {
-                            CompletableFuture<Book> future = new CompletableFuture<>();
-                            BookSyncDAO.getBookByIdSync(record.getBookId(), new DAOExecuteCallback<Book>() {
-                                @Override
-                                public void onSuccess(Book bookResult) {
-                                    future.complete(bookResult);
-                                }
+                AdminReturnRequestController.getInstance().renderReturnedBooks(result);
 
-                                @Override
-                                public void onError(Throwable e) {
-                                    future.completeExceptionally(e);
-                                }
-                            });
-                            return future;
-                        })
-                        .toList();
-
-                CompletableFuture.allOf(bookFutures.toArray(new CompletableFuture[0]))
-                        .thenRun(() -> {
-                            List<Book> books = bookFutures.stream()
-                                    .map(CompletableFuture::join)
-                                    .collect(Collectors.toList());
-
-                            AdminReturnRequestController.getInstance().renderReturnedBooks(books);
-
-                            AdminReturnRequestController.getInstance().setLoadingPaneVisible(false);
-                            AdminReturnRequestController.getInstance().setReturnedListViewVisible(true);
-                        })
-                        .exceptionally(ex -> {
-                            ex.printStackTrace();
-                            return null;
-                        });
+                AdminReturnRequestController.getInstance().setLoadingPaneVisible(false);
+                AdminReturnRequestController.getInstance().setReturnedListViewVisible(true);
             }
 
             @Override
@@ -64,5 +40,37 @@ public class AdminReturnRequestService {
                 throw new RuntimeException();
             }
         });
+    }
+
+    public static class BorrowInfo {
+        public BorrowRecord borrowRecord;
+        public User user;
+        public Book book;
+    }
+
+    public static void getInfoBorrow(BorrowRecord borrowRecord, DAOExecuteCallback<AdminApproveRequestService.BorrowInfo> callback) {
+        AdminApproveRequestService.BorrowInfo borrowInfo = new AdminApproveRequestService.BorrowInfo();
+
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                Book book = BookDAO.getBookById(borrowRecord.getBookId());
+                User user = UserDAO.getUserById(borrowRecord.getUserId());
+                borrowInfo.book = book;
+                borrowInfo.user = user;
+                return null;
+            }
+
+            @Override
+            protected void succeeded() {
+                callback.onSuccess(borrowInfo);
+            }
+
+            @Override
+            protected void failed() {
+                callback.onError(new RuntimeException("Error when load borrow info"));
+            }
+        };
+        new Thread(task).start();
     }
 }
