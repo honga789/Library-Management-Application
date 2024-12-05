@@ -29,6 +29,7 @@ public class UserService {
                 || userName.length() > 50 || password.length() > 100 || fullName.length() > 100) {
 
             callback.onError(new RuntimeException("Invalid input"));
+            return;
         }
 
         try {
@@ -62,6 +63,7 @@ public class UserService {
                 || !isValidPhone(phoneNumber) || password.length() > 50 || fullName.length() > 100) {
 
             callback.onError(new RuntimeException("Invalid input"));
+            return;
         }
 
         try {
@@ -95,6 +97,7 @@ public class UserService {
                 || user.getFullName().length() > 100) {
 
             callback.onError(new RuntimeException("Invalid input"));
+            return;
         }
 
         try {

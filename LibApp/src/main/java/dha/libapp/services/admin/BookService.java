@@ -95,6 +95,7 @@ public class BookService {
                 || publisher.length() > 100 || coverImagePath.length() > 256) {
 
             callback.onError(new RuntimeException("Invalid input"));
+            return;
         }
 
         Task<Void> task = new Task<>() {
@@ -142,6 +143,7 @@ public class BookService {
                 || book.getCoverImagePath().length() > 256) {
 
             callback.onError(new RuntimeException("Invalid input"));
+            return;
         }
 
         Task<Void> task = new Task<>() {
