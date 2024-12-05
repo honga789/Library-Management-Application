@@ -19,7 +19,7 @@ public class BorrowService {
 
     public static BorrowService getInstance() {
         if (instance == null) {
-            BorrowService instance = new BorrowService();
+            instance = new BorrowService();
         }
         return instance;
     }
