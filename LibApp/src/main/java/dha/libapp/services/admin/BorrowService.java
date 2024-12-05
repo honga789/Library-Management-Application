@@ -5,7 +5,6 @@ import dha.libapp.dao.BorrowRecordDAO;
 import dha.libapp.models.Book;
 import dha.libapp.models.BorrowRecord;
 import dha.libapp.models.BorrowStatus;
-import dha.libapp.syncdao.BookSyncDAO;
 import dha.libapp.syncdao.BorrowRecordSyncDAO;
 import dha.libapp.syncdao.utils.DAOUpdateCallback;
 import javafx.concurrent.Task;
@@ -99,4 +98,47 @@ public class BorrowService {
         new Thread(bookTask).start();
     }
 
+    public void returnedBorrow(BorrowRecord borrowRecord, DAOUpdateCallback callback) {
+        if (borrowRecord == null) {
+            callback.onError(new RuntimeException("borrow record is null"));
+            return;
+        }
+
+        borrowRecord.setStatus(BorrowStatus.RETURNED);
+        borrowRecord.setReturnDate(new Date());
+        Task<Void> task = new Task<Void>() {
+
+            @Override
+            protected Void call() throws Exception {
+                BorrowRecordDAO.updateBorrowRecord(borrowRecord);
+                Book book = BookDAO.getBookById(borrowRecord.getBookId());
+
+                if (book == null) {
+                    book = BookDAO.getDeletedBookById(borrowRecord.getBookId());
+                    if (book == null) {
+                        callback.onError(new RuntimeException("Book never exist"));
+                        return null;
+                    }
+
+                    book.setQuantity(1);
+                } else {
+                    book.setQuantity(book.getQuantity() + 1);
+                }
+
+                BookDAO.updateBook(book);
+                return null;
+            }
+
+            @Override
+            protected void failed() {
+                callback.onError(new RuntimeException("Returned borrow failed"));
+            }
+
+            @Override
+            protected void succeeded() {
+                callback.onSuccess();
+            }
+        };
+        new Thread(task).start();
+    }
 }
