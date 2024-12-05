@@ -101,10 +101,15 @@ public class BorrowRecord {
 
     @Override
     public String toString() {
-        return "BorrowRecord [borrowId=" + borrowId + ", userId=" +
-                userId + ", bookId=" + bookId + ", borrowDate=" +
-                borrowDate + ", dueDate=" + dueDate +
-                ", status=" + status + ", returnDate=" + returnDate + "]";
+        return String.format(
+                "\nBorrowID: %s\nUserID: %s\nBookID: %s\nBorrowDate: %s\nDueDate: %s\n ",
+                borrowId + "", userId + "", bookId + "", borrowDate, dueDate
+        );
+
+//        return "BorrowRecord [borrowId=" + borrowId + ", userId=" +
+//                userId + ", bookId=" + bookId + ", borrowDate=" +
+//                borrowDate + ", dueDate=" + dueDate +
+//                ", status=" + status + ", returnDate=" + returnDate + "]";
     }
 
     public void displayInfo() {
