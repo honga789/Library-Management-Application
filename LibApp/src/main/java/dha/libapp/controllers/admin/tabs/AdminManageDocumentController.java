@@ -320,10 +320,26 @@ public class AdminManageDocumentController {
             ExecutorHandle.getInstance().addTask(googleBooksTask);
             try {
                 // Wait for 1000ms for tasks to complete
-                if (!ExecutorHandle.getInstance().getExecutorService().awaitTermination(3000, TimeUnit.MILLISECONDS)) {
-                    System.out.println("API call timed out skipping autoFillTask");
+                if (!ExecutorHandle.getInstance().getExecutorService().awaitTermination(10000, TimeUnit.MILLISECONDS)) {
+                    System.out.println("API call over 10000ms");
+                    if (!dataHolder.isEmpty()) {
+                        titleField.setText(dataHolder.getFirst().getTitle());
+                        descriptionField.setText(dataHolder.getFirst().getDescription());
+                        coverField.setText(dataHolder.getFirst().getCoverImagePath());
+                        publisherField.setText(dataHolder.getFirst().getPublisher());
+                        //publishedDateField.setText(dataHolder.getFirst().getPublicationDate().toString());
+                        authorField.setText(dataHolder.getFirst().getAuthor());
+                    }
                 } else {
                     System.out.println("API call tasks completed within timeout.");
+                    if (!dataHolder.isEmpty()) {
+                        titleField.setText(dataHolder.getFirst().getTitle());
+                        descriptionField.setText(dataHolder.getFirst().getDescription());
+                        coverField.setText(dataHolder.getFirst().getCoverImagePath());
+                        publisherField.setText(dataHolder.getFirst().getPublisher());
+                        //publishedDateField.setText(dataHolder.getFirst().getPublicationDate().toString());
+                        authorField.setText(dataHolder.getFirst().getAuthor());
+                    }
                 }
             } catch (InterruptedException e) {
                 System.out.println("Thread was interrupted while waiting.");

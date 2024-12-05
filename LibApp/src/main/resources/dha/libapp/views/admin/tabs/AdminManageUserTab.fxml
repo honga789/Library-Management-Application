@@ -97,9 +97,9 @@
                                 </ImageView>
                             </graphic>
                         </Button>
-                  <Pane fx:id="loadingPane" layoutX="33.0" layoutY="133.0" prefHeight="477.0" prefWidth="629.0" style="-fx-background-color: #fff;">
+                  <Pane fx:id="loadingPane" layoutX="29.0" layoutY="130.0" prefHeight="480.0" prefWidth="630.0" styleClass="loading-pane" stylesheets="@../../../css/hometab.css">
                      <children>
-                        <Label alignment="CENTER" layoutX="261.0" layoutY="210.0" prefHeight="58.0" prefWidth="111.0" text="Loading">
+                        <Label alignment="CENTER" layoutX="220.0" layoutY="210.0" prefHeight="58.0" prefWidth="190.0" styleClass="loading-text" stylesheets="@../../../css/hometab.css" text="Loading...">
                            <font>
                               <Font size="27.0" />
                            </font>

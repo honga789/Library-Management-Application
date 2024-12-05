@@ -10,6 +10,7 @@ import dha.libapp.syncdao.BorrowRecordSyncDAO;
 import dha.libapp.syncdao.utils.DAOUpdateCallback;
 import javafx.concurrent.Task;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class BorrowService {
@@ -24,15 +25,16 @@ public class BorrowService {
         return instance;
     }
 
-    public void addBorrowRecord(int userId, int bookId, Date borrowDate, Date dueDate,
-                                 BorrowStatus status, Date returnDate, DAOUpdateCallback callback) {
-        if (dueDate.compareTo(borrowDate) < 0) {
-            callback.onError(new RuntimeException("dueDate is less than borrowDate"));
-            return;
-        }
+    public void addBorrowRecord(int userId, int bookId, BorrowStatus status, DAOUpdateCallback callback) {
+
+        Date borrowDate = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(borrowDate);
+        calendar.add(Calendar.DATE, 30);
+        Date dueDate = calendar.getTime();
 
         BorrowRecordSyncDAO.addNewBorrowRecordSync(userId, bookId, borrowDate, dueDate, status,
-                returnDate, new DAOUpdateCallback() {
+                null, new DAOUpdateCallback() {
                     @Override
                     public void onSuccess() {
                         System.out.println("added new borrow record successfully");
@@ -47,43 +49,34 @@ public class BorrowService {
                 });
     }
 
-    public void updateBorrowRecord(BorrowRecord borrowRecord) throws Exception {
-        DAOUpdateCallback callback = new DAOUpdateCallback() {
-
-            @Override
-            public void onSuccess() {
-                System.out.println("update record success");
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                throw new RuntimeException("error on update record",e);
-            }
-        };
-        BorrowRecordSyncDAO.updateBorrowRecordSync(borrowRecord, callback);
-    }
-
     public void acceptBorrow(BorrowRecord borrowRecord, DAOUpdateCallback callback) {
+        if (borrowRecord == null) {
+            callback.onError(new RuntimeException("borrow record is null"));
+            return;
+        }
+
+        borrowRecord.setBorrowDate(new Date());
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(borrowRecord.getBorrowDate());
+        calendar.add(Calendar.DATE, 30);
+        borrowRecord.setDueDate(calendar.getTime());
+        borrowRecord.setStatus(BorrowStatus.BORROWED);
+        borrowRecord.setReturnDate(null);
 
         Task<Boolean> bookTask = new Task<Boolean>() {
             @Override
             protected Boolean call() throws Exception {
-                if (borrowRecord == null) {
-                    return false;
-                }
-
                 Book book = BookDAO.getBookById(borrowRecord.getBookId());
                 if (book == null) {
-                    callback.onError(new RuntimeException("Book is null"));
+                    callback.onError(new RuntimeException("Run out of book"));
                     return false;
                 }
 
                 if (book.getQuantity() < 1) {
-                    callback.onError(new RuntimeException("Book quantity < 1"));
+                    callback.onError(new RuntimeException("Run out of book"));
                     return false;
                 }
 
-                borrowRecord.setStatus(BorrowStatus.BORROWED);
                 BorrowRecordDAO.updateBorrowRecord(borrowRecord);
                 return true;
             }
@@ -104,7 +97,6 @@ public class BorrowService {
         };
 
         new Thread(bookTask).start();
-
     }
 
 }
