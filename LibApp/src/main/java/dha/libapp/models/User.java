@@ -87,14 +87,19 @@ public class User {
     }
 
     public String toString() {
-        return "User: [\n"
-                + "userId = " + userId + ",\n"
-                + "userName = " + userName + ",\n"
-                + "password = " + password + ",\n"
-                + "fullName = " + fullName + ",\n"
-                + "phoneNumber = " + phoneNumber + ",\n"
-                + "role = " + role + ",\n"
-                + "email = " + email + "\n]";
+        return String.format(
+                "\nID: %s\nUser Name: %s\nFull Name: %s\n ",
+                userId, userName, fullName
+        );
+
+//        return "User: [\n"
+//                + "userId = " + userId + ",\n"
+//                + "userName = " + userName + ",\n"
+//                + "password = " + password + ",\n"
+//                + "fullName = " + fullName + ",\n"
+//                + "phoneNumber = " + phoneNumber + ",\n"
+//                + "role = " + role + ",\n"
+//                + "email = " + email + "\n]";
     }
 
     public void displayInfo() {
