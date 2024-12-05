@@ -3,6 +3,7 @@ package dha.libapp.services.admin.tabs;
 import dha.libapp.controllers.admin.tabs.AdminApproveRequestController;
 import dha.libapp.controllers.admin.tabs.AdminReturnRequestController;
 import dha.libapp.dao.BookDAO;
+import dha.libapp.dao.DeletedUserDAO;
 import dha.libapp.dao.UserDAO;
 import dha.libapp.models.Book;
 import dha.libapp.models.BorrowRecord;
@@ -50,7 +51,13 @@ public class AdminApproveRequestService {
             @Override
             protected Void call() throws Exception {
                 Book book = BookDAO.getBookById(borrowRecord.getBookId());
+                if (book == null) {
+                    book = BookDAO.getDeletedBookById(borrowRecord.getBookId());
+                }
                 User user = UserDAO.getUserById(borrowRecord.getUserId());
+                if (user == null) {
+                    user = DeletedUserDAO.getDeletedUserById(borrowRecord.getUserId());
+                }
                 borrowInfo.book = book;
                 borrowInfo.user = user;
                 return null;

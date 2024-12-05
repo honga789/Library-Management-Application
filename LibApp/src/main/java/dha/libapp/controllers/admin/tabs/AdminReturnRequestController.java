@@ -48,6 +48,9 @@ public class AdminReturnRequestController implements Initializable {
     @FXML
     private Label authorBook;
 
+    @FXML
+    private BorrowRecord selectBorrow;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         instance = this;
@@ -58,14 +61,14 @@ public class AdminReturnRequestController implements Initializable {
 
         AdminReturnRequestService.renderReturnedBooks();
 
-//        returnRequestListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-//            if (newValue != null) {
-//                Book selected = (Book) newValue;
-//                System.out.println("Selected Book: " + selected.getClass().toString() + ": " + selected);
-//                this.setBookDetailView(selected);
-//                this.selectedBook = selected;
-//            }
-//        });
+        returnRequestListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                BorrowRecord selected = (BorrowRecord) newValue;
+                System.out.println("Selected Book: " + selected.getClass().toString() + ": " + selected);
+                this.setInformationDetail(selected);
+                this.selectBorrow = selected;
+            }
+        });
     }
 
     public void renderReturnedBooks(List<BorrowRecord> returnedBooks) {
