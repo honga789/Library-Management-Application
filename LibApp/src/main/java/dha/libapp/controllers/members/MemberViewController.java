@@ -55,18 +55,23 @@ public class MemberViewController implements Initializable {
         switchTab("views/members/tabs/MemberHomeTab.fxml");
     }
 
-    @FXML
-    public void handleRefresh() {
+    private void clearAllCache() {
         HomeTabCache.getInstance().getRecommendationBookList().clear();
         HomeTabCache.getInstance().getTopTrendingBookList().clear();
         PendingTabCache.getInstance().getPendingBookList().clear();
         BorrowedTabCache.getInstance().getBorrowedBookList().clear();
         ReturnedTabCache.getInstance().getReturnedBookList().clear();
+    }
+
+    @FXML
+    public void handleRefresh() {
         MemberViewController.getInstance().switchToHomeTab();
+        clearAllCache();
     }
 
     @FXML
     public void handleLogout() {
+        clearAllCache();
         SessionService.getInstance().setUser(null);
         MainAppController.changeScene("views/authen/Login.fxml");
     }
