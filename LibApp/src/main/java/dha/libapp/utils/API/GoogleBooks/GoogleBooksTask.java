@@ -69,35 +69,73 @@ public class GoogleBooksTask extends Thread {
 
                 if (items != null) {
                     // Extract and collect book info
-                    for (int i = 0; i < items.size(); i++) {
                         System.out.println("Get JSON Item:");
-                        JsonObject volumeInfo = items.get(i).getAsJsonObject().getAsJsonObject("volumeInfo");
-                        //System.out.println(volumeInfo.getAsString());
+                        JsonObject volumeInfo = items.get(0).getAsJsonObject().getAsJsonObject("volumeInfo");
                         String title = volumeInfo.get("title").getAsString();
                         System.out.println("Title: " + title);
                         JsonArray authorsArray = volumeInfo.getAsJsonArray("authors");
 
-                        String author = authorsArray.get(0).getAsString();
-                        System.out.println("Author: " + author);
-                        String publisher = volumeInfo.get("publisher").getAsString();
-                        System.out.println("Publisher: " + publisher);
-                        String publishedDateJson = volumeInfo.get("publishedDate").getAsString();
-                        System.out.println("Published Date: " + publishedDateJson);
-                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                        Date publishedDate = null;
-                        try {
-                            Date date = formatter.parse(publishedDateJson);
-                            System.out.println("Converted Date: " + date);
-                        } catch (ParseException e) {
-                            System.out.println("Invalid date format!");
-                            e.printStackTrace();
+                        String author = null;
+                        if (authorsArray != null) {
+                            author= authorsArray.get(0).getAsString();
                         }
+                        System.out.println("Author: " + author);
+
+                        JsonObject publisherJson = volumeInfo.getAsJsonObject("publisher");
+                        String publisher = null;
+                        if (publisherJson != null) {
+                            publisher = publisherJson.getAsString();
+                        }
+                        System.out.println("Publisher: " + publisher);
+                        JsonObject publishDateJsonObj = volumeInfo.getAsJsonObject("publishDate");
+                        String publishedDateJson = null;
+                        if (publishDateJsonObj != null) {
+                            publishedDateJson = publishDateJsonObj.getAsString();
+                        }
+                        System.out.println("Published Date: " + publishedDateJson);
+                        //check date and parse
+                        SimpleDateFormat formatterFullDate = new SimpleDateFormat("yyyy-MM-dd");
+                        SimpleDateFormat formatterYear = new SimpleDateFormat("yyyy");
+                        Date publishedDate = null;
+
+                        if (publishedDateJson != null) {
+                            Date tempDate = null;
+                            if (publishedDateJson.length()==10) {
+                                try {
+                                    tempDate = formatterFullDate.parse(publishedDateJson);
+                                    System.out.println("Converted Date: " + tempDate);
+                                } catch (ParseException e) {
+                                    System.out.println("Invalid date format from API");
+                                }
+
+                            }
+                            if (publishedDateJson.length()==4) {
+                                try {
+                                    tempDate = formatterYear.parse(publishedDateJson);
+                                    System.out.println("Converted Date: " + tempDate);
+                                } catch (ParseException e) {
+                                    System.out.println("Invalid date format from API");
+                                }
+                            }
+                            if (tempDate != null) {
+                                publishedDate = tempDate;
+                            }
+                        }
+
                         int quantity = 0;
-                        String description = volumeInfo.get("description").getAsString();
+
+                        String description = null;
+                        if (volumeInfo.get("description") != null) {
+                            description = volumeInfo.get("description").getAsString();
+                        }
                         System.out.println("Description: " + description);
-                        JsonObject imgLinks = volumeInfo.getAsJsonObject("imageLinks");
-                        String imgUrl = imgLinks.get("thumbnail").getAsString();
+
+                        String imgUrl = null;
+                        if (volumeInfo.getAsJsonObject("imageLinks") != null) {
+                            imgUrl= volumeInfo.getAsJsonObject("imageLinks").get("thumbnail").getAsString();
+                        }
                         System.out.println("imgUrl: " + imgUrl);
+
                         JsonArray identifiersArray = volumeInfo.getAsJsonArray("industryIdentifiers");
                         String ISBN_13 = "0000000000";
                         for (int j = 0; j < identifiersArray.size(); j++) {
@@ -106,11 +144,14 @@ public class GoogleBooksTask extends Thread {
                                 ISBN_13 = identifierObj.get("identifier").getAsString();
                             }
                         }
+
                         System.out.println("ISBN_13: " + ISBN_13);
-                        Book book = new Book(-1, ISBN_13, title,author, publisher, publishedDate, quantity, description, imgUrl, null);
-                        bookTitles.add(title);
-                        booksData.add(book);
-                    }
+                        if (title != null) {
+                            Book book = new Book(-1, ISBN_13, title,author, publisher, publishedDate, quantity, description, imgUrl, null);
+                            bookTitles.add(title);
+                            booksData.add(book);
+                        }
+
 
                     // On success, trigger the callback
                     if (callback != null) {

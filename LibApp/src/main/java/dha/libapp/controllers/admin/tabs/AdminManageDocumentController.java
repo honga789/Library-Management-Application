@@ -271,8 +271,7 @@ public class AdminManageDocumentController {
                 publishDate = formatter.parse(publishDateString);
                 System.out.println("Converted Date: " + publishDate);
             } catch (ParseException e) {
-                System.out.println("Invalid date format!");
-                e.printStackTrace();
+                showErrorPopup("Invalid data input", "Please enter a valid date with format dd-mm-yyyy");
             }
             BookService.getInstance().addBook(isbn, title, author, publisher,
                     publishDate, quantity, description, imgUrl, selectedGenreTypeList,
@@ -328,11 +327,26 @@ public class AdminManageDocumentController {
 
             if (!dataHolder.isEmpty()) {
                 titleField.setText(dataHolder.getFirst().getTitle());
-                descriptionField.setText(dataHolder.getFirst().getDescription());
-                coverField.setText(dataHolder.getFirst().getCoverImagePath());
-                publisherField.setText(dataHolder.getFirst().getPublisher());
-                //publishedDateField.setText(dataHolder.getFirst().getPublicationDate().toString());
+                if (dataHolder.getFirst().getDescription() != null) {
+                    descriptionField.setText(dataHolder.getFirst().getDescription());
+                }
+                if (dataHolder.getFirst().getAuthor() != null) {
+                    authorField.setText(dataHolder.getFirst().getAuthor());
+                }
+                if (dataHolder.getFirst().getCoverImagePath() != null) {
+                    coverField.setText(dataHolder.getFirst().getCoverImagePath());
+                }
+                if (dataHolder.getFirst().getPublisher() != null) {
+                    publisherField.setText(dataHolder.getFirst().getPublisher());
+                }
+                Date dateFromAPI = dataHolder.getFirst().getPublicationDate();
+                if (dateFromAPI != null) {
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");;
+                    publishedDateField.setText(formatter.format(dateFromAPI));
+                }
                 authorField.setText(dataHolder.getFirst().getAuthor());
+            } else {
+                showErrorPopup("Error finding book", "Book not found or don't have info");
             }
             
         });
