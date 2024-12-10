@@ -6,20 +6,22 @@ import dha.libapp.models.Book;
 import dha.libapp.models.BorrowRecord;
 import dha.libapp.models.BorrowStatus;
 import dha.libapp.syncdao.BorrowRecordSyncDAO;
+import dha.libapp.syncdao.utils.DAOExecuteCallback;
 import dha.libapp.syncdao.utils.DAOUpdateCallback;
 import javafx.concurrent.Task;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
-public class BorrowService {
-    private static BorrowService instance = new BorrowService();
+public class BorrowRecordService {
+    private static BorrowRecordService instance = new BorrowRecordService();
 
-    private BorrowService() {}
+    private BorrowRecordService() {}
 
-    public static BorrowService getInstance() {
+    public static BorrowRecordService getInstance() {
         if (instance == null) {
-            instance = new BorrowService();
+            instance = new BorrowRecordService();
         }
         return instance;
     }
@@ -46,6 +48,24 @@ public class BorrowService {
                         callback.onError(new RuntimeException("failed to add new borrow record"));
                     }
                 });
+    }
+
+    public void getSearchBorrowRecordsByUsernameAndStatus(String username, BorrowStatus status,
+                                                          DAOExecuteCallback<List<BorrowRecord>> callback) {
+        BorrowRecordSyncDAO.searchBorrowRecordsByUsernameAndStatusSync(username, status,
+                new DAOExecuteCallback<List<BorrowRecord>>() {
+            @Override
+            public void onSuccess(List<BorrowRecord> result) {
+                System.out.println("search borrow records successfully");
+                callback.onSuccess(result);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                System.out.println("failed to search borrow records");
+                callback.onError(e);
+            }
+        });
     }
 
     public void acceptBorrow(BorrowRecord borrowRecord, DAOUpdateCallback callback) {

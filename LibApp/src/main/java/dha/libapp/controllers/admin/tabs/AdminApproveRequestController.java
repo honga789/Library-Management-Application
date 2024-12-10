@@ -1,15 +1,10 @@
 package dha.libapp.controllers.admin.tabs;
 
 import dha.libapp.controllers.admin.AdminViewController;
-import dha.libapp.models.Book;
 import dha.libapp.models.BorrowRecord;
-import dha.libapp.models.BorrowStatus;
-import dha.libapp.models.User;
 import dha.libapp.services.SessionService;
-import dha.libapp.services.admin.BorrowService;
+import dha.libapp.services.admin.BorrowRecordService;
 import dha.libapp.services.admin.tabs.AdminApproveRequestService;
-import dha.libapp.services.admin.tabs.AdminReturnRequestService;
-import dha.libapp.syncdao.BookSyncDAO;
 import dha.libapp.syncdao.utils.DAOExecuteCallback;
 import dha.libapp.syncdao.utils.DAOUpdateCallback;
 import dha.libapp.utils.ListView.BorrowListView;
@@ -117,7 +112,7 @@ public class AdminApproveRequestController implements Initializable {
         approveButton.setOnMouseClicked(e -> {
             if (selectBorrow != null) {
                 System.out.println("clicked");
-                BorrowService.getInstance().acceptBorrow(selectBorrow, new DAOUpdateCallback() {
+                BorrowRecordService.getInstance().acceptBorrow(selectBorrow, new DAOUpdateCallback() {
                     @Override
                     public void onSuccess() {
                         showSuccessPopup("Request Approved", "Approved Successfully");
@@ -136,7 +131,7 @@ public class AdminApproveRequestController implements Initializable {
         cancelButton.setOnMouseClicked(e -> {
             if (selectBorrow != null) {
                 System.out.println("clicked");
-                BorrowService.getInstance().deniedBorrow(selectBorrow, new DAOUpdateCallback() {
+                BorrowRecordService.getInstance().deniedBorrow(selectBorrow, new DAOUpdateCallback() {
                     @Override
                     public void onSuccess() {
                         showSuccessPopup("Request Cancelled", "Request Cancelled Successfully");

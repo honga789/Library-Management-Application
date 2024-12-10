@@ -1,20 +1,21 @@
 package dha.libapp.controllers.admin.tabs;
 
-import dha.libapp.models.Book;
 import dha.libapp.models.BorrowRecord;
+import dha.libapp.models.BorrowStatus;
 import dha.libapp.models.User;
 import dha.libapp.services.SessionService;
-import dha.libapp.services.admin.BorrowService;
+import dha.libapp.services.admin.BorrowRecordService;
 import dha.libapp.services.admin.tabs.AdminApproveRequestService;
 import dha.libapp.services.admin.tabs.AdminReturnRequestService;
-import dha.libapp.services.members.tabs.MemberReturnedTabService;
 import dha.libapp.syncdao.utils.DAOExecuteCallback;
 import dha.libapp.syncdao.utils.DAOUpdateCallback;
-import dha.libapp.utils.ListView.BookListView;
 import dha.libapp.utils.ListView.BorrowListView;
+import dha.libapp.utils.ListView.UserListView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
 import java.net.URL;
@@ -56,6 +57,32 @@ public class AdminReturnRequestController implements Initializable {
     @FXML
     private BorrowRecord selectBorrow;
 
+    @FXML
+    private Pane searchLoadingPane;
+
+    @FXML
+    private ListView<BorrowRecord> searchBorrowRecordListView;
+
+    @FXML
+    private AnchorPane searchBox;
+
+    @FXML
+    private ImageView closeSearchBox;
+
+    @FXML
+    private TextField searchInput;
+
+    @FXML
+    private ImageView searchBtn;
+
+    public void setSearchLoadingPaneVisible(boolean visible) {
+        searchLoadingPane.setVisible(visible);
+    }
+
+    public void setSearchBoxVisible(boolean visible) {
+        searchBox.setVisible(visible);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         instance = this;
@@ -71,6 +98,42 @@ public class AdminReturnRequestController implements Initializable {
             if (newValue != null) {
                 BorrowRecord selected = (BorrowRecord) newValue;
                 System.out.println("Selected Book: " + selected.getClass().toString() + ": " + selected);
+                this.setInformationDetail(selected);
+                this.selectBorrow = selected;
+            }
+        });
+
+        // Search bar
+        setSearchLoadingPaneVisible(false);
+        setSearchBoxVisible(false);
+
+        closeSearchBox.setOnMouseClicked(e -> {
+            setSearchBoxVisible(false);
+        });
+
+        searchBtn.setOnMouseClicked(e -> {
+            setSearchLoadingPaneVisible(true);
+            setSearchBoxVisible(true);
+            String search = searchInput.getText();
+
+            BorrowRecordService.getInstance().getSearchBorrowRecordsByUsernameAndStatus(search, BorrowStatus.BORROWED,
+                    new DAOExecuteCallback<List<BorrowRecord>>() {
+                @Override
+                public void onSuccess(List<BorrowRecord> result) {
+                    setSearchLoadingPaneVisible(false);
+                    BorrowListView.renderToListView(searchBorrowRecordListView, result);
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    throw new RuntimeException();
+                }
+            });
+        });
+
+        searchBorrowRecordListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                BorrowRecord selected = (BorrowRecord) newValue;
                 this.setInformationDetail(selected);
                 this.selectBorrow = selected;
             }
@@ -157,7 +220,7 @@ public class AdminReturnRequestController implements Initializable {
         // Handle the user's response
         if (result.isPresent() && result.get() == ButtonType.OK) {
             System.out.println("User chose OK");
-            BorrowService.getInstance().returnedBorrow(borrowRecord, callback);
+            BorrowRecordService.getInstance().returnedBorrow(borrowRecord, callback);
         } else {
             System.out.println("User chose Cancel or closed the dialog");
         }

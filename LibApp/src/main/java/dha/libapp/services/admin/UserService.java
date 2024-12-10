@@ -97,11 +97,13 @@ public class UserService {
         UserSyncDAO.searchUserByUsernameSync(username, new DAOExecuteCallback<List<User>>() {
             @Override
             public void onSuccess(List<User> result) {
+                System.out.println("User search successfully");
                 callback.onSuccess(result);
             }
 
             @Override
             public void onError(Throwable e) {
+                System.out.println("User search failed");
                 callback.onError(e);
             }
         });
