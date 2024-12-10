@@ -30,6 +30,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
@@ -41,15 +42,22 @@ import javafx.scene.text.Text;
 import java.util.List;
 
 public class AdminManageDocumentController {
-
     @FXML
     private Button newBook;
+
     @FXML
     private Button editBook;
+
     @FXML
     private Button deleteBook;
+
+    @FXML
     private List<GenreType> genreTypeList = new ArrayList<GenreType>();
+
+    @FXML
     private ArrayList<GenreType> selectedGenreTypeList = new ArrayList<GenreType>();
+
+    @FXML
     private Label editStatus = new Label();
 
     @FXML
@@ -74,6 +82,32 @@ public class AdminManageDocumentController {
     private Book selectedBook;
 
     @FXML
+    private Pane searchLoadingPane;
+
+    @FXML
+    private ListView<Book> searchBookListView;
+
+    @FXML
+    private AnchorPane searchBox;
+
+    @FXML
+    private ImageView closeSearchBox;
+
+    @FXML
+    private TextField searchInput;
+
+    @FXML
+    private ImageView searchBtn;
+
+    public void setSearchLoadingPaneVisible(boolean visible) {
+        searchLoadingPane.setVisible(visible);
+    }
+
+    public void setSearchBoxVisible(boolean visible) {
+        searchBox.setVisible(visible);
+    }
+
+    @FXML
     public void initialize() {
         genreTypeList.clear();
         initializeButton();
@@ -96,7 +130,7 @@ public class AdminManageDocumentController {
         });
 
         loadingPane.setVisible(true);
-        BookSyncDAO.getAllBookSync(new DAOExecuteCallback<List<Book>>() {
+        BookService.getInstance().getAllBooks(new DAOExecuteCallback<List<Book>>() {
             @Override
             public void onSuccess(List<Book> result) {
                 loadingPane.setVisible(false);
@@ -105,7 +139,41 @@ public class AdminManageDocumentController {
 
             @Override
             public void onError(Throwable e) {
+                throw new RuntimeException();
+            }
+        });
 
+        setSearchLoadingPaneVisible(false);
+        setSearchBoxVisible(false);
+
+        closeSearchBox.setOnMouseClicked(e -> {
+            setSearchBoxVisible(false);
+        });
+
+        searchBtn.setOnMouseClicked(e -> {
+            setSearchLoadingPaneVisible(true);
+            setSearchBoxVisible(true);
+            String search = searchInput.getText();
+
+            BookService.getInstance().getSearchBooks(search, new DAOExecuteCallback<List<Book>>() {
+                @Override
+                public void onSuccess(List<Book> result) {
+                    setSearchLoadingPaneVisible(false);
+                    BookListView.renderToListView(searchBookListView, result);
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    throw new RuntimeException();
+                }
+            });
+        });
+
+        searchBookListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                Book selected = (Book) newValue;
+                this.setBookDetailView(selected);
+                this.selectedBook = selected;
             }
         });
     }

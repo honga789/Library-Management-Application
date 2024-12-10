@@ -100,6 +100,20 @@ public class BookService {
         });
     }
 
+    public void getSearchBooks(String title,DAOExecuteCallback<List<Book>> callback) {
+        BookSyncDAO.searchBookByTitleSync(title, new DAOExecuteCallback<List<Book>>() {
+            @Override
+            public void onSuccess(List<Book> result) {
+                callback.onSuccess(result);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                callback.onError(e);
+            }
+        });
+    }
+
     public void addBook(String ISBN, String title, String author, String publisher,
                         Date publicationDate, int quantity, String description,
                         String coverImagePath, ArrayList<GenreType> genreList,

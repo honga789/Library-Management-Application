@@ -157,7 +157,6 @@ public class MemberHomeTabController implements Initializable {
         searchBookListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 Book selected = (Book) newValue;
-                System.out.println("Selected Book: " + selected.getClass().toString() + ": " + selected);
                 this.setBookDetailView(selected);
                 this.selectedBook = selected;
             }
