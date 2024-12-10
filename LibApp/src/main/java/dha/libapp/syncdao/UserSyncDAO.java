@@ -117,4 +117,14 @@ public class UserSyncDAO {
         };
         DAOTaskRunner.updateTask(task, callback);
     }
+
+    public static void searchUserByUsernameSync(String username, DAOExecuteCallback<List<User>> callback) {
+        Task<List<User>> task = new Task<List<User>>() {
+            @Override
+            protected List<User> call() throws Exception {
+                return UserDAO.searchUserByUsername(username);
+            }
+        };
+        DAOTaskRunner.executeTask(task, callback);
+    }
 }
