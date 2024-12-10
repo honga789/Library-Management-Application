@@ -91,7 +91,7 @@ public class BookService {
         if (ISBN == null || title == null || author == null || publisher == null || publicationDate == null
                 || quantity < 0 || description == null || coverImagePath == null || genreList == null
                 || ISBN.length() < 10 || ISBN.length() > 30 || title.length() > 100 || author.length() > 100
-                || publisher.length() > 100 || coverImagePath.length() > 256) {
+                || publisher.length() > 100 || coverImagePath.length() > 256 || genreList.isEmpty()) {
 
             callback.onError(new RuntimeException("Invalid input"));
             return;
