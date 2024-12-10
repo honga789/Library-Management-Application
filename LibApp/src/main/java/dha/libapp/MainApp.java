@@ -68,14 +68,7 @@ public class MainApp extends Application {
             @Override
             protected void succeeded() {
                 super.succeeded();
-                User user = new User();
-                user.setUserId(2);
-
-                RecommendationService.getRecommendedBooksForUser(user, recommendedBook -> {
-                    System.out.println(recommendedBook);
-                }, 5);
-
-
+                
                 try {
                     Parent fxmlContent = MainApp.getContentFromFxml("views/MainAppView.fxml");
                     root.getChildren().clear();

@@ -153,6 +153,12 @@ public class RecommendationService {
                 System.out.println("ok");
                 recommendCallback.onSuccess(getValue());
             }
+
+            @Override
+            protected void failed() {
+                System.out.println("failed");
+                throw new RuntimeException(getException().getMessage());
+            }
         };
 
         new Thread(task).start();

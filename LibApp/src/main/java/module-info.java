@@ -22,5 +22,9 @@ module dha.libapp {
     opens dha.libapp.views.admin.tabs to javafx.fxml;
 
     opens dha.libapp to javafx.fxml;
+    opens dha.libapp.dao to javafx.fxml;
+
     exports dha.libapp;
+    exports dha.libapp.dao;
+    exports dha.libapp.models;
 }
