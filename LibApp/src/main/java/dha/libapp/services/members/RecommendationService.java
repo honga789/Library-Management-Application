@@ -110,6 +110,7 @@ public class RecommendationService {
                         .map(Map.Entry::getKey) // get key from Map.Entry
                         .collect(Collectors.toList()); // change to List<Integer>
 
+                System.out.println("Size: " + sortedKeys.size());
                 System.out.println(sortedKeys);
 
                 List<Book> recommendedBooks = new ArrayList<>();
@@ -120,6 +121,10 @@ public class RecommendationService {
                     List<BorrowRecord> borrowRecords = BorrowRecordDAO.getAllBorrowRecordsByUserId(sortedKeys.get(i));
                     for (BorrowRecord borrowRecord : borrowRecords) {
                         Book book = BookDAO.getBookById(borrowRecord.getBookId());
+
+                        if (book == null) {
+                            continue;
+                        }
 
                         boolean isBorrowed = false;
                         for (BorrowRecord br : brs) {
@@ -135,6 +140,8 @@ public class RecommendationService {
                     }
                     i++;
                 }
+
+                System.out.println("Size: " + recommendedBooks.size());
 
                 System.out.println(recommendedBooks);
 
