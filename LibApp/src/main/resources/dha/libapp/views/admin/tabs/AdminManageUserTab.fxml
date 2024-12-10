@@ -90,7 +90,7 @@
                               <Image url="@../../../images/search.png" />
                            </image>
                         </ImageView>
-                        <Button fx:id="addUserButton1" layoutX="287.0" layoutY="636.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="116.0" style="-fx-background-color: #50e2fa; -fx-background-radius: 15; -fx-cursor: hand; -fx-padding: 10;" styleClass="button-borrow" stylesheets="@../../../css/hometab.css" text="Add User">
+                        <Button fx:id="addUserButton" layoutX="287.0" layoutY="636.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="116.0" style="-fx-background-color: #50e2fa; -fx-background-radius: 15; -fx-cursor: hand; -fx-padding: 10;" styleClass="button-borrow" stylesheets="@../../../css/hometab.css" text="Add User">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
