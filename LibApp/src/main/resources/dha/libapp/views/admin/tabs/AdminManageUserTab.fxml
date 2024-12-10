@@ -85,7 +85,7 @@
                               </DropShadow>
                            </effect>
                         </TextField>
-                        <ImageView fitHeight="36.0" fitWidth="32.0" layoutX="561.0" layoutY="66.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="searchBtn" fitHeight="36.0" fitWidth="32.0" layoutX="561.0" layoutY="66.0" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
                            <image>
                               <Image url="@../../../images/search.png" />
                            </image>
@@ -123,7 +123,7 @@
                   </Pane>
                   <AnchorPane fx:id="searchBox" layoutX="22.0" layoutY="130.0" prefHeight="488.0" prefWidth="652.0" style="-fx-background-color: #fff;" visible="false">
                      <children>
-                        <ListView fx:id="searchBookListView" layoutY="44.0" prefHeight="512.0" prefWidth="652.0" />
+                        <ListView fx:id="searchUserListView" layoutY="44.0" prefHeight="512.0" prefWidth="652.0" />
                         <Pane fx:id="searchLoadingPane" layoutY="47.0" prefHeight="508.0" prefWidth="651.0" style="-fx-background-color: white;">
                            <children>
                               <Label alignment="CENTER" layoutX="258.0" layoutY="151.0" prefHeight="27.0" prefWidth="135.0" text="Please wait...">
@@ -133,7 +133,7 @@
                               </Label>
                            </children>
                         </Pane>
-                        <ImageView fx:id="closeSearchBox" fitHeight="46.0" fitWidth="41.0" layoutX="610.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="closeSearchBox" fitHeight="46.0" fitWidth="41.0" layoutX="610.0" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
                            <image>
                               <Image url="@../../../images/close.png" />
                            </image>

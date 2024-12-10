@@ -100,7 +100,7 @@ public class BookService {
         });
     }
 
-    public void getSearchBooks(String title,DAOExecuteCallback<List<Book>> callback) {
+    public void getSearchBooks(String title, DAOExecuteCallback<List<Book>> callback) {
         BookSyncDAO.searchBookByTitleSync(title, new DAOExecuteCallback<List<Book>>() {
             @Override
             public void onSuccess(List<Book> result) {

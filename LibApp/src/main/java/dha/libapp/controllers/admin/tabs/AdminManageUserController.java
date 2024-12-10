@@ -12,6 +12,7 @@ import dha.libapp.utils.API.GoogleBooks.BookFetchCallback;
 import dha.libapp.utils.API.GoogleBooks.GoogleBooksAPI;
 import dha.libapp.utils.API.GoogleBooks.GoogleBooksTask;
 import dha.libapp.models.User;
+import dha.libapp.utils.ListView.BookListView;
 import dha.libapp.utils.ListView.UserListView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -21,6 +22,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -38,13 +41,16 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class AdminManageUserController implements Initializable {
-
     @FXML
     private javafx.scene.control.Button addUserButton;
+
     @FXML
     private Button deleteUserButton;
+
     @FXML
     private Button editUserButton;
+
+    @FXML
     private javafx.scene.control.Label editStatus = new javafx.scene.control.Label();
 
     @FXML
@@ -71,6 +77,31 @@ public class AdminManageUserController implements Initializable {
     private User selectedUser;
 
     @FXML
+    private Pane searchLoadingPane;
+
+    @FXML
+    private ListView<User> searchUserListView;
+
+    @FXML
+    private AnchorPane searchBox;
+
+    @FXML
+    private ImageView closeSearchBox;
+
+    @FXML
+    private TextField searchInput;
+
+    @FXML
+    private ImageView searchBtn;
+
+    public void setSearchLoadingPaneVisible(boolean visible) {
+        searchLoadingPane.setVisible(visible);
+    }
+
+    public void setSearchBoxVisible(boolean visible) {
+        searchBox.setVisible(visible);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         System.out.println("user");
@@ -81,7 +112,7 @@ public class AdminManageUserController implements Initializable {
             if (newValue != null) {
                 User selected = (User) newValue;
                 System.out.println("Selected Book: " + selected.getClass().toString() + ": " + selected);
-                this.setBookDetailView(selected);
+                this.setUserInfoView(selected);
                 this.selectedUser = selected;
             }
         });
@@ -99,9 +130,44 @@ public class AdminManageUserController implements Initializable {
 
             }
         });
+
+        // Search bar
+        setSearchLoadingPaneVisible(false);
+        setSearchBoxVisible(false);
+
+        closeSearchBox.setOnMouseClicked(e -> {
+            setSearchBoxVisible(false);
+        });
+
+        searchBtn.setOnMouseClicked(e -> {
+            setSearchLoadingPaneVisible(true);
+            setSearchBoxVisible(true);
+            String search = searchInput.getText();
+
+            UserService.getInstance().getSearchUser(search, new DAOExecuteCallback<List<User>>() {
+                @Override
+                public void onSuccess(List<User> result) {
+                    setSearchLoadingPaneVisible(false);
+                    UserListView.renderToListView(searchUserListView, result);
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    throw new RuntimeException();
+                }
+            });
+        });
+
+        searchUserListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                User selected = (User) newValue;
+                this.setUserInfoView(selected);
+                this.selectedUser = selected;
+            }
+        });
     }
 
-    public void setBookDetailView(User user) {
+    public void setUserInfoView(User user) {
         userId.setText("User ID: " + user.getUserId());
         username.setText("Username: " + user.getUserName());
         fullName.setText("Full name: " + user.getFullName());

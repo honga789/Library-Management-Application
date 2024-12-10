@@ -143,6 +143,7 @@ public class AdminManageDocumentController {
             }
         });
 
+        // Search bar
         setSearchLoadingPaneVisible(false);
         setSearchBoxVisible(false);
 
