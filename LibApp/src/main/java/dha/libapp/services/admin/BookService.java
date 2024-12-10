@@ -4,6 +4,7 @@ import dha.libapp.dao.BookDAO;
 import dha.libapp.dao.GenreTypeDAO;
 import dha.libapp.models.GenreType;
 import dha.libapp.syncdao.BookSyncDAO;
+import dha.libapp.syncdao.utils.DAOExecuteCallback;
 import dha.libapp.syncdao.utils.DAOUpdateCallback;
 import javafx.concurrent.Task;
 
@@ -81,6 +82,22 @@ public class BookService {
             }
         };
         new Thread(task).start();
+    }
+
+    public void getAllBooks(DAOExecuteCallback<List<Book>> callback) {
+        BookSyncDAO.getAllBookSync(new DAOExecuteCallback<List<Book>>() {
+            @Override
+            public void onSuccess(List<Book> result) {
+                System.out.println("get all books successful");
+                callback.onSuccess(result);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                System.out.println("get all books failed");
+                callback.onError(e);
+            }
+        });
     }
 
     public void addBook(String ISBN, String title, String author, String publisher,
