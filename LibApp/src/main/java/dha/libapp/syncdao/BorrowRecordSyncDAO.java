@@ -116,4 +116,16 @@ public class BorrowRecordSyncDAO {
         };
         DAOTaskRunner.updateTask(task, callback);
     }
+
+    public static void searchBorrowRecordsByUsernameAndStatusSync(String username, BorrowStatus status,
+                                                  DAOExecuteCallback<List<BorrowRecord>> callback) {
+        Task<List<BorrowRecord>> task = new Task<>() {
+
+            @Override
+            protected List<BorrowRecord> call() throws Exception {
+                return BorrowRecordDAO.searchBorrowRecordsByUsernameAndStatus(username, status);
+            }
+        };
+        DAOTaskRunner.executeTask(task, callback);
+    }
 }
