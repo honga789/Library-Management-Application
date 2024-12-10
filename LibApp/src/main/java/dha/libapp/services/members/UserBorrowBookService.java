@@ -1,5 +1,6 @@
 package dha.libapp.services.members;
 
+import dha.libapp.cache.CacheFactory;
 import dha.libapp.cache.members.PendingTabCache;
 import dha.libapp.controllers.members.MemberViewController;
 import dha.libapp.models.Book;
@@ -31,7 +32,8 @@ public class UserBorrowBookService {
                     @Override
                     public void onSuccess() {
                         System.out.println("Borrow Pending");
-                        PendingTabCache.getInstance().getPendingBookList().clear();
+//                        PendingTabCache.getInstance().getPendingBookList().clear();
+                        CacheFactory.getCache(PendingTabCache.class).clearAll();
                         MemberViewController.getInstance().switchToBorrowPendingTab();
                     }
 

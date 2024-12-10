@@ -1,14 +1,12 @@
 package dha.libapp.controllers.admin.tabs;
 
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import dha.libapp.models.Book;
 import dha.libapp.models.GenreType;
-import dha.libapp.models.User;
 import dha.libapp.services.admin.BookService;
 import dha.libapp.syncdao.utils.DAOUpdateCallback;
 import dha.libapp.utils.API.ExecutorHandle;
@@ -20,14 +18,7 @@ import dha.libapp.utils.API.Image.ImageFetchCallback;
 import dha.libapp.utils.API.Image.ImageTask;
 import dha.libapp.utils.ListView.BookListView;
 import javafx.fxml.FXML;
-import dha.libapp.dao.GenreTypeDAO;
 
-import dha.libapp.cache.Cache;
-import dha.libapp.cache.members.HomeTabCache;
-import dha.libapp.controllers.members.tabs.MemberHomeTabController;
-import dha.libapp.models.Book;
-import dha.libapp.services.SessionService;
-import dha.libapp.services.members.RecommendationService;
 import dha.libapp.syncdao.BookSyncDAO;
 import dha.libapp.syncdao.utils.DAOExecuteCallback;
 

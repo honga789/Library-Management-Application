@@ -1,6 +1,8 @@
 package dha.libapp.services.members.tabs;
 
 import dha.libapp.cache.Cache;
+import dha.libapp.cache.CacheFactory;
+import dha.libapp.cache.CacheItem;
 import dha.libapp.cache.members.BorrowedTabCache;
 import dha.libapp.controllers.members.tabs.MemberBorrowedTabController;
 import dha.libapp.models.Book;
@@ -19,7 +21,8 @@ public class MemberBorrowedTabService {
     public static void renderBorrowedBooks() {
         MemberBorrowedTabController.getInstance().setBorrowedListViewVisible(true);
 
-        Cache<List<Book>> borrowedCache = BorrowedTabCache.getInstance().getBorrowedBookList();
+//        CacheItem<List<Book>> borrowedCache = BorrowedTabCache.getInstance().getBorrowedBookList();
+        CacheItem<List<Book>> borrowedCache = CacheFactory.getCache(BorrowedTabCache.class).getBorrowedBookList();
 
         if (borrowedCache.isSaved()) {
             MemberBorrowedTabController.getInstance().setLoadingPaneVisible(false);

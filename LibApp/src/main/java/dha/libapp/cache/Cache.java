@@ -1,34 +1,21 @@
 package dha.libapp.cache;
 
-public class Cache<T> {
-    private T data;
-    private boolean saved;
+public abstract class Cache {
+    private static boolean isCreatingInstance = false;
 
-    public Cache() {
-        data = null;
-        saved = false;
+    protected Cache() {
+        if (!Cache.isCreatingInstance) {
+            throw new IllegalStateException("Cannot instantiate directly. Use CacheFactory.");
+        }
     }
 
-    public Cache(T data) {
-        this.data = data;
-        saved = true;
+    private static void enableInstanceCreation() {
+        Cache.isCreatingInstance = true;
     }
 
-    public T getData() {
-        return data;
+    private static void disableInstanceCreation() {
+        Cache.isCreatingInstance = false;
     }
 
-    public void setData(T data) {
-        this.data = data;
-        this.saved = true;
-    }
-
-    public boolean isSaved() {
-        return saved;
-    }
-
-    public void clear() {
-        data = null;
-        saved = false;
-    }
+    public abstract void clearAll();
 }

@@ -2,6 +2,7 @@ package dha.libapp.controllers.admin;
 
 import dha.libapp.MainApp;
 import dha.libapp.MainAppController;
+import dha.libapp.cache.CacheFactory;
 import dha.libapp.cache.members.BorrowedTabCache;
 import dha.libapp.cache.members.HomeTabCache;
 import dha.libapp.cache.members.PendingTabCache;
@@ -56,11 +57,15 @@ public class AdminViewController implements Initializable {
     }
 
     private void clearAllCache() {
-        HomeTabCache.getInstance().getRecommendationBookList().clear();
-        HomeTabCache.getInstance().getTopTrendingBookList().clear();
-        PendingTabCache.getInstance().getPendingBookList().clear();
-        BorrowedTabCache.getInstance().getBorrowedBookList().clear();
-        ReturnedTabCache.getInstance().getReturnedBookList().clear();
+//        HomeTabCache.getInstance().getRecommendationBookList().clear();
+//        HomeTabCache.getInstance().getTopTrendingBookList().clear();
+//        PendingTabCache.getInstance().getPendingBookList().clear();
+//        BorrowedTabCache.getInstance().getBorrowedBookList().clear();
+//        ReturnedTabCache.getInstance().getReturnedBookList().clear();
+        CacheFactory.getCache(HomeTabCache.class).clearAll();
+        CacheFactory.getCache(BorrowedTabCache.class).clearAll();
+        CacheFactory.getCache(PendingTabCache.class).clearAll();
+        CacheFactory.getCache(ReturnedTabCache.class).clearAll();
     }
 
     @FXML

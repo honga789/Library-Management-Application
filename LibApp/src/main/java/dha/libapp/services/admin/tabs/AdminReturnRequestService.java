@@ -1,11 +1,6 @@
 package dha.libapp.services.admin.tabs;
 
-import dha.libapp.cache.Cache;
-import dha.libapp.cache.members.BorrowedTabCache;
-import dha.libapp.cache.members.ReturnedTabCache;
-import dha.libapp.controllers.admin.tabs.AdminApproveRequestController;
 import dha.libapp.controllers.admin.tabs.AdminReturnRequestController;
-import dha.libapp.controllers.members.tabs.MemberReturnedTabController;
 import dha.libapp.dao.BookDAO;
 import dha.libapp.dao.DeletedUserDAO;
 import dha.libapp.dao.UserDAO;
@@ -13,15 +8,11 @@ import dha.libapp.models.Book;
 import dha.libapp.models.BorrowRecord;
 import dha.libapp.models.BorrowStatus;
 import dha.libapp.models.User;
-import dha.libapp.services.SessionService;
-import dha.libapp.syncdao.BookSyncDAO;
 import dha.libapp.syncdao.BorrowRecordSyncDAO;
 import dha.libapp.syncdao.utils.DAOExecuteCallback;
 import javafx.concurrent.Task;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 
 public class AdminReturnRequestService {
     public static void renderReturnedBooks() {

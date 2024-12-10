@@ -1,24 +1,21 @@
 package dha.libapp.cache.members;
 
 import dha.libapp.cache.Cache;
+import dha.libapp.cache.CacheFactory;
+import dha.libapp.cache.CacheItem;
 import dha.libapp.models.Book;
 
 import java.util.List;
 
-public class ReturnedTabCache {
-    private ReturnedTabCache() {}
+public class ReturnedTabCache extends Cache {
+    private final CacheItem<List<Book>> returnedBookList = new CacheItem<>();
 
-    private static ReturnedTabCache instance;
-    public static ReturnedTabCache getInstance() {
-        if (instance == null) {
-            instance = new ReturnedTabCache();
-        }
-        return instance;
+    public CacheItem<List<Book>> getReturnedBookList() {
+        return returnedBookList;
     }
 
-    private final Cache<List<Book>> returnedBookList = new Cache<>();
-
-    public Cache<List<Book>> getReturnedBookList() {
-        return returnedBookList;
+    @Override
+    public void clearAll() {
+        returnedBookList.clear();
     }
 }

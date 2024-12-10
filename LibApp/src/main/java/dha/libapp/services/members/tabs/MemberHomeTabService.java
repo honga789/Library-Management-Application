@@ -1,6 +1,8 @@
 package dha.libapp.services.members.tabs;
 
 import dha.libapp.cache.Cache;
+import dha.libapp.cache.CacheFactory;
+import dha.libapp.cache.CacheItem;
 import dha.libapp.cache.members.HomeTabCache;
 import dha.libapp.controllers.members.tabs.MemberHomeTabController;
 import dha.libapp.models.Book;
@@ -15,7 +17,8 @@ public class MemberHomeTabService {
     public static void renderRecommendationBooks() {
         MemberHomeTabController.getInstance().setLoadingRecommendationPaneVisible(true);
 
-        Cache<List<Book>> recommendedCache = HomeTabCache.getInstance().getRecommendationBookList();
+//        CacheItem<List<Book>> recommendedCache = HomeTabCache.getInstance().getRecommendationBookList();
+        CacheItem<List<Book>> recommendedCache = CacheFactory.getCache(HomeTabCache.class).getRecommendationBookList();
 
         if (recommendedCache.isSaved()) {
             MemberHomeTabController.getInstance().setLoadingRecommendationPaneVisible(false);
@@ -36,7 +39,8 @@ public class MemberHomeTabService {
     public static void renderTopTrendingBooks() {
         MemberHomeTabController.getInstance().setLoadingTrendingPaneVisible(true);
 
-        Cache<List<Book>> trendingBookCache = HomeTabCache.getInstance().getTopTrendingBookList();
+//        CacheItem<List<Book>> trendingBookCache = HomeTabCache.getInstance().getTopTrendingBookList();
+        CacheItem<List<Book>> trendingBookCache = CacheFactory.getCache(HomeTabCache.class).getTopTrendingBookList();
 
         if (trendingBookCache.isSaved()) {
             MemberHomeTabController.getInstance().setLoadingTrendingPaneVisible(false);

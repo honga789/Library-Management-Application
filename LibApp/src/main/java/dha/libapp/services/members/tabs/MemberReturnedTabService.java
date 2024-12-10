@@ -1,6 +1,7 @@
 package dha.libapp.services.members.tabs;
 
-import dha.libapp.cache.Cache;
+import dha.libapp.cache.CacheFactory;
+import dha.libapp.cache.CacheItem;
 import dha.libapp.cache.members.ReturnedTabCache;
 import dha.libapp.controllers.members.tabs.MemberReturnedTabController;
 import dha.libapp.models.Book;
@@ -18,7 +19,8 @@ public class MemberReturnedTabService {
     public static void renderReturnedBooks() {
         MemberReturnedTabController.getInstance().setReturnedListViewVisible(true);
 
-        Cache<List<Book>> returnedCache = ReturnedTabCache.getInstance().getReturnedBookList();
+//        CacheItem<List<Book>> returnedCache = ReturnedTabCache.getInstance().getReturnedBookList();
+        CacheItem<List<Book>> returnedCache = CacheFactory.getCache(ReturnedTabCache.class).getReturnedBookList();
 
         if (returnedCache.isSaved()) {
             MemberReturnedTabController.getInstance().setLoadingPaneVisible(false);

@@ -1,6 +1,7 @@
 package dha.libapp.services.members.tabs;
 
-import dha.libapp.cache.Cache;
+import dha.libapp.cache.CacheFactory;
+import dha.libapp.cache.CacheItem;
 import dha.libapp.cache.members.PendingTabCache;
 import dha.libapp.controllers.members.tabs.MemberPendingTabController;
 import dha.libapp.models.Book;
@@ -18,7 +19,8 @@ public class MemberPendingTabService {
     public static void renderPendingBooks() {
         MemberPendingTabController.getInstance().setPendingListViewVisible(true);
 
-        Cache<List<Book>> pendingCache = PendingTabCache.getInstance().getPendingBookList();
+//        CacheItem<List<Book>> pendingCache = PendingTabCache.getInstance().getPendingBookList();
+        CacheItem<List<Book>> pendingCache = CacheFactory.getCache(PendingTabCache.class).getPendingBookList();
 
         if (pendingCache.isSaved()) {
             MemberPendingTabController.getInstance().setLoadingPaneVisible(false);
