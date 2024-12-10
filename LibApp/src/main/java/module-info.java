@@ -27,4 +27,5 @@ module dha.libapp {
     exports dha.libapp;
     exports dha.libapp.dao;
     exports dha.libapp.models;
+    exports dha.libapp.services;
 }
