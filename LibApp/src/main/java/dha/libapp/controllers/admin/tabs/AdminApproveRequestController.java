@@ -2,15 +2,21 @@ package dha.libapp.controllers.admin.tabs;
 
 import dha.libapp.controllers.admin.AdminViewController;
 import dha.libapp.models.BorrowRecord;
+import dha.libapp.models.BorrowStatus;
+import dha.libapp.models.User;
 import dha.libapp.services.SessionService;
 import dha.libapp.services.admin.BorrowRecordService;
+import dha.libapp.services.admin.UserService;
 import dha.libapp.services.admin.tabs.AdminApproveRequestService;
 import dha.libapp.syncdao.utils.DAOExecuteCallback;
 import dha.libapp.syncdao.utils.DAOUpdateCallback;
 import dha.libapp.utils.ListView.BorrowListView;
+import dha.libapp.utils.ListView.UserListView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
 import java.net.URL;
@@ -51,7 +57,35 @@ public class AdminApproveRequestController implements Initializable {
 
     @FXML
     private Button approveButton;
+
+    @FXML
     private BorrowRecord tempBorrowRecord;
+
+    @FXML
+    private Pane searchLoadingPane;
+
+    @FXML
+    private ListView<BorrowRecord> searchApproveListView;
+
+    @FXML
+    private AnchorPane searchBox;
+
+    @FXML
+    private ImageView closeSearchBox;
+
+    @FXML
+    private TextField searchInput;
+
+    @FXML
+    private ImageView searchBtn;
+
+    public void setSearchLoadingPaneVisible(boolean visible) {
+        searchLoadingPane.setVisible(visible);
+    }
+
+    public void setSearchBoxVisible(boolean visible) {
+        searchBox.setVisible(visible);
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -73,9 +107,41 @@ public class AdminApproveRequestController implements Initializable {
             }
         });
 
+        // Search bar
+        setSearchLoadingPaneVisible(false);
+        setSearchBoxVisible(false);
 
+        closeSearchBox.setOnMouseClicked(e -> {
+            setSearchBoxVisible(false);
+        });
 
+        searchBtn.setOnMouseClicked(e -> {
+            setSearchLoadingPaneVisible(true);
+            setSearchBoxVisible(true);
+            String search = searchInput.getText();
 
+            BorrowRecordService.getInstance().getSearchBorrowRecordsByUsernameAndStatus(search, BorrowStatus.PENDING,
+                    new DAOExecuteCallback<List<BorrowRecord>>() {
+                @Override
+                public void onSuccess(List<BorrowRecord> result) {
+                    setSearchLoadingPaneVisible(false);
+                    BorrowListView.renderToListView(searchApproveListView, result);
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    throw new RuntimeException();
+                }
+            });
+        });
+
+        searchApproveListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                BorrowRecord selected = (BorrowRecord) newValue;
+                this.setInformationDetail(selected);
+                this.selectBorrow = selected;
+            }
+        });
     }
 
     public void renderApproveBooks(List<BorrowRecord> approveBooks) {
