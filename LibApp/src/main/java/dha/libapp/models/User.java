@@ -105,4 +105,13 @@ public class User {
     public void displayInfo() {
         System.out.println(this.toString());
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof User user) {
+            return this.userId == user.getUserId()
+                    && this.userName.equals(user.getUserName());
+        }
+        return false;
+    }
 }
