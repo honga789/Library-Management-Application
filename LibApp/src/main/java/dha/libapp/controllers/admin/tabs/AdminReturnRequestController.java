@@ -168,8 +168,8 @@ public class AdminReturnRequestController implements Initializable {
                 fullName.setText("User full name: " + result.user.getFullName());
                 titleBook.setText("Book title: " + result.book.getTitle());
                 authorBook.setText("Book author: " + result.book.getAuthor());
-                borrowDate.setText("Borrow Date: " + selected.getBorrowDate());
-                dueDate.setText("Due Date: " + selected.getDueDate());
+                borrowDate.setText("Borrow date: " + selected.getBorrowDate());
+                dueDate.setText("Due date: " + selected.getDueDate());
             }
 
             @Override

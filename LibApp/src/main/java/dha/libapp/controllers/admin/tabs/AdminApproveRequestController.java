@@ -24,7 +24,6 @@ import java.util.*;
 
 public class AdminApproveRequestController implements Initializable {
     private static AdminApproveRequestController instance;
-
     public static AdminApproveRequestController getInstance() {
         return instance;
     }
@@ -42,6 +41,9 @@ public class AdminApproveRequestController implements Initializable {
     private Label userId;
 
     @FXML
+    private Label username;
+
+    @FXML
     private Label fullName;
 
     @FXML
@@ -49,6 +51,12 @@ public class AdminApproveRequestController implements Initializable {
 
     @FXML
     private Label authorBook;
+
+    @FXML
+    private Label borrowDate;
+
+    @FXML
+    private Label dueDate;
 
     private BorrowRecord selectBorrow;
 
@@ -153,9 +161,12 @@ public class AdminApproveRequestController implements Initializable {
             @Override
             public void onSuccess(AdminApproveRequestService.BorrowInfo result) {
                 userId.setText("User ID: " + result.user.getUserId());
+                username.setText("Username: " + result.user.getUserName());
                 fullName.setText("User full name: " + result.user.getFullName());
                 titleBook.setText("Book title: " + result.book.getTitle());
                 authorBook.setText("Book author: " + result.book.getAuthor());
+                borrowDate.setText("Borrow date: " + selected.getBorrowDate());
+                dueDate.setText("Due date: " + selected.getDueDate());
             }
 
             @Override
