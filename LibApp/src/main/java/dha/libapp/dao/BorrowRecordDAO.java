@@ -106,7 +106,7 @@ public class BorrowRecordDAO {
 
     public static List<BorrowRecord> getAllBorrowRecordsByStatus(BorrowStatus status) {
         List<BorrowRecord> borrowRecordList = new ArrayList<>();
-        String sql = "SELECT * FROM Borrow_record WHERE status = ? ORDER BY borrow_date";
+        String sql = "SELECT * FROM Borrow_record WHERE status = ? ORDER BY borrow_date, user_id";
 
         try (PreparedStatement preparedStatement = DBUtil.getPrepareStatement(MainApp.getDbConnection(),
                 sql, status.toString());
@@ -207,7 +207,7 @@ public class BorrowRecordDAO {
                     + "LEFT JOIN deleted_user du ON u.user_id = du.deleted_user_id "
                     + "WHERE (u.user_name LIKE ? OR du.deleted_user_name LIKE ?) "
                     + "AND br.status = ? "
-                    + "ORDER BY borrow_date";
+                    + "ORDER BY borrow_date, br.user_id";
         username = username + "%";
 
         try (PreparedStatement preparedStatement = DBUtil.getPrepareStatement(MainApp.getDbConnection(),
