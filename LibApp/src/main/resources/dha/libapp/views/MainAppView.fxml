@@ -4,7 +4,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1275.0" style="-fx-background-color: #f8e6d5;" styleClass="outline" stylesheets="@../css/mainapp.css" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dha.libapp.MainAppController">
+<AnchorPane prefHeight="720.0" prefWidth="1275.0" style="-fx-background-color: #f8e6d5;" styleClass="outline" stylesheets="@../css/mainapp.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dha.libapp.MainAppController">
    <children>
       <AnchorPane fx:id="container" prefHeight="720.0" prefWidth="1275.0" />
       <ImageView fx:id="closeIcon" fitHeight="23.0" fitWidth="22.0" layoutX="15.0" layoutY="15.0" onMouseClicked="#handleClose" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
