@@ -46,6 +46,9 @@ public class AdminReturnRequestController implements Initializable {
     private Label userId;
 
     @FXML
+    private Label username;
+
+    @FXML
     private Label fullName;
 
     @FXML
@@ -56,6 +59,12 @@ public class AdminReturnRequestController implements Initializable {
 
     @FXML
     private BorrowRecord selectBorrow;
+
+    @FXML
+    private Label borrowDate;
+
+    @FXML
+    private Label dueDate;
 
     @FXML
     private Pane searchLoadingPane;
@@ -155,9 +164,12 @@ public class AdminReturnRequestController implements Initializable {
             @Override
             public void onSuccess(AdminApproveRequestService.BorrowInfo result) {
                 userId.setText("User ID: " + result.user.getUserId());
+                username.setText("Username: " + result.user.getUserName());
                 fullName.setText("User full name: " + result.user.getFullName());
                 titleBook.setText("Book title: " + result.book.getTitle());
                 authorBook.setText("Book author: " + result.book.getAuthor());
+                borrowDate.setText("Borrow Date: " + selected.getBorrowDate());
+                dueDate.setText("Due Date: " + selected.getDueDate());
             }
 
             @Override

@@ -25,27 +25,27 @@
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font></Label>
-                        <Button fx:id="acceptButton" layoutX="117.0" layoutY="499.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="110.0" style="-fx-background-color: #7AE582; -fx-background-radius: 15; -fx-cursor: hand;" styleClass="button-borrow" stylesheets="@../../../css/hometab.css" text="Confirm">
+                        <Button fx:id="acceptButton" layoutX="117.0" layoutY="606.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="110.0" style="-fx-background-color: #7AE582; -fx-background-radius: 15; -fx-cursor: hand;" styleClass="button-borrow" stylesheets="@../../../css/hometab.css" text="Confirm">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
-                        <Label fx:id="titleBook" layoutX="24.0" layoutY="378.0" prefHeight="27.0" prefWidth="335.0" text="Book Title: The title of book" wrapText="true">
+                        <Label fx:id="titleBook" layoutX="25.0" layoutY="414.0" prefHeight="27.0" prefWidth="335.0" text="Book Title: The title of book" wrapText="true">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <Label fx:id="fullName" contentDisplay="CENTER" layoutX="25.0" layoutY="336.0" prefHeight="27.0" prefWidth="334.0" text="User Full Name: Full name" textAlignment="CENTER">
+                        <Label fx:id="fullName" contentDisplay="CENTER" layoutX="25.0" layoutY="373.0" prefHeight="27.0" prefWidth="334.0" text="User Full Name: Full name" textAlignment="CENTER">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <Label fx:id="userId" contentDisplay="CENTER" layoutX="24.0" layoutY="290.0" prefHeight="27.0" prefWidth="334.0" text="User ID: User ID" textAlignment="CENTER" wrapText="true">
+                        <Label fx:id="userId" contentDisplay="CENTER" layoutX="25.0" layoutY="290.0" prefHeight="27.0" prefWidth="334.0" text="User ID: User ID" textAlignment="CENTER" wrapText="true">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <Label fx:id="authorBook" layoutX="24.0" layoutY="424.0" prefHeight="27.0" prefWidth="335.0" text="Book Author: Author of the book">
+                        <Label fx:id="authorBook" layoutX="25.0" layoutY="457.0" prefHeight="27.0" prefWidth="335.0" text="Book Author: Author of the book">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
@@ -53,6 +53,21 @@
                         <Label layoutX="104.0" layoutY="213.0" text="Information">
                            <font>
                               <Font name="System Bold" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="borrowDate" layoutX="25.0" layoutY="498.0" prefHeight="18.0" prefWidth="283.0" text="Borrow Date: YYYY-MM-DD">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="dueDate" layoutX="25.0" layoutY="540.0" text="Due Date: YYYY-MM-DD">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="username" layoutX="25.0" layoutY="332.0" text="Username: Username">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
                      </children>
@@ -70,7 +85,7 @@
                               <Font name="System Bold" size="24.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="searchInput" layoutX="75.0" layoutY="60.0" prefHeight="44.0" prefWidth="539.0" promptText="Search request..." style="-fx-background-color: #fff; -fx-background-radius: 30; -fx-padding: 0 25;">
+                        <TextField fx:id="searchInput" layoutX="75.0" layoutY="60.0" prefHeight="44.0" prefWidth="539.0" promptText="Search request by username..." style="-fx-background-color: #fff; -fx-background-radius: 30; -fx-padding: 0 25;">
                            <effect>
                               <DropShadow height="15.0" offsetX="5.0" offsetY="5.0" radius="7.0" width="15.0">
                                  <color>

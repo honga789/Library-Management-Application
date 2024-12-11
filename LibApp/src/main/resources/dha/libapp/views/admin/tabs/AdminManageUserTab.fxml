@@ -76,7 +76,7 @@
                                         <Font name="System Bold" size="24.0" />
                                     </font>
                                 </Label>
-                        <TextField fx:id="searchInput" layoutX="75.0" layoutY="60.0" prefHeight="44.0" prefWidth="539.0" promptText="Search user..." style="-fx-background-color: #fff; -fx-background-radius: 30; -fx-padding: 0 25;">
+                        <TextField fx:id="searchInput" layoutX="75.0" layoutY="60.0" prefHeight="44.0" prefWidth="539.0" promptText="Search user by username..." style="-fx-background-color: #fff; -fx-background-radius: 30; -fx-padding: 0 25;">
                            <effect>
                               <DropShadow height="15.0" offsetX="5.0" offsetY="5.0" radius="7.0" width="15.0">
                                  <color>
