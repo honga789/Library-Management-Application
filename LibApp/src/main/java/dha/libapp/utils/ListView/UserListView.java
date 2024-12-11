@@ -1,6 +1,5 @@
 package dha.libapp.utils.ListView;
 
-import dha.libapp.models.Book;
 import dha.libapp.models.User;
 import javafx.scene.control.ListView;
 

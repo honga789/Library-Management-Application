@@ -144,8 +144,8 @@ public class Book {
         }
         if (genreString.length() >= 2) genreString = genreString.substring(0, genreString.length() - 2);
         return String.format(
-                "\nName: %s\nAuthor: %s\nGenres: %s\n ",
-                title, author, genreString
+                "\nName: %s\nAuthor: %s\nGenres: %s\nISBN: %s\n ",
+                title, author, genreString, ISBN
         );
     }
 

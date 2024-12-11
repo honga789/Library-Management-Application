@@ -79,6 +79,12 @@ public class AdminManageDocumentController {
     private ImageView bookDetailImage;
 
     @FXML
+    private Label ISBN;
+
+    @FXML
+    private Label quantityInStock;
+
+    @FXML
     private Book selectedBook;
 
     @FXML
@@ -183,6 +189,8 @@ public class AdminManageDocumentController {
         bookDetailName.setText(book.getTitle());
         bookDetailAuthor.setText(book.getAuthor());
         bookDetailDescription.setText(book.getDescription());
+        ISBN.setText("ISBN: " + book.getISBN());
+        quantityInStock.setText("Quantity: " + book.getQuantity());
 
         ImageTask imageTask = ImageAPI.getImageWithUrl(book.getCoverImagePath(), new ImageFetchCallback() {
             @Override
