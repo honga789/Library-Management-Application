@@ -152,4 +152,13 @@ public class Book {
     public void displayInfo() {
         System.out.println(this.toString());
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Book book) {
+            return this.bookId == book.getBookId()
+                    && this.ISBN.equals(book.getISBN());
+        }
+        return false;
+    }
 }
