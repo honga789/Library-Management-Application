@@ -107,10 +107,13 @@ public class UserDAOTest {
     @Test
     @Order(7)
     void searchUserByUsername() {
+        userList.removeLast();
         index = (int) (Math.random() * userList.size());
+        
         User user1 = userList.get(index);
 
         List<User> userSearchList = UserDAO.searchUserByUsername(user1.getUserName());
+
         assertNotNull(userSearchList);
         assertFalse(userSearchList.isEmpty());
 
