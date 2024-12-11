@@ -185,6 +185,21 @@ public class BorrowRecordDAO {
         }
     }
 
+    public static void updateBorrowRecordByUserIdAndStatus(int user_id,
+                                                           BorrowStatus initialStatus,
+                                                           BorrowStatus finalStatus) {
+        String sql = "UPDATE Borrow_record SET status = ? WHERE user_id = ? AND status = ?";
+
+        try (PreparedStatement preparedStatement = DBUtil.getPrepareStatement(MainApp.getDbConnection(),
+                sql, finalStatus.toString(), user_id, initialStatus.toString())) {
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error when update borrow record");
+            throw new RuntimeException(e);
+        }
+    }
+
     public static List<BorrowRecord> searchBorrowRecordsByUsernameAndStatus(String username, BorrowStatus status) {
         List<BorrowRecord> borrowRecordList = new ArrayList<>();
         String sql = "SELECT br.* FROM borrow_record br "

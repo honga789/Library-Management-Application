@@ -1,6 +1,7 @@
 package dha.libapp.dao;
 
 import dha.libapp.MainApp;
+import dha.libapp.models.BorrowStatus;
 import dha.libapp.models.User;
 import dha.libapp.models.UserRole;
 import dha.libapp.utils.Database.DBUtil;
@@ -164,6 +165,11 @@ public class UserDAO {
 
             preparedStatement.executeUpdate();
             DeletedUserDAO.addNewDeletedUser(userId, userName);
+            BorrowRecordDAO.updateBorrowRecordByUserIdAndStatus(
+                    userId,
+                    BorrowStatus.PENDING,
+                    BorrowStatus.CANCELED
+            );
         } catch (SQLException e) {
             System.out.println("Error when deleteUserById...");
             throw new RuntimeException(e);
