@@ -38,9 +38,6 @@ public class AdminApproveRequestController implements Initializable {
     private Pane loadingPane;
 
     @FXML
-    private Label userId;
-
-    @FXML
     private Label username;
 
     @FXML
@@ -160,7 +157,6 @@ public class AdminApproveRequestController implements Initializable {
         AdminApproveRequestService.getInfoBorrow(selected, new DAOExecuteCallback<AdminApproveRequestService.BorrowInfo>() {
             @Override
             public void onSuccess(AdminApproveRequestService.BorrowInfo result) {
-                userId.setText("User ID: " + result.user.getUserId());
                 username.setText("Username: " + result.user.getUserName());
                 fullName.setText("User full name: " + result.user.getFullName());
                 titleBook.setText("Book title: " + result.book.getTitle());
@@ -171,7 +167,7 @@ public class AdminApproveRequestController implements Initializable {
 
             @Override
             public void onError(Throwable e) {
-
+                throw new RuntimeException();
             }
         });
     }

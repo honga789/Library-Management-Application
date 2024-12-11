@@ -13,7 +13,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane layoutX="0" layoutY="0" prefHeight="700.0" prefWidth="1050.0" style="-fx-padding: 0;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dha.libapp.controllers.admin.tabs.AdminReturnRequestController">
+<AnchorPane layoutX="0" layoutY="0" prefHeight="700.0" prefWidth="1050.0" style="-fx-padding: 0;" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dha.libapp.controllers.admin.tabs.AdminReturnRequestController">
    <children>
       <Button mnemonicParsing="false" prefHeight="700.0" prefWidth="1050.0" style="-fx-background-color: red; -fx-background-radius: 30; -fx-padding: 0;">
          <graphic>
@@ -25,27 +25,22 @@
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font></Label>
-                        <Button fx:id="acceptButton" layoutX="117.0" layoutY="606.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="110.0" style="-fx-background-color: #7AE582; -fx-background-radius: 15; -fx-cursor: hand;" styleClass="button-borrow" stylesheets="@../../../css/hometab.css" text="Confirm">
+                        <Button fx:id="acceptButton" layoutX="117.0" layoutY="563.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="110.0" style="-fx-background-color: #7AE582; -fx-background-radius: 15; -fx-cursor: hand;" styleClass="button-borrow" stylesheets="@../../../css/hometab.css" text="Confirm">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
-                        <Label fx:id="titleBook" layoutX="25.0" layoutY="414.0" prefHeight="27.0" prefWidth="335.0" text="Book Title: The title of book" wrapText="true">
+                        <Label fx:id="titleBook" layoutX="25.0" layoutY="373.0" prefHeight="27.0" prefWidth="335.0" text="Book Title: The title of book" wrapText="true">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <Label fx:id="fullName" contentDisplay="CENTER" layoutX="25.0" layoutY="373.0" prefHeight="27.0" prefWidth="334.0" text="User Full Name: Full name" textAlignment="CENTER">
+                        <Label fx:id="fullName" contentDisplay="CENTER" layoutX="25.0" layoutY="332.0" prefHeight="27.0" prefWidth="334.0" text="User Full Name: Full name" textAlignment="CENTER">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <Label fx:id="userId" contentDisplay="CENTER" layoutX="25.0" layoutY="290.0" prefHeight="27.0" prefWidth="334.0" text="User ID: User ID" textAlignment="CENTER" wrapText="true">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="authorBook" layoutX="25.0" layoutY="457.0" prefHeight="27.0" prefWidth="335.0" text="Book Author: Author of the book">
+                        <Label fx:id="authorBook" layoutX="25.0" layoutY="414.0" prefHeight="27.0" prefWidth="335.0" text="Book Author: Author of the book">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
@@ -55,17 +50,17 @@
                               <Font name="System Bold" size="24.0" />
                            </font>
                         </Label>
-                        <Label fx:id="borrowDate" layoutX="25.0" layoutY="498.0" prefHeight="18.0" prefWidth="283.0" text="Borrow Date: YYYY-MM-DD">
+                        <Label fx:id="borrowDate" layoutX="25.0" layoutY="457.0" prefHeight="18.0" prefWidth="283.0" text="Borrow Date: YYYY-MM-DD">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <Label fx:id="dueDate" layoutX="25.0" layoutY="540.0" text="Due Date: YYYY-MM-DD">
+                        <Label fx:id="dueDate" layoutX="25.0" layoutY="498.0" text="Due Date: YYYY-MM-DD">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <Label fx:id="username" layoutX="25.0" layoutY="332.0" text="Username: Username">
+                        <Label fx:id="username" layoutX="25.0" layoutY="290.0" text="Username: Username">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>

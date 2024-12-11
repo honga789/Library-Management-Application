@@ -176,7 +176,14 @@ public class MemberHomeTabController implements Initializable {
 
             @Override
             public void onFailure(Exception ex) {
+                URL resourceUrl = getClass().getResource("/dha/libapp/images/book_loader.jpg");
 
+                if (resourceUrl != null) {
+                    Image defaultImage = new Image(resourceUrl.toExternalForm());
+                    bookDetailImage.setImage(defaultImage);
+                } else {
+                    System.out.println("Dont't find default resources.");
+                }
             }
         });
 
