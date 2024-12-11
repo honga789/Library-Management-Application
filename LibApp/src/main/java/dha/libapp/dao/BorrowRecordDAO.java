@@ -206,7 +206,8 @@ public class BorrowRecordDAO {
                     + "JOIN user u ON br.user_id = u.user_id "
                     + "LEFT JOIN deleted_user du ON u.user_id = du.deleted_user_id "
                     + "WHERE (u.user_name LIKE ? OR du.deleted_user_name LIKE ?) "
-                    + "AND br.status = ?";
+                    + "AND br.status = ? "
+                    + "ORDER BY borrow_date";
         username = username + "%";
 
         try (PreparedStatement preparedStatement = DBUtil.getPrepareStatement(MainApp.getDbConnection(),

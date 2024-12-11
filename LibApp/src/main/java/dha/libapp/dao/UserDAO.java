@@ -39,7 +39,8 @@ public class UserDAO {
 
     public static List<User> getAllUser() {
         List<User> userList = new ArrayList<>();
-        String sql = "SELECT * FROM User";
+        String sql = "SELECT * FROM User "
+                    + "ORDER BY user_id";
 
         try (PreparedStatement preparedStatement = DBUtil.getPrepareStatement(MainApp.getDbConnection(), sql);
              ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -188,7 +189,8 @@ public class UserDAO {
 
     public static List<User> searchUserByUsername(String username) {
         List<User> userList = new ArrayList<>();
-        String sql = "SELECT * FROM User WHERE user_name LIKE ?";
+        String sql = "SELECT * FROM User WHERE user_name LIKE ? "
+                    + "ORDER BY user_id";
         username = username + "%";
 
         try (PreparedStatement preparedStatement = DBUtil.getPrepareStatement(MainApp.getDbConnection(),

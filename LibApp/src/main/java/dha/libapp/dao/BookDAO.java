@@ -65,7 +65,8 @@ public class BookDAO {
 
     public static List<Book> getAllBook() {
         List<Book> books = new ArrayList<Book>();
-        String sql = "SELECT * FROM Book";
+        String sql = "SELECT * FROM Book "
+                    + "ORDER BY book_id DESC";
 
         try (PreparedStatement preparedStatement = DBUtil.getPrepareStatement(MainApp.getDbConnection(), sql);
              ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -250,7 +251,8 @@ public class BookDAO {
             }
 
             if (books.isEmpty()) {
-                String sql2 = "SELECT * FROM Book WHERE title LIKE ?";
+                String sql2 = "SELECT * FROM Book WHERE title LIKE ? "
+                            + "ORDER BY book_id DESC";
                 title = '%' + title + '%';
 
                 try (PreparedStatement preparedStatement1 = DBUtil.getPrepareStatement(MainApp.getDbConnection(), sql2, title);
