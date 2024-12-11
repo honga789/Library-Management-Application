@@ -15,7 +15,18 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
+/**
+ * Service class responsible for rendering the returned books tab for a member.
+ * It provides functionality for rendering books that have been returned by the member.
+ */
 public class MemberReturnedTabService {
+
+    /**
+     * Renders the list of books that have been returned by the currently logged-in member.
+     * If the returned books are cached, it uses the cache; otherwise, it fetches the returned borrow records from the database.
+     * <p>
+     * The service retrieves borrow records with a status of "RETURNED" and displays the related books.
+     */
     public static void renderReturnedBooks() {
         MemberReturnedTabController.getInstance().setReturnedListViewVisible(true);
 
@@ -27,7 +38,7 @@ public class MemberReturnedTabService {
             MemberReturnedTabController.getInstance().renderReturnedBooks(returnedCache.getData());
         } else {
             BorrowRecordSyncDAO.getAllBorrowRecordsByUserIdSync(SessionService.getInstance().getUser().getUserId(),
-                    new DAOExecuteCallback<List<BorrowRecord>>() {
+                    new DAOExecuteCallback<>() {
 
                         @Override
                         public void onSuccess(List<BorrowRecord> result) {
@@ -38,7 +49,7 @@ public class MemberReturnedTabService {
                             List<CompletableFuture<Book>> bookFutures = returnedRecords.stream()
                                     .map(record -> {
                                         CompletableFuture<Book> future = new CompletableFuture<>();
-                                        BookSyncDAO.getBookByIdSync(record.getBookId(), new DAOExecuteCallback<Book>() {
+                                        BookSyncDAO.getBookByIdSync(record.getBookId(), new DAOExecuteCallback<>() {
                                             @Override
                                             public void onSuccess(Book bookResult) {
                                                 future.complete(bookResult);
@@ -66,7 +77,7 @@ public class MemberReturnedTabService {
                                         MemberReturnedTabController.getInstance().setReturnedListViewVisible(true);
                                     })
                                     .exceptionally(ex -> {
-                                        ex.printStackTrace();
+                                        System.out.println(ex.getMessage());
                                         return null;
                                     });
                         }

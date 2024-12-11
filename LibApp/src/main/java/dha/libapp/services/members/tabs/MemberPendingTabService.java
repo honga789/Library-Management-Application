@@ -15,7 +15,18 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
+/**
+ * Service class responsible for rendering the pending books tab for a member.
+ * It provides functionality for rendering books that are pending for approval or return.
+ */
 public class MemberPendingTabService {
+
+    /**
+     * Renders the list of books that are pending for the currently logged-in member.
+     * If the pending books are cached, it uses the cache; otherwise, it fetches the pending borrow records from the database.
+     * <p>
+     * The service retrieves borrow records with a status of "PENDING" and displays the related books.
+     */
     public static void renderPendingBooks() {
         MemberPendingTabController.getInstance().setPendingListViewVisible(true);
 
@@ -27,7 +38,7 @@ public class MemberPendingTabService {
             MemberPendingTabController.getInstance().renderPendingBooks(pendingCache.getData());
         } else {
             BorrowRecordSyncDAO.getAllBorrowRecordsByUserIdSync(SessionService.getInstance().getUser().getUserId(),
-                    new DAOExecuteCallback<List<BorrowRecord>>() {
+                    new DAOExecuteCallback<>() {
 
                         @Override
                         public void onSuccess(List<BorrowRecord> result) {
@@ -38,7 +49,7 @@ public class MemberPendingTabService {
                             List<CompletableFuture<Book>> bookFutures = borrowedRecords.stream()
                                     .map(record -> {
                                         CompletableFuture<Book> future = new CompletableFuture<>();
-                                        BookSyncDAO.getBookByIdSync(record.getBookId(), new DAOExecuteCallback<Book>() {
+                                        BookSyncDAO.getBookByIdSync(record.getBookId(), new DAOExecuteCallback<>() {
                                             @Override
                                             public void onSuccess(Book bookResult) {
                                                 future.complete(bookResult);
@@ -66,7 +77,7 @@ public class MemberPendingTabService {
                                         MemberPendingTabController.getInstance().setPendingListViewVisible(true);
                                     })
                                     .exceptionally(ex -> {
-                                        ex.printStackTrace();
+                                        System.out.println(ex.getMessage());
                                         return null;
                                     });
                         }

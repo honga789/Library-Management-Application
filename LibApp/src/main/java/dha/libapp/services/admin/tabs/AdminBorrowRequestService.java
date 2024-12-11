@@ -1,7 +1,6 @@
 package dha.libapp.services.admin.tabs;
 
 import dha.libapp.controllers.admin.tabs.AdminBorrowRequestController;
-import dha.libapp.controllers.admin.tabs.AdminReturnRequestController;
 import dha.libapp.models.Book;
 import dha.libapp.models.BorrowRecord;
 import dha.libapp.models.BorrowStatus;
@@ -13,17 +12,26 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
+/**
+ * Service class responsible for handling the borrowing requests in the admin panel.
+ */
 public class AdminBorrowRequestService {
+
+    /**
+     * Renders the list of borrowed books that are currently in the borrowing process.
+     * It fetches borrow records with the "BORROWED" status and then retrieves
+     * corresponding book details asynchronously.
+     */
     public static void renderBorrowBooks() {
         AdminBorrowRequestController.getInstance().setBorrowListViewVisible(true);
 
-        BorrowRecordSyncDAO.getAllBorrowRecordsByStatusSync(BorrowStatus.BORROWED, new DAOExecuteCallback<List<BorrowRecord>>() {
+        BorrowRecordSyncDAO.getAllBorrowRecordsByStatusSync(BorrowStatus.BORROWED, new DAOExecuteCallback<>() {
             @Override
             public void onSuccess(List<BorrowRecord> result) {
                 List<CompletableFuture<Book>> bookFutures = result.stream()
                         .map(record -> {
                             CompletableFuture<Book> future = new CompletableFuture<>();
-                            BookSyncDAO.getBookByIdSync(record.getBookId(), new DAOExecuteCallback<Book>() {
+                            BookSyncDAO.getBookByIdSync(record.getBookId(), new DAOExecuteCallback<>() {
                                 @Override
                                 public void onSuccess(Book bookResult) {
                                     future.complete(bookResult);
@@ -50,7 +58,7 @@ public class AdminBorrowRequestService {
                             AdminBorrowRequestController.getInstance().setBorrowListViewVisible(true);
                         })
                         .exceptionally(ex -> {
-                            ex.printStackTrace();
+                            System.out.println(ex.getMessage());
                             return null;
                         });
             }

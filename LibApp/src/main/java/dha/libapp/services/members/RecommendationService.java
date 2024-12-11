@@ -15,15 +15,38 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Service class that handles the book recommendation logic for a user.
+ * The recommendations are based on the user's borrow records and genre preferences.
+ */
 public class RecommendationService {
 
+    /**
+     * Callback interface for returning recommended books.
+     */
     public interface RecommendCallback {
+        /**
+         * Called when the recommended books are successfully fetched.
+         *
+         * @param recommendedBook List of recommended books.
+         */
         void onSuccess(List<Book> recommendedBook);
     }
 
+    /**
+     * Gets recommended books for the specified user. Recommendations are made based on the user's borrow records
+     * and the genres they prefer. The recommendation uses a weighted cosine similarity between the user's genre vector
+     * and the genre vectors of other users.
+     * <p>
+     * If no recommendation can be made, trending books will be returned as fallback.
+     *
+     * @param user              The user for whom recommendations are being made.
+     * @param recommendCallback The callback to handle the result of the recommendation.
+     * @param maxRecommended    The maximum number of recommended books to return.
+     */
     public static void getRecommendedBooksForUser(User user, RecommendCallback recommendCallback, int maxRecommended) {
 
-        Task<List<Book>> task = new Task<List<Book>>() {
+        Task<List<Book>> task = new Task<>() {
             @Override
             protected List<Book> call() throws Exception {
                 List<GenreType> genreTypeList = GenreTypeDAO.getAllGenreType();

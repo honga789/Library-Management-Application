@@ -1,9 +1,5 @@
 package dha.libapp;
 
-import dha.libapp.models.Book;
-import dha.libapp.models.User;
-import dha.libapp.services.members.RecommendationService;
-import dha.libapp.utils.API.ExecutorHandle;
 import dha.libapp.utils.Database.DBUtil;
 import javafx.application.Application;
 import javafx.concurrent.Task;
@@ -17,7 +13,6 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.util.List;
 
 public class MainApp extends Application {
 
@@ -28,6 +23,11 @@ public class MainApp extends Application {
 
     public static Connection getDbConnection() {
         if (dbConnection == null) {
+
+//            dbConnection = DBUtil.connect(
+//                    "jdbc:mysql://localhost:3306/library_models",
+//                    "root",
+//                    "");
 
             dbConnection = DBUtil.connect("jdbc:mysql://b0dhldnmrpv8rotqmh6y-mysql.services.clever-cloud.com/b0dhldnmrpv8rotqmh6y",
                     "uoxesvpdndreask6",
@@ -48,13 +48,13 @@ public class MainApp extends Application {
         Parent loadingContent = MainApp.getContentFromFxml("views/MainAppLoading.fxml");
         root.getChildren().addAll(loadingContent);
 
-        Task<Void> task = new Task<Void>() {
+        Task<Void> task = new Task<>() {
             @Override
             protected Void call() throws Exception {
 //                Connection connection = DBUtil.connect(
-////                        "jdbc:mysql://localhost:3306/library_models",
-////                        "root",
-////                        "");
+//                        "jdbc:mysql://localhost:3306/library_models",
+//                        "root",
+//                        "");
 
                 Connection connection = DBUtil.connect("jdbc:mysql://b0dhldnmrpv8rotqmh6y-mysql.services.clever-cloud.com/b0dhldnmrpv8rotqmh6y",
                         "uoxesvpdndreask6",
@@ -68,13 +68,13 @@ public class MainApp extends Application {
             @Override
             protected void succeeded() {
                 super.succeeded();
-                
+
                 try {
                     Parent fxmlContent = MainApp.getContentFromFxml("views/MainAppView.fxml");
                     root.getChildren().clear();
                     root.getChildren().add(fxmlContent);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    System.out.println(e.getMessage());
                 }
             }
 

@@ -7,7 +7,17 @@ import dha.libapp.services.SessionService;
 import dha.libapp.syncdao.UserSyncDAO;
 import dha.libapp.syncdao.utils.DAOExecuteCallback;
 
+/**
+ * Service class responsible for handling user login operations.
+ */
 public class LoginService {
+
+    /**
+     * Logs in a user by verifying their username and password.
+     *
+     * @param username The username entered by the user.
+     * @param password The password entered by the user.
+     */
     public static void login(String username, String password) {
         if (username.isEmpty() || password.isEmpty()) {
             LoginController.getInstance().onInvalidInput();
@@ -19,7 +29,7 @@ public class LoginService {
 
             LoginController.getInstance().setloginLoadingPaneVisible(true);
 
-            UserSyncDAO.getUserByUsernameAndPasswordSync(username, hashedPassword, new DAOExecuteCallback<User>() {
+            UserSyncDAO.getUserByUsernameAndPasswordSync(username, hashedPassword, new DAOExecuteCallback<>() {
                 @Override
                 public void onSuccess(User user) {
                     if (user != null) {

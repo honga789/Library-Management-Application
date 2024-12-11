@@ -14,11 +14,20 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Service class responsible for managing borrow records, including adding, searching, accepting, denying, and returning borrow records.
+ */
 public class BorrowRecordService {
     private static BorrowRecordService instance = new BorrowRecordService();
 
-    private BorrowRecordService() {}
+    private BorrowRecordService() {
+    }
 
+    /**
+     * Returns the singleton instance of the BorrowRecordService.
+     *
+     * @return The singleton instance of BorrowRecordService.
+     */
     public static BorrowRecordService getInstance() {
         if (instance == null) {
             instance = new BorrowRecordService();
@@ -26,6 +35,14 @@ public class BorrowRecordService {
         return instance;
     }
 
+    /**
+     * Adds a new borrow record for a user and a book.
+     *
+     * @param userId   The user ID of the person borrowing the book.
+     * @param bookId   The book ID of the borrowed book.
+     * @param status   The status of the borrow record.
+     * @param callback The callback to be invoked when the operation completes.
+     */
     public void addBorrowRecord(int userId, int bookId, BorrowStatus status, DAOUpdateCallback callback) {
 
         Date borrowDate = new Date();
@@ -50,24 +67,37 @@ public class BorrowRecordService {
                 });
     }
 
+    /**
+     * Searches for borrow records based on the username and borrow status.
+     *
+     * @param username The username of the borrower.
+     * @param status   The borrow status (e.g., borrowed, returned, etc.).
+     * @param callback The callback to be invoked when the operation completes.
+     */
     public void getSearchBorrowRecordsByUsernameAndStatus(String username, BorrowStatus status,
                                                           DAOExecuteCallback<List<BorrowRecord>> callback) {
         BorrowRecordSyncDAO.searchBorrowRecordsByUsernameAndStatusSync(username, status,
-                new DAOExecuteCallback<List<BorrowRecord>>() {
-            @Override
-            public void onSuccess(List<BorrowRecord> result) {
-                System.out.println("search borrow records successfully");
-                callback.onSuccess(result);
-            }
+                new DAOExecuteCallback<>() {
+                    @Override
+                    public void onSuccess(List<BorrowRecord> result) {
+                        System.out.println("search borrow records successfully");
+                        callback.onSuccess(result);
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                System.out.println("failed to search borrow records");
-                callback.onError(e);
-            }
-        });
+                    @Override
+                    public void onError(Throwable e) {
+                        System.out.println("failed to search borrow records");
+                        callback.onError(e);
+                    }
+                });
     }
 
+    /**
+     * Accepts a borrow request and updates the borrow record, reducing the book quantity.
+     *
+     * @param borrowRecord The borrow record to be accepted.
+     * @param callback     The callback to be invoked when the operation completes.
+     */
     public void acceptBorrow(BorrowRecord borrowRecord, DAOUpdateCallback callback) {
         if (borrowRecord == null) {
             callback.onError(new RuntimeException("borrow record is null"));
@@ -82,7 +112,7 @@ public class BorrowRecordService {
         borrowRecord.setStatus(BorrowStatus.BORROWED);
         borrowRecord.setReturnDate(null);
 
-        Task<Boolean> bookTask = new Task<Boolean>() {
+        Task<Boolean> bookTask = new Task<>() {
             @Override
             protected Boolean call() throws Exception {
                 Book book = BookDAO.getBookById(borrowRecord.getBookId());
@@ -120,6 +150,12 @@ public class BorrowRecordService {
         new Thread(bookTask).start();
     }
 
+    /**
+     * Denies a borrow request and updates the borrow record status to canceled.
+     *
+     * @param borrowRecord The borrow record to be denied.
+     * @param callback     The callback to be invoked when the operation completes.
+     */
     public void deniedBorrow(BorrowRecord borrowRecord, DAOUpdateCallback callback) {
         if (borrowRecord == null) {
             callback.onError(new RuntimeException("borrow record is null"));
@@ -143,6 +179,12 @@ public class BorrowRecordService {
         });
     }
 
+    /**
+     * Marks a borrow record as returned, updates the status, and adjusts the book quantity.
+     *
+     * @param borrowRecord The borrow record to be marked as returned.
+     * @param callback     The callback to be invoked when the operation completes.
+     */
     public void returnedBorrow(BorrowRecord borrowRecord, DAOUpdateCallback callback) {
         if (borrowRecord == null) {
             callback.onError(new RuntimeException("borrow record is null"));
@@ -151,7 +193,7 @@ public class BorrowRecordService {
 
         borrowRecord.setStatus(BorrowStatus.RETURNED);
         borrowRecord.setReturnDate(new Date());
-        Task<Void> task = new Task<Void>() {
+        Task<Void> task = new Task<>() {
 
             @Override
             protected Void call() throws Exception {

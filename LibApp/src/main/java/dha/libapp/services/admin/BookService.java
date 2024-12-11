@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 
+/**
+ * Service class responsible for managing books, including fetching, adding, updating, and deleting books.
+ */
 public class BookService {
 
     private static BookService instance;
@@ -23,6 +26,11 @@ public class BookService {
     private BookService() {
     }
 
+    /**
+     * Returns the singleton instance of the BookService.
+     *
+     * @return The singleton instance of BookService.
+     */
     public static BookService getInstance() {
         if (instance == null) {
             instance = new BookService();
@@ -30,10 +38,19 @@ public class BookService {
         return instance;
     }
 
+    /**
+     * Callback interface to handle the response after fetching genres.
+     */
     public interface GenreCallback {
         void onSuccess(List<GenreType> genreTypesCallback);
     }
 
+    /**
+     * Fetches genre types by the genre name asynchronously.
+     *
+     * @param genreName The name of the genre to search for.
+     * @param callback  The callback to be invoked when the operation completes.
+     */
     public void getGenreByName(String genreName, GenreCallback callback) {
         Task<List<GenreType>> task = new Task<>() {
 
@@ -60,6 +77,11 @@ public class BookService {
         new Thread(task).start();
     }
 
+    /**
+     * Fetches all genre types asynchronously.
+     *
+     * @param callback The callback to be invoked when the operation completes.
+     */
     public void getGenres(GenreCallback callback) {
         Task<List<GenreType>> task = new Task<>() {
 
@@ -84,8 +106,13 @@ public class BookService {
         new Thread(task).start();
     }
 
+    /**
+     * Fetches all books asynchronously.
+     *
+     * @param callback The callback to be invoked when the operation completes.
+     */
     public void getAllBooks(DAOExecuteCallback<List<Book>> callback) {
-        BookSyncDAO.getAllBookSync(new DAOExecuteCallback<List<Book>>() {
+        BookSyncDAO.getAllBookSync(new DAOExecuteCallback<>() {
             @Override
             public void onSuccess(List<Book> result) {
                 System.out.println("get all books successful");
@@ -100,8 +127,14 @@ public class BookService {
         });
     }
 
+    /**
+     * Searches for books by title asynchronously.
+     *
+     * @param title    The title of the book to search for.
+     * @param callback The callback to be invoked when the operation completes.
+     */
     public void getSearchBooks(String title, DAOExecuteCallback<List<Book>> callback) {
-        BookSyncDAO.searchBookByTitleSync(title, new DAOExecuteCallback<List<Book>>() {
+        BookSyncDAO.searchBookByTitleSync(title, new DAOExecuteCallback<>() {
             @Override
             public void onSuccess(List<Book> result) {
                 callback.onSuccess(result);
@@ -114,6 +147,20 @@ public class BookService {
         });
     }
 
+    /**
+     * Adds a new book or updates an existing book based on the ISBN.
+     *
+     * @param ISBN            The ISBN of the book.
+     * @param title           The title of the book.
+     * @param author          The author of the book.
+     * @param publisher       The publisher of the book.
+     * @param publicationDate The publication date of the book.
+     * @param quantity        The quantity of the book.
+     * @param description     The description of the book.
+     * @param coverImagePath  The path to the cover image of the book.
+     * @param genreList       A list of genres for the book.
+     * @param callback        The callback to be invoked when the operation completes.
+     */
     public void addBook(String ISBN, String title, String author, String publisher,
                         Date publicationDate, int quantity, String description,
                         String coverImagePath, ArrayList<GenreType> genreList,
@@ -164,6 +211,13 @@ public class BookService {
         new Thread(task).start();
     }
 
+    /**
+     * Updates an existing book's details.
+     *
+     * @param book     The book to be updated.
+     * @param callback The callback to be invoked when the operation completes.
+     */
+
     public void updateBook(Book book, DAOUpdateCallback callback) {
         if (book.getISBN().isEmpty() || book.getTitle().isEmpty() || book.getAuthor().isEmpty()
                 || book.getPublisher().isEmpty() || book.getPublicationDate() == null || book.getQuantity() < 0
@@ -206,6 +260,12 @@ public class BookService {
         new Thread(task).start();
     }
 
+    /**
+     * Deletes a book from the system.
+     *
+     * @param book     The book to be deleted.
+     * @param callback The callback to be invoked when the operation completes.
+     */
     public void deleteBook(Book book, DAOUpdateCallback callback) {
         BookSyncDAO.deleteBookByIdSync(book.getBookId(), new DAOUpdateCallback() {
             @Override

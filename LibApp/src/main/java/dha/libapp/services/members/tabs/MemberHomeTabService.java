@@ -1,6 +1,5 @@
 package dha.libapp.services.members.tabs;
 
-import dha.libapp.cache.Cache;
 import dha.libapp.cache.CacheFactory;
 import dha.libapp.cache.CacheItem;
 import dha.libapp.cache.members.HomeTabCache;
@@ -13,7 +12,18 @@ import dha.libapp.syncdao.utils.DAOExecuteCallback;
 
 import java.util.List;
 
+/**
+ * Service class responsible for rendering the home tab for a member.
+ * It provides functionality for rendering book recommendations and trending books.
+ */
 public class MemberHomeTabService {
+
+    /**
+     * Renders the recommended books for the currently logged-in member.
+     * If the recommended books are cached, it uses the cache; otherwise, it fetches recommendations from the RecommendationService.
+     * <p>
+     * The service retrieves book recommendations based on the user's preferences and displays them on the home tab.
+     */
     public static void renderRecommendationBooks() {
         MemberHomeTabController.getInstance().setLoadingRecommendationPaneVisible(true);
 
@@ -36,6 +46,12 @@ public class MemberHomeTabService {
         }
     }
 
+    /**
+     * Renders the top trending books.
+     * If the trending books are cached, it uses the cache; otherwise, it fetches the top trending books from the database.
+     * <p>
+     * The service retrieves the top trending books and displays them on the home tab.
+     */
     public static void renderTopTrendingBooks() {
         MemberHomeTabController.getInstance().setLoadingTrendingPaneVisible(true);
 
@@ -46,7 +62,7 @@ public class MemberHomeTabService {
             MemberHomeTabController.getInstance().setLoadingTrendingPaneVisible(false);
             MemberHomeTabController.getInstance().renderTrendingBooks(trendingBookCache.getData());
         } else {
-            BookSyncDAO.getTrendingBooksSync(10, new DAOExecuteCallback<List<Book>>() {
+            BookSyncDAO.getTrendingBooksSync(10, new DAOExecuteCallback<>() {
                 @Override
                 public void onSuccess(List<Book> result) {
                     trendingBookCache.setData(result);

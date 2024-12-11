@@ -12,8 +12,19 @@ import dha.libapp.syncdao.utils.DAOUpdateCallback;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * Service class that handles the logic for borrowing a book for a user.
+ * This service is responsible for adding a new borrow record and updating the UI accordingly.
+ */
 public class UserBorrowBookService {
 
+    /**
+     * Borrows a book for the current user.
+     * The book is borrowed for 30 days from the current date, and the borrow status is set to "PENDING".
+     * If the book is available, a new borrow record is created and the UI is updated to reflect the pending status.
+     *
+     * @param book The book to be borrowed.
+     */
     public static void borrowBook(Book book) {
         if (book == null || book.getQuantity() < 1) {
             return;
