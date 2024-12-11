@@ -52,10 +52,19 @@ public class GenreType {
                 + "genreId: " + genreId + ", "
                 + "genreName: " + genreName + ", "
                 + "weight: " + weight
-                + "]";
+                + "]\n";
     }
 
     public void displayInfo() {
         System.out.println(this.toString());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof GenreType genreType) {
+            return this.genreId == genreType.getGenreId()
+                    && this.genreName.equals(genreType.getGenreName());
+        }
+        return false;
     }
 }
