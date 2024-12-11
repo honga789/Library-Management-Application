@@ -64,6 +64,11 @@ public class RecommendationService {
                 });
 
                 List<Integer> userVector = vectors.get(user.getUserId());
+
+                if (userVector == null) {
+                    return BookDAO.getTrendingBooks(maxRecommended);
+                }
+
                 double userVectorMagnitude = 0;
                 for (int i = 0; i < n; i++) {
                     userVectorMagnitude += weights.get(i) * userVector.get(i) * userVector.get(i);
@@ -71,7 +76,7 @@ public class RecommendationService {
                 userVectorMagnitude = Math.sqrt(userVectorMagnitude);
 
                 if (userVectorMagnitude == 0) {
-                    return BookDAO.getAllBook().subList(0, maxRecommended);
+                    return BookDAO.getTrendingBooks(maxRecommended);
                 }
 
                 HashMap<Integer, Double> cosineSimilarities = new HashMap<>();
