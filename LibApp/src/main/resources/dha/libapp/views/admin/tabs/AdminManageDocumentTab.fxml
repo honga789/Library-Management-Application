@@ -46,7 +46,17 @@
                                        <Font name="System Bold Italic" size="15.0" />
                                     </font>
                                  </Label>
-                                 <Label fx:id="bookDetailDescription" prefWidth="240.0" text="This is the prescription of the book. This gripping novel delves into themes of love, loss, and self-discovery. Set in [location], it follows [main character] as they navigate personal challenges and face tough choices that will change their life forever. A compelling tale of resilience, this book will resonate with readers on an emotional level." wrapText="true" />
+                                    <Label fx:id="ISBN" text="ISBN of the book">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="quantityInStock" text="The quantity in stock">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                 <Label fx:id="bookDetailDescription" prefWidth="240.0" text="This is the prescription of the book. This gripping novel delves into themes of love, loss, and self-discovery. Set in [location], it follows [main character] as they navigate personal challenges." wrapText="true" />
                                     <Pane prefHeight="54.0" prefWidth="334.0">
                                        <children>
                                        <Button fx:id="deleteBook" layoutX="58.0" layoutY="7.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="94.0" style="-fx-background-color: red; -fx-background-radius: 15; -fx-cursor: hand;" styleClass="button-borrow" stylesheets="@../../../css/hometab.css" text="Delete" textFill="WHITE">
@@ -84,7 +94,7 @@
                               </Label>
                            </children>
                         </Pane>
-                        <TextField fx:id="searchInput" layoutX="75.0" layoutY="60.0" prefHeight="44.0" prefWidth="539.0" promptText="Search book..." style="-fx-background-color: #fff; -fx-background-radius: 30; -fx-padding: 0 25;">
+                        <TextField fx:id="searchInput" layoutX="75.0" layoutY="60.0" prefHeight="44.0" prefWidth="539.0" promptText="Search book by title..." style="-fx-background-color: #fff; -fx-background-radius: 30; -fx-padding: 0 25;">
                            <effect>
                               <DropShadow height="15.0" offsetX="5.0" offsetY="5.0" radius="7.0" width="15.0">
                                  <color>

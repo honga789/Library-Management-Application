@@ -40,8 +40,7 @@ public class GoogleBooksAPI {
             }
         };
         ExecutorService executorService = Executors.newFixedThreadPool(3);
-        GoogleBooksTask getByISBN = getBookDataByISBN("1975335341", callback);
-        executorService.submit(getByISBN);
+//        GoogleBooksTask getByISBN = getBookDataByISBN("1975335341", callback);
 
         executorService.shutdown();
 
