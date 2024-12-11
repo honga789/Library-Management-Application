@@ -52,12 +52,6 @@ public class AdminManageDocumentController {
     private Button deleteBook;
 
     @FXML
-    private List<GenreType> genreTypeList = new ArrayList<GenreType>();
-
-    @FXML
-    private ArrayList<GenreType> selectedGenreTypeList = new ArrayList<GenreType>();
-
-    @FXML
     private Label editStatus = new Label();
 
     @FXML
@@ -105,6 +99,9 @@ public class AdminManageDocumentController {
     @FXML
     private ImageView searchBtn;
 
+    private List<GenreType> genreTypeList = new ArrayList<GenreType>();
+    private ArrayList<GenreType> selectedGenreTypeList = new ArrayList<GenreType>();
+
     public void setSearchLoadingPaneVisible(boolean visible) {
         searchLoadingPane.setVisible(visible);
     }
@@ -113,7 +110,6 @@ public class AdminManageDocumentController {
         searchBox.setVisible(visible);
     }
 
-    @FXML
     public void initialize() {
         genreTypeList.clear();
         initializeButton();
