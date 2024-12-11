@@ -1,3 +1,9 @@
+/**
+ * The package dha.libapp.utils.API.GoogleBooks provides utilities to interact with the Google Books API.
+ * <p>
+ * This package includes functionality to fetch book data from the Google Books API
+ * based on a query string, parse the API response, and return the book details in a structured format.
+ */
 package dha.libapp.utils.API.GoogleBooks;
 
 import java.text.ParseException;
@@ -17,18 +23,40 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
+/**
+ * Represents a task that fetches book data from the Google Books API asynchronously.
+ * <p>
+ * This class extends {@link Thread} and performs an API request to fetch details of books
+ * based on a given query. The results are passed to a callback for further processing.
+ */
 public class GoogleBooksTask extends Thread {
     private final String query;
     private final BookFetchCallback callback;
 
+    /**
+     * The API key for authenticating requests to the Google Books API.
+     */
     private static final String API_KEY = "AIzaSyCb4_1F0aXwL6lDlhdW6VhJ-KUKyQzVM4U";
 
+    /**
+     * Constructs a new {@code GoogleBooksTask}.
+     *
+     * @param query    the search query string for finding books
+     * @param callback the callback to handle the results or errors
+     */
     public GoogleBooksTask(String query, BookFetchCallback callback) {
         this.query = query;
         this.callback = callback;
     }
 
+    /**
+     * Executes the task to fetch book data from the Google Books API.
+     * <p>
+     * This method constructs the API request URL, makes an HTTP GET request,
+     * parses the JSON response, and extracts relevant book details. If successful,
+     * the results are passed to the {@code onSuccess} method of the callback. In case of an error,
+     * the {@code onFailure} method of the callback is invoked.
+     */
     @Override
     public void run() {
         List<String> bookTitles = new ArrayList<>();
