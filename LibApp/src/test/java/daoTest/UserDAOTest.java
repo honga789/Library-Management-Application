@@ -96,7 +96,7 @@ public class UserDAOTest {
     void deleteUser() {
         User user1 = UserDAO.getUserById(userList.get(index).getUserId());
 
-        assert user1 != null;
+        assertNotNull(user1);
         UserDAO.deleteUserById(user1.getUserId());
 
         User user2 = UserDAO.getUserByUsername(user1.getUserName());
@@ -109,7 +109,7 @@ public class UserDAOTest {
     void searchUserByUsername() {
         userList.removeLast();
         index = (int) (Math.random() * userList.size());
-        
+
         User user1 = userList.get(index);
 
         List<User> userSearchList = UserDAO.searchUserByUsername(user1.getUserName());
