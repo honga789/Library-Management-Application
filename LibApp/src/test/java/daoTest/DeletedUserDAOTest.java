@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class DeletedUserDAOTest {
 
     @Test
-    void testGetDeletedUserById() {
+    public void testGetDeletedUserById() {
         int x = 5;
         User user = DeletedUserDAO.getDeletedUserById(x);
         assertNotNull(user);
