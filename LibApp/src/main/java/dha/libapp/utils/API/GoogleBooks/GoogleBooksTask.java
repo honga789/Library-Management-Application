@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 import dha.libapp.models.Book;
 
 import java.io.BufferedReader;
@@ -81,7 +82,7 @@ public class GoogleBooksTask extends Thread {
                         }
                         System.out.println("Author: " + author);
 
-                        JsonObject publisherJson = volumeInfo.getAsJsonObject("publisher");
+                        JsonPrimitive publisherJson = volumeInfo.getAsJsonPrimitive("publisher");
                         String publisher = null;
                         if (publisherJson != null) {
                             publisher = publisherJson.getAsString();
