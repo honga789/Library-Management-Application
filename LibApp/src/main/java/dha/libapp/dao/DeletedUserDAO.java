@@ -11,7 +11,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * DAO class to handle database operations for Deleted User.
+ */
 public class DeletedUserDAO {
+
+    /**
+     * Converts a ResultSet to a User object for a deleted user.
+     *
+     * @param resultSet The ResultSet containing the data from the database.
+     * @return A User object corresponding to the deleted user or null if the ResultSet is null.
+     */
     private static User getDeletedUserFromResultSet(ResultSet resultSet) {
         try {
             if (resultSet.wasNull()) {
@@ -33,6 +43,12 @@ public class DeletedUserDAO {
         }
     }
 
+    /**
+     * Retrieves a deleted user by their ID.
+     *
+     * @param userId The ID of the deleted user.
+     * @return A User object corresponding to the deleted user with the provided ID or null if not found.
+     */
     public static User getDeletedUserById(int userId) {
         String sql = "SELECT * FROM User u JOIN Deleted_user du ON u.user_id = du.deleted_user_id "
                 + "WHERE u.user_id = ?";
@@ -50,6 +66,12 @@ public class DeletedUserDAO {
         }
     }
 
+    /**
+     * Adds a new deleted user to the database.
+     *
+     * @param deleted_user_id   The ID of the deleted user.
+     * @param deleted_user_name The name of the deleted user.
+     */
     public static void addNewDeletedUser(int deleted_user_id, String deleted_user_name) {
         String sql = "INSERT INTO Deleted_user(deleted_user_id, deleted_user_name) "
                 + "VALUES (?, ?)";
@@ -64,6 +86,12 @@ public class DeletedUserDAO {
         }
     }
 
+    /**
+     * Searches for deleted users based on their username.
+     *
+     * @param username The username to search for.
+     * @return A list of User objects that match the given username pattern.
+     */
     public static List<User> searchDeletedUserByUsername(String username) {
         List<User> deletedUsers = new ArrayList<>();
         String sql = "SELECT * FROM User u JOIN Deleted_user du ON u.user_id = du.deleted_user_id "
