@@ -116,4 +116,13 @@ public class BorrowRecord {
         System.out.println(toString());
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof BorrowRecord borrowRecord) {
+            return this.borrowId == borrowRecord.borrowId
+                    && this.userId == borrowRecord.userId
+                    && this.bookId == borrowRecord.bookId;
+        }
+        return false;
+    }
 }
