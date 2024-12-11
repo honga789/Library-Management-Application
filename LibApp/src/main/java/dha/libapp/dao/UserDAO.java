@@ -210,6 +210,19 @@ public class UserDAO {
         }
     }
 
+    public static void updateUserName(int userId, String userName) {
+        String sql = "UPDATE User SET user_name = ? WHERE user_id = ?";
+
+        try (PreparedStatement preparedStatement = DBUtil.getPrepareStatement(MainApp.getDbConnection(),
+                sql, userName, userId)) {
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error when updateUserName...");
+            throw new RuntimeException(e);
+        }
+    }
+
     /**
      * Deletes a User from the database by their ID.
      * The User is marked as deleted, and associated borrow records are updated.
