@@ -116,4 +116,35 @@ public class BorrowRecordSyncDAO {
         };
         DAOTaskRunner.updateTask(task, callback);
     }
+
+    public static void updateBorrowRecordByUserIdSync(int user_id,
+                                                      BorrowStatus initialStatus,
+                                                      BorrowStatus finalStatus,
+                                                      DAOUpdateCallback callback) {
+        Task<Void> task = new Task<Void>() {
+
+            @Override
+            protected Void call() throws Exception {
+                BorrowRecordDAO.updateBorrowRecordByUserIdAndStatus(
+                        user_id,
+                        initialStatus,
+                        finalStatus
+                );
+                return null;
+            }
+        };
+        DAOTaskRunner.updateTask(task, callback);
+    }
+
+    public static void searchBorrowRecordsByUsernameAndStatusSync(String username, BorrowStatus status,
+                                                  DAOExecuteCallback<List<BorrowRecord>> callback) {
+        Task<List<BorrowRecord>> task = new Task<>() {
+
+            @Override
+            protected List<BorrowRecord> call() throws Exception {
+                return BorrowRecordDAO.searchBorrowRecordsByUsernameAndStatus(username, status);
+            }
+        };
+        DAOTaskRunner.executeTask(task, callback);
+    }
 }

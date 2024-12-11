@@ -5,7 +5,10 @@ import dha.libapp.models.User;
 import dha.libapp.models.UserRole;
 import dha.libapp.services.authen.PasswordService;
 import dha.libapp.syncdao.UserSyncDAO;
+import dha.libapp.syncdao.utils.DAOExecuteCallback;
 import dha.libapp.syncdao.utils.DAOUpdateCallback;
+
+import java.util.List;
 
 public class UserService {
     private static UserService instance;
@@ -88,6 +91,22 @@ public class UserService {
             System.out.println("User update failed");
             callback.onError(new RuntimeException("User update failed"));
         }
+    }
+
+    public void getSearchUser(String username, DAOExecuteCallback<List<User>> callback) {
+        UserSyncDAO.searchUserByUsernameSync(username, new DAOExecuteCallback<List<User>>() {
+            @Override
+            public void onSuccess(List<User> result) {
+                System.out.println("User search successfully");
+                callback.onSuccess(result);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                System.out.println("User search failed");
+                callback.onError(e);
+            }
+        });
     }
 
     public void updateUser(User user, DAOUpdateCallback callback) {

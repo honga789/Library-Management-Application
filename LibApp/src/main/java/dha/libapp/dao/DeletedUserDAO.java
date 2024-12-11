@@ -8,6 +8,8 @@ import dha.libapp.utils.Database.DBUtil;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DeletedUserDAO {
     private static User getDeletedUserFromResultSet(ResultSet resultSet) {
@@ -58,6 +60,29 @@ public class DeletedUserDAO {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error when addNewDeletedUser...");
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static List<User> searchDeletedUserByUsername(String username) {
+        List<User> deletedUsers = new ArrayList<>();
+        String sql = "SELECT * FROM User u JOIN Deleted_user du ON u.user_id = du.deleted_user_id "
+                + "WHERE du.deleted_user_name LIKE ?";
+        username = username + "%";
+
+        try (PreparedStatement preparedStatement = DBUtil.getPrepareStatement(MainApp.getDbConnection(),
+                sql, username);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            while (resultSet.next()) {
+                User deletedUser = getDeletedUserFromResultSet(resultSet);
+                if (deletedUser != null) {
+                    deletedUsers.add(deletedUser);
+                }
+            }
+            return deletedUsers;
+        } catch (SQLException e) {
+            System.out.println("Error when searchDeletedUserByUsername...");
             throw new RuntimeException(e);
         }
     }

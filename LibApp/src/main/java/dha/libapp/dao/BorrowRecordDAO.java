@@ -1,5 +1,6 @@
 package dha.libapp.dao;
 
+import com.sun.tools.javac.Main;
 import dha.libapp.MainApp;
 import dha.libapp.models.BorrowRecord;
 import dha.libapp.models.BorrowStatus;
@@ -180,6 +181,47 @@ public class BorrowRecordDAO {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Error when update borrow record");
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void updateBorrowRecordByUserIdAndStatus(int user_id,
+                                                           BorrowStatus initialStatus,
+                                                           BorrowStatus finalStatus) {
+        String sql = "UPDATE Borrow_record SET status = ? WHERE user_id = ? AND status = ?";
+
+        try (PreparedStatement preparedStatement = DBUtil.getPrepareStatement(MainApp.getDbConnection(),
+                sql, finalStatus.toString(), user_id, initialStatus.toString())) {
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error when update borrow record");
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static List<BorrowRecord> searchBorrowRecordsByUsernameAndStatus(String username, BorrowStatus status) {
+        List<BorrowRecord> borrowRecordList = new ArrayList<>();
+        String sql = "SELECT br.* FROM borrow_record br "
+                    + "JOIN user u ON br.user_id = u.user_id "
+                    + "LEFT JOIN deleted_user du ON u.user_id = du.deleted_user_id "
+                    + "WHERE (u.user_name LIKE ? OR du.deleted_user_name LIKE ?) "
+                    + "AND br.status = ?";
+        username = username + "%";
+
+        try (PreparedStatement preparedStatement = DBUtil.getPrepareStatement(MainApp.getDbConnection(),
+                sql, username, username, status.toString());
+            ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            while (resultSet.next()) {
+                BorrowRecord borrowRecord = getBorrowRecordFromResultSet(resultSet);
+                if (borrowRecord != null) {
+                    borrowRecordList.add(borrowRecord);
+                }
+            }
+            return borrowRecordList;
+        } catch (SQLException e) {
+            System.out.println("Error when search borrow record by username");
             throw new RuntimeException(e);
         }
     }

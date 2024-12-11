@@ -1,6 +1,7 @@
 package dha.libapp.dao;
 
 import dha.libapp.MainApp;
+import dha.libapp.models.BorrowStatus;
 import dha.libapp.models.User;
 import dha.libapp.models.UserRole;
 import dha.libapp.utils.Database.DBUtil;
@@ -164,7 +165,13 @@ public class UserDAO {
 
             preparedStatement.executeUpdate();
             DeletedUserDAO.addNewDeletedUser(userId, userName);
+            BorrowRecordDAO.updateBorrowRecordByUserIdAndStatus(
+                    userId,
+                    BorrowStatus.PENDING,
+                    BorrowStatus.CANCELED
+            );
         } catch (SQLException e) {
+            System.out.println("Error when deleteUserById...");
             throw new RuntimeException(e);
         }
     }
@@ -172,9 +179,32 @@ public class UserDAO {
     public static void deleteUserByUsername(String username) {
         User user = getUserByUsername(username);
         if (user == null) {
+            System.out.println("User with name " + username + " does not exist");
             return;
         }
 
         deleteUserById(user.getUserId());
+    }
+
+    public static List<User> searchUserByUsername(String username) {
+        List<User> userList = new ArrayList<>();
+        String sql = "SELECT * FROM User WHERE user_name LIKE ?";
+        username = username + "%";
+
+        try (PreparedStatement preparedStatement = DBUtil.getPrepareStatement(MainApp.getDbConnection(),
+                sql, username);
+            ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            while (resultSet.next()) {
+                User user = getUserFromResultSet(resultSet);
+                if (user != null) {
+                    userList.add(user);
+                }
+            }
+            return userList;
+        } catch (SQLException e) {
+            System.out.println("Error when searchUserByUsername...");
+            throw new RuntimeException(e);
+        }
     }
 }
