@@ -59,13 +59,11 @@ public class GoogleBooksTask extends Thread {
      */
     @Override
     public void run() {
-        List<String> bookTitles = new ArrayList<>();
         List<Book> booksData = new ArrayList<>();
         try {
             // URL encode the query string to handle special characters
-            String encodedQuery = query;
             // Construct the URL to access the Google Books API
-            String url = "https://www.googleapis.com/books/v1/volumes?q" + encodedQuery + "&key=" + API_KEY;
+            String url = "https://www.googleapis.com/books/v1/volumes?q" + query + "&key=" + API_KEY;
             System.out.println(url);
             // Create a URL object
             URL apiUrl = new URL(url);
@@ -177,7 +175,6 @@ public class GoogleBooksTask extends Thread {
                         System.out.println("ISBN_13: " + ISBN_13);
                         if (title != null) {
                             Book book = new Book(-1, ISBN_13, title,author, publisher, publishedDate, quantity, description, imgUrl, null);
-                            bookTitles.add(title);
                             booksData.add(book);
                         }
 
