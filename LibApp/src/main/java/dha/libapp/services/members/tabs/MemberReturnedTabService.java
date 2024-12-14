@@ -49,7 +49,7 @@ public class MemberReturnedTabService {
                             List<CompletableFuture<Book>> bookFutures = returnedRecords.stream()
                                     .map(record -> {
                                         CompletableFuture<Book> future = new CompletableFuture<>();
-                                        BookSyncDAO.getBookByIdSync(record.getBookId(), new DAOExecuteCallback<>() {
+                                        BookSyncDAO.getBookOrDeletedBookByIdSync(record.getBookId(), new DAOExecuteCallback<>() {
                                             @Override
                                             public void onSuccess(Book bookResult) {
                                                 future.complete(bookResult);

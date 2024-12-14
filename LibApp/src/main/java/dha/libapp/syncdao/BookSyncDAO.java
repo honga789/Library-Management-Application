@@ -63,6 +63,16 @@ public class BookSyncDAO {
         DAOTaskRunner.executeTask(task, callback);
     }
 
+    public static void getBookOrDeletedBookByIdSync(int bookId, DAOExecuteCallback<Book> callback) {
+        Task<Book> task = new Task<Book>() {
+            @Override
+            protected Book call() throws Exception {
+                return BookDAO.getBookOrDeletedBookById(bookId);
+            }
+        };
+        DAOTaskRunner.executeTask(task, callback);
+    }
+
     public static void addNewBookSync(String ISBN, String title, String author, String publisher,
                                       Date publicationDate, int quantity, String description,
                                       String coverImagePath, ArrayList<GenreType> genreList,

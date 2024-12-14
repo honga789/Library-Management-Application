@@ -200,6 +200,14 @@ public class BookDAO {
         }
     }
 
+    public static Book getBookOrDeletedBookById(int bookId) {
+        Book book = getBookById(bookId);
+        if (book == null) {
+            book = getDeletedBookById(bookId);
+        }
+        return book;
+    }
+
     /**
      * Adds a new book to the database.
      *
