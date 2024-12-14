@@ -7,6 +7,7 @@ import dha.libapp.services.authen.PasswordService;
 import dha.libapp.syncdao.UserSyncDAO;
 import dha.libapp.syncdao.utils.DAOExecuteCallback;
 import dha.libapp.syncdao.utils.DAOUpdateCallback;
+import javafx.concurrent.Task;
 
 import java.util.List;
 
@@ -190,20 +191,38 @@ public class UserService {
      * @param callback The callback to be invoked upon completion of the deletion.
      */
     public void deleteUser(int userId, DAOUpdateCallback callback) {
-        UserSyncDAO.deleteUserByIdSync(userId, new DAOUpdateCallback() {
+
+        Task<Void> task = new Task<>() {
 
             @Override
-            public void onSuccess() {
+            protected Void call() throws Exception {
+                User user = UserDAO.getUserById(userId);
+                if (user == null) {
+                    callback.onError(new RuntimeException("User not found"));
+                    return null;
+                }
+                if (user.getRole() == UserRole.ADMIN) {
+                    callback.onError(new RuntimeException("User is a admin"));
+                    return null;
+                }
+
+                UserDAO.deleteUserById(userId);
+                return null;
+            }
+
+            @Override
+            protected void succeeded() {
                 System.out.println("User deleted successfully");
                 callback.onSuccess();
             }
 
             @Override
-            public void onError(Throwable e) {
+            protected void failed() {
                 System.out.println("User deleted failed");
                 callback.onError(new RuntimeException("User deleted failed"));
             }
-        });
+        };
+        new Thread(task).start();
     }
 
     /**
