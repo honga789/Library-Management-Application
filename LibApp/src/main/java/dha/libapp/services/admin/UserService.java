@@ -100,7 +100,7 @@ public class UserService {
         try {
             String hashedPassword = PasswordService.hashPassword(password);
 
-            UserSyncDAO.updateUserSync(userId, password, fullName, phoneNumber, email,
+            UserSyncDAO.updateUserSync(userId, hashedPassword, fullName, phoneNumber, email,
                     new DAOUpdateCallback() {
 
                         @Override
