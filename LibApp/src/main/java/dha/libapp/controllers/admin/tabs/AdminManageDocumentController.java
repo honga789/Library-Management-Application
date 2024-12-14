@@ -353,6 +353,7 @@ public class AdminManageDocumentController {
                 System.out.println("Converted Date: " + publishDate);
             } catch (ParseException e) {
                 showErrorPopup("Invalid data input", "Please enter a valid date with format dd-mm-yyyy");
+                return;
             }
             BookService.getInstance().addBook(isbn, title, author, publisher,
                     publishDate, quantity, description, imgUrl, selectedGenreTypeList,
@@ -369,7 +370,6 @@ public class AdminManageDocumentController {
                             // controller
                         }
                     });
-            System.out.println("Added Book: " + isbn);
         });
 
         //call api autofill
@@ -408,6 +408,7 @@ public class AdminManageDocumentController {
 
             if (!dataHolder.isEmpty()) {
                 titleField.setText(dataHolder.getFirst().getTitle());
+                isbnField.setText(dataHolder.getFirst().getISBN());
                 if (dataHolder.getFirst().getDescription() != null) {
                     descriptionField.setText(dataHolder.getFirst().getDescription());
                 }
