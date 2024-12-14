@@ -1,7 +1,7 @@
 # Phát triển ứng dụng Java quản lý thư viện
 
 Kiến trúc ứng dụng (mô hình MVC + DAO design partern), các lớp trong ứng dụng:
-<img width="769" alt="Screenshot 2024-12-14 at 23 30 59" src="https://github.com/user-attachments/assets/28b3d151-1d5d-4f91-9982-34a1e6a96381" />
+<img width="778" alt="Screenshot 2024-12-14 at 23 34 10" src="https://github.com/user-attachments/assets/5d0c7e11-643a-43b5-8ee1-2d685bc76a1b" />
 
 
 ## Xây dựng giao diện người dùng
