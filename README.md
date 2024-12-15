@@ -138,12 +138,12 @@ Library Management Application là một ứng dụng quản lý thư viện đ�
      - Thiết kế giao diện.
    - **Authen Controllers**:
      - `LoginController`, `RegisterController`.
-   - **Member Controllers**:
-     - `MemberBorrowedTabController`.
+   - **Truy xuất và hiển thị dữ liệu trong Member Controllers và Admin Controllers**:
+     - `MemberBorrowedTabController`, `AdminManageUserController`, ...
    - **Authen Services**:
-     - `LoginServices`, `RegisterServices`.
+     - `LoginService`, `RegisterService`.
    - **Bảo mật mật khẩu**:
-     - Thư viện mã hóa `PasswordServices` (SHA-256).
+     - Thư viện mã hóa `PasswordService` (SHA-256).
 
 ### 4. Đậu Đức Hiếu - 2302 1546 (github: DauDucHieu)
    - **Kiến trúc hệ thống**:
