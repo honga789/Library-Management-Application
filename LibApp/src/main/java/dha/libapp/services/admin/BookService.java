@@ -179,11 +179,24 @@ public class BookService {
 
             @Override
             protected Void call() throws Exception {
-                Book book = BookDAO.getBookByISBN(ISBN);
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < ISBN.length(); ++i) {
+                    if (ISBN.charAt(i) != '-' && ISBN.charAt(i) != ' ') {
+                        sb.append(ISBN.charAt(i));
+                    }
+                }
+                String ISBNTrim = sb.toString();
+                ISBNTrim = ISBNTrim.trim();
+                if (ISBNTrim.length() < 10 || ISBNTrim.length() > 30) {
+                    callback.onError(new RuntimeException("Invalid input"));
+                    return null;
+                }
+
+                Book book = BookDAO.getBookByISBN(ISBNTrim);
                 if (book == null) {
-                    book = BookDAO.getDeletedBookByISBN(ISBN);
+                    book = BookDAO.getDeletedBookByISBN(ISBNTrim);
                     if (book == null) {
-                        BookDAO.addNewBook(ISBN, title, author, publisher, publicationDate,
+                        BookDAO.addNewBook(ISBNTrim, title, author, publisher, publicationDate,
                                 quantity, description, coverImagePath, genreList);
                     } else {
                         book.setQuantity(quantity);
