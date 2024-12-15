@@ -122,14 +122,16 @@ Library Management Application là một ứng dụng quản lý thư viện đ�
 ### 2. Nguyễn Đức Dũng - 2302 1494 (github: xhatsu)
    - **Utils/API**:
      - `GoogleBookAPI`, `ImageAPI`.
-   - **Admin Controllers**:
+     - Xử lý API trong đa luồng bằng `Executor` và callback.
+     - API `Junit` test
+   - **Xử lý tương tác người dùng và dữ liệu trong Admin Controllers**:
      - `AdminManageUserController`, `AdminManageDocumentController`, `AdminApproveRequestController`.
-   - **Tự động điền thông tin sách**:
-     - Từ API `GoogleBookAPI`.
-   - **Đa luồng**:
-     - Gọi API bằng `ExecutorService` trong đa luồng.
-   - **Thông báo lỗi**:
-     - `Alert Popup` trong `AdminController`.
+   - **Tự động tìm và ghi thông tin sách**:
+     - Add book `AdminManageDocumentController` xử dụng `GoogleBookAPI`.
+   - **`BookService`**:
+     - Thu thập và quản lý `GenresType`
+   - **Quản lý và thông báo lỗi**
+
 
 ### 3. Trần Ánh Duy - 2302 1506 (github: Duyacquy)
    - **Views**:
