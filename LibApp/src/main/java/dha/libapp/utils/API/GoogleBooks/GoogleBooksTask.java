@@ -114,7 +114,7 @@ public class GoogleBooksTask extends Thread {
                             publisher = publisherJson.getAsString();
                         }
                         System.out.println("Publisher: " + publisher);
-                        JsonObject publishDateJsonObj = volumeInfo.getAsJsonObject("publishDate");
+                        JsonPrimitive publishDateJsonObj = volumeInfo.getAsJsonPrimitive("publishedDate");
                         String publishedDateJson = null;
                         if (publishDateJsonObj != null) {
                             publishedDateJson = publishDateJsonObj.getAsString();
